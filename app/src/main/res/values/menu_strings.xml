@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drawer_daily">每日一肉</string>
+    <string name="drawer_plant">多肉鉴赏</string>
+    <string name="drawer_favorite">多肉收藏</string>
+    <string name="drawer_settings">设置</string>
+</resources>

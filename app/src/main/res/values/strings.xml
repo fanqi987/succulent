@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Succulent</string>
+    <string name="assets_path">"file://android_asset/"</string>
+    <string name="assets_file_name_plant">plant_info.txt</string>
+</resources>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--    名字 科属 介绍 光照 浇水-->
+    <com.fanqi.succulent.activity.view.SucculentDailyCardView
+        android:id="@+id/item_detail_cardview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        app:cardCornerRadius="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteY="330dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/item_detail_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorGreen200"
+                android:padding="10dp"
+                android:text="多肉资料标题"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/item_detail_content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorGreen200"
+                android:padding="10dp"
+                android:text="多肉资料内容"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_detail_title" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.fanqi.succulent.activity.view.SucculentDailyCardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

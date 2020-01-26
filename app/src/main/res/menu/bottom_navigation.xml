@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/succulentDailyFragment"
+        android:icon="@drawable/ic_action_daily"
+        android:textStyle="bold"
+        android:title="@string/drawer_daily"></item>
+    <item
+        android:id="@+id/succulentListFragment"
+        android:icon="@drawable/ic_action_plant"
+        android:textStyle="bold"
+        android:title="@string/drawer_plant"></item>
+    <item
+        android:id="@+id/succulentFavoriteFragment"
+        android:icon="@drawable/ic_action_favorite"
+        android:textStyle="bold"
+        android:title="@string/drawer_favorite"></item>
+</menu>
