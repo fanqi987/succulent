@@ -14,8 +14,9 @@ import retrofit2.http.Url;
 
 public interface RequestInterface {
 
-    String baseUrl = "https://android-server-fanqi.herokuapp.com/";
+    String baseUrlHeroku = "https://android-server-fanqi.herokuapp.com/";
     String baseUrlBaidu = " https://baike.baidu.com/item/";
+    String baseUrlBaiduPic="https://baike.baidu.com/pic/";
 
     @GET("succulents.json")
     Observable<Succulent[]> getSucculents();

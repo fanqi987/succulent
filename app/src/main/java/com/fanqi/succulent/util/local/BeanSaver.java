@@ -9,6 +9,7 @@ import com.fanqi.succulent.network.RetrofitCallback;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class BeanSaver implements Saver {
 
@@ -20,7 +21,7 @@ public class BeanSaver implements Saver {
     }
 
     @Override
-    public void addValue(Object value, String flag) {
+    public void addValue(Object[] value, String flag) {
         //成功的话
         //保存到实体类中，再保存到本地数据库
         mBeans.add((Bean[]) value);
@@ -30,22 +31,22 @@ public class BeanSaver implements Saver {
     }
 
     @Override
-    public void addValues(Object[] objects) {
-        mBeans = (ArrayList<Bean[]>) Arrays.asList((Bean[]) objects);
+    public void addValues(Object objects) {
+        mBeans = (ArrayList<Bean[]>) objects;
     }
 
     @Override
-    public Object[] getValues() {
-        return mBeans.toArray();
+    public Object getValues() {
+        return mBeans;
     }
 
     @Override
-    public Object getValue(int index) {
+    public Object[] getValue(int index) {
         return mBeans.get(index);
     }
 
 
-    public void addValue(Object value) {
+    public void addValue(Object[] value) {
         mBeans.add((Bean[]) value);
     }
 

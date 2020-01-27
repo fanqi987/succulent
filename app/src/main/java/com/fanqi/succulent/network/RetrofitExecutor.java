@@ -7,9 +7,6 @@ import retrofit2.Retrofit;
 
 public class RetrofitExecutor<T> implements Executor {
 
-    public static final String HEROKU_SERVER = "heroku_server";
-    public static final String BAIDU_SERVER = "baidu_server";
-
 
     private String mServerName;
 
@@ -46,21 +43,21 @@ public class RetrofitExecutor<T> implements Executor {
     }
 
 
-    public void setBaseServer(String server) throws ServerNameErrException {
-        if (!RetrofitExecutor.BAIDU_SERVER.equals(server)
-                && !RetrofitExecutor.HEROKU_SERVER.equals(server)) {
-            throw new ServerNameErrException();
-        } else {
-            mServerName = server;
-        }
-    }
+//    public void setBaseServer(String server) throws ServerNameErrException {
+//        if (!RetrofitExecutor.BAIDU_SERVER.equals(server)
+//                && !RetrofitExecutor.HEROKU_SERVER.equals(server)) {
+//            throw new ServerNameErrException();
+//        } else {
+//            mServerName = server;
+//        }
+//    }
 
     public void setHerokuServer() {
-        mServerName = HEROKU_SERVER;
+        mServerName = RequestInterface.baseUrlHeroku;
     }
 
     public void setBaiduServer() {
-        mServerName = BAIDU_SERVER;
+        mServerName = RequestInterface.baseUrlBaidu;
     }
 
     public void initRequester() {

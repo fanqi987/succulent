@@ -4,15 +4,15 @@ import java.util.Date;
 
 public class Succulent extends  Bean{
 
-    private int id;
-    private String name;
-    private String page_name;
-    private int family_id;
-    private int genera_id;
-    private int light;
-    private int water;
-    private Date created_at;
-    private Date updated_at;
+    protected int id;
+    protected String name;
+    protected String page_name;
+    protected int family_id;
+    protected int genera_id;
+    protected int light;
+    protected int water;
+    protected Date created_at;
+    protected Date updated_at;
 
     public Succulent() {
     }
