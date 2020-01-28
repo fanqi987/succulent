@@ -8,7 +8,8 @@ import com.fanqi.succulent.activity.MainActivity;
 import com.fanqi.succulent.presenter.listener.ProgressBarCallback;
 import com.fanqi.succulent.util.PreferenceUtil;
 
-public class ProgressUIPresenter implements ProgressBarCallback,
+public class ProgressUIPresenter implements
+        ProgressBarCallback,
         DialogInterface.OnCancelListener {
 
     private Activity mActivity;
@@ -27,7 +28,7 @@ public class ProgressUIPresenter implements ProgressBarCallback,
 
 
     @Override
-    public void onCompleteFirstNetwork() {
+    public void onCompleteFirstWork() {
         //数据获取成功，取消对话框
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
@@ -45,21 +46,8 @@ public class ProgressUIPresenter implements ProgressBarCallback,
 
     @Override
     public void onFailedPullNetwork() {
-//        if (mProgressDialog != null) {
-//            mProgressDialog.dismiss();
-//        }
 
         //数据爬虫获取失败，对话框提示重新获取或退出
-    }
-
-    @Override
-    public void onCompleteLocal() {
-
-    }
-
-    @Override
-    public void onFailedLocal() {
-
     }
 
     @Override
@@ -68,4 +56,15 @@ public class ProgressUIPresenter implements ProgressBarCallback,
         dialog.dismiss();
         mActivity.finish();
     }
+//    @Override
+//    public void onCompleteLocal() {
+//
+//    }
+//
+//    @Override
+//    public void onFailedLocal() {
+//
+//    }
+
+
 }

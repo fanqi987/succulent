@@ -1,10 +1,10 @@
 package com.fanqi.succulent.presenter.listener;
 
-import okhttp3.ResponseBody;
+import com.fanqi.succulent.thread.MyDataThreadPool;
+
+import java.util.concurrent.ExecutorService;
 
 public interface InitializeByPullListener {
-    void onPullSuccess(String response);
-
+    void onPullSuccess(String response, MyDataThreadPool threadPool);
     void onPullFailed();
-
 }

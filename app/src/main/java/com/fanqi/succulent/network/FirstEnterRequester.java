@@ -14,9 +14,10 @@ public class FirstEnterRequester extends Requester {
         public static final String GENERAS = "getGeneras";
     }
 
-    public static final int FAMILY_COUNT = 5;
-    public static final int GENERAS_COUNT = 5;
-    public static final int SUCCULENT_COUNT = 10;
+    //统计后的结果，包括科属多包括一个"其它科和其它属"
+    public static final int FAMILY_COUNT = 6;
+    public static final int GENERAS_COUNT = 12;
+    public static final int SUCCULENT_COUNT = 149;
 
 
     public void doFirstInfoRequest(InitializeDataListener dataListener) {
@@ -26,10 +27,10 @@ public class FirstEnterRequester extends Requester {
         mCallback.setInitializeDataListener(dataListener);
 
         mCallback.setValue(new Succulent[0]);
-        mThreadPool.addFirstEnterTasks(new Object[]{Name.SUCCULENTS});
+        mThreadPool.addFirstEnterTasks(Name.SUCCULENTS);
         mCallback.setValue(new Family[0]);
-        mThreadPool.addFirstEnterTasks(new Object[]{Name.FAMILIES});
+        mThreadPool.addFirstEnterTasks(Name.FAMILIES);
         mCallback.setValue(new Genera[0]);
-        mThreadPool.addFirstEnterTasks(new Object[]{Name.GENERAS});
+        mThreadPool.addFirstEnterTasks(Name.GENERAS);
     }
 }

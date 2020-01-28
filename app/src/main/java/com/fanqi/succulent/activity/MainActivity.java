@@ -49,5 +49,9 @@ public class MainActivity extends BaseActivity {
         }
 
         //todo 显示占拉符页面,再初始化页面
+
+        //生成今日植物
+        //爬虫今日植物的所有数据
+        //显示今日植物的数据
     }
 }

@@ -22,7 +22,7 @@ public class RetrofitExecutor<T> implements Executor {
     }
 
 
-    public void requestGets(String requestName, Object... args) {
+    public void request(String requestName, Object... args) {
         Method method = null;
         Observable<T> observable = null;
         try {
@@ -38,8 +38,8 @@ public class RetrofitExecutor<T> implements Executor {
         }
     }
 
-    public void requestGets(String requestName) {
-        requestGets(requestName, null);
+    public void request(String requestName) {
+        request(requestName, null);
     }
 
 
@@ -64,4 +64,5 @@ public class RetrofitExecutor<T> implements Executor {
         retrofit = mRetrofitInitializer.buildDefault(mServerName);
         request = retrofit.create(RequestInterface.class);
     }
+
 }

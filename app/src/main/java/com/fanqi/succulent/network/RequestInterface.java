@@ -6,9 +6,14 @@ import com.fanqi.succulent.bean.Succulent;
 import com.fanqi.succulent.bean.User;
 import com.fanqi.succulent.bean.UserFavorite;
 
+import java.util.Map;
+
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Url;
 
@@ -35,5 +40,17 @@ public interface RequestInterface {
 
     @GET("{item}")
     Observable<ResponseBody> getPage(@Path("item") String itemName);
+
+    @POST("families.json")
+    @FormUrlEncoded
+    Observable<ResponseBody> postFamily(@FieldMap Map<String,Object> postMap);
+
+    @POST("generas.json")
+    @FormUrlEncoded
+    Observable<ResponseBody> postGenera(@FieldMap Map<String,Object> postMap);
+
+    @POST("succulents.json")
+    @FormUrlEncoded
+    Observable<ResponseBody> postSucculent(@FieldMap Map<String,Object> postMap);
 
 }

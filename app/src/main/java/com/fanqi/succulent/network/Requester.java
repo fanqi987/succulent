@@ -11,6 +11,6 @@ public abstract class Requester {
         mCallback = new RetrofitCallback<>();
         mExecutor = new RetrofitExecutor(mCallback);
         mThreadPool = new MyDataThreadPool(mExecutor);
-        mCallback.setThreadPool(mThreadPool.getThreadPool());
+        mCallback.setThreadPool(mThreadPool);
     }
 }

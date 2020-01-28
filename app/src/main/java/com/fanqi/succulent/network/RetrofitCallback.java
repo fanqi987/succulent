@@ -2,12 +2,13 @@ package com.fanqi.succulent.network;
 
 import com.fanqi.succulent.presenter.listener.InitializeByPullListener;
 import com.fanqi.succulent.presenter.listener.InitializeDataListener;
+import com.fanqi.succulent.presenter.listener.InitializePostDataListener;
+import com.fanqi.succulent.thread.MyDataThreadPool;
 import com.fanqi.succulent.util.local.BeanSaver;
 import com.fanqi.succulent.util.local.Saver;
 import com.fanqi.succulent.util.provider.SaverProvider;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -22,12 +23,16 @@ public class RetrofitCallback<T> implements Observer<T> {
 
     private InitializeDataListener mInitializeDataListener;
     private InitializeByPullListener mInitializeByPullListener;
+    private InitializePostDataListener mInitializePostDataListener;
 
     private Disposable mDisposable;
 
-    private ExecutorService mThreadPool;
+    private MyDataThreadPool mThreadPool;
+
+    private int mInitializePostDataCount;
 
     public RetrofitCallback() {
+        mInitializePostDataCount = 0;
     }
 
     public void setValue(T value) {
@@ -43,8 +48,8 @@ public class RetrofitCallback<T> implements Observer<T> {
     public void onNext(T value) {
         initializeDataProcess(value);
         initializeByPullProcess(value);
+        initializePostDataProcess(value);
     }
-
 
     @Override
     public void onError(Throwable e) {
@@ -52,6 +57,12 @@ public class RetrofitCallback<T> implements Observer<T> {
         //初始化数据监听非空时，则通知数据失败
         if (mInitializeDataListener != null) {
             mInitializeDataListener.onNetDataFailed();
+        }
+        if(mInitializeByPullListener!=null){
+            mInitializeByPullListener.onPullFailed();
+        }
+        if (mInitializePostDataListener != null) {
+            mInitializePostDataListener.onPostFailed(e);
         }
     }
 
@@ -62,7 +73,8 @@ public class RetrofitCallback<T> implements Observer<T> {
         if (mInitializeDataListener != null) {
             mBeanDataSaver = new SaverProvider(value).getSaver();
             if (((BeanSaver) mBeanDataSaver).checkWrongCount(value)) {
-                mThreadPool.shutdownNow();
+                //立即关闭线程池，并通知网页api获取失败
+                mThreadPool.getThreadPool().shutdownNow();
                 mInitializeDataListener.onNetDataFailed();
                 return;
             }
@@ -73,16 +85,28 @@ public class RetrofitCallback<T> implements Observer<T> {
 
     private void initializeByPullProcess(T value) {
         //爬虫数据监听非空时，则通知数据成功
-        mValue=value;
+        mValue = value;
         if (mInitializeByPullListener != null) {
             try {
-                mInitializeByPullListener.onPullSuccess(((ResponseBody) mValue).string());
+                mInitializeByPullListener.onPullSuccess(((ResponseBody) mValue).string(), mThreadPool);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
+    private void initializePostDataProcess(T value) {
+        if (mInitializePostDataListener != null) {
+            mInitializePostDataCount++;
+            mInitializePostDataListener.onPostSuccess(mInitializePostDataCount);
+            if (mInitializePostDataCount ==
+                    FirstEnterRequester.FAMILY_COUNT +
+                            FirstEnterRequester.GENERAS_COUNT +
+                            FirstEnterRequester.SUCCULENT_COUNT) {
+                mInitializePostDataListener.onPostComplete();
+            }
+        }
+    }
 
     @Override
     public void onComplete() {
@@ -97,8 +121,13 @@ public class RetrofitCallback<T> implements Observer<T> {
         this.mInitializeByPullListener = byPullListener;
     }
 
-    public void setThreadPool(ExecutorService threadPool) {
-        mThreadPool = threadPool;
-
+    public void setInitializePostDataListener(InitializePostDataListener postDataListener) {
+        this.mInitializePostDataListener = postDataListener;
     }
+
+    public void setThreadPool(MyDataThreadPool threadPool) {
+        mThreadPool = threadPool;
+    }
+
+
 }

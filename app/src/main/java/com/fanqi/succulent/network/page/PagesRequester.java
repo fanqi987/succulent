@@ -25,8 +25,8 @@ public class PagesRequester extends Requester {
             ResponseBody responseBody = (ResponseBody) constructor.newInstance();
             mCallback.setValue(responseBody);
             for (int i = 0; i < values.length; i++) {
-                mThreadPool.addPullPageTasks(new Object[]{Name.PAGE,
-                        ((Succulent[]) values)[i].getPage_name()});
+                mThreadPool.addPullPageTasks(Name.PAGE,
+                        ((Succulent[]) values)[i].getPage_name());
             }
         } catch (Exception e) {
             e.printStackTrace();

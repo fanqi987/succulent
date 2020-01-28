@@ -1,12 +1,14 @@
 package com.fanqi.succulent.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.fanqi.succulent.bean.Succulent;
 import com.fanqi.succulent.bean.SucculentFull;
 import com.fanqi.succulent.network.page.PagesResolver;
 import com.fanqi.succulent.presenter.listener.InitializeByPullListener;
 import com.fanqi.succulent.presenter.listener.InitializeDataListener;
+import com.fanqi.succulent.presenter.listener.InitializePostDataListener;
 import com.fanqi.succulent.presenter.listener.ProgressBarCallback;
 import com.fanqi.succulent.thread.MyDataThreadPool;
 import com.fanqi.succulent.util.LocalDataUtil;
@@ -19,13 +21,16 @@ import java.util.List;
 
 
 public class InitializeDataPresenter implements
-        InitializeDataListener, InitializeByPullListener {
+        InitializeDataListener,
+        InitializeByPullListener,
+        InitializePostDataListener {
 
 
     public static final int FIRST_INIT_TABLE_NUMBER = 3;
+
     private int mRequestSuccessCount;
     private static Context mContext;
-    private NetworkUtil mNetworkDataUtil;
+    private NetworkUtil mNetworkUtil;
     private LocalDataUtil mLocalDataUtil;
     private ProgressBarCallback mProgressBarCallback;
     private BeanSaver mBeanSaver;
@@ -33,18 +38,19 @@ public class InitializeDataPresenter implements
     private MyDataThreadPool mMyDataThreadPool;
 
     private List<SucculentFull> mSucculents;
+    private int mPulledNumber;
+    private int mSucculentsCount;
 
     private InitializeDataPresenter() {
-        mMyDataThreadPool=new MyDataThreadPool();
+        mMyDataThreadPool = new MyDataThreadPool();
         mPagesResolver = new PagesResolver();
-        mNetworkDataUtil = new NetworkUtil();
+        mNetworkUtil = new NetworkUtil();
         mLocalDataUtil = new LocalDataUtil();
         mRequestSuccessCount = 0;
-        mSucculents=new ArrayList<>();
+        mPulledNumber = 0;
+        mSucculents = new ArrayList<>();
 
     }
-
-
     private static class InitializeDataPresenterCreator {
         private static InitializeDataPresenter sPresenter = new InitializeDataPresenter();
     }
@@ -61,22 +67,26 @@ public class InitializeDataPresenter implements
 
     public void initFirstData(Context context) {
         mContext = context;
-        mNetworkDataUtil.setInitializeDataListener(this);
+        mNetworkUtil.setInitializeDataListener(this);
         //第1次进入,尝试从服务器获取所有植物文字数据，
-        mNetworkDataUtil.initFirstEnterData();
+        mNetworkUtil.initFirstEnterData();
 
     }
 
     private void initLocalData() {
         Succulent[] succulents = LocalDataUtil.getAssetsPlantInfo(mContext);
-        mSucculents= Arrays.asList((SucculentFull[]) succulents);
-        mPagesResolver.setDataList(mSucculents);
+        mSucculentsCount = succulents.length;
+        mSucculents = Arrays.asList((SucculentFull[]) succulents);
+        //把从文件获取的初始数据列表设置到页面解析者中
+        mPagesResolver.initDataList(mSucculents);
         //todo 读取完成，保存到本地数据库
         mBeanSaver = new BeanSaver();
         mBeanSaver.addValue(succulents);
         mBeanSaver.saveToLocal();
         //开始从网上爬虫文字数据
-        mNetworkDataUtil.pullDataFromPage(mBeanSaver.getValue(0));
+        mNetworkUtil.setInitializeByPullListener(this);
+        //开始爬虫
+        mNetworkUtil.pullDataFromPage(mBeanSaver.getValue(0));
 
     }
 
@@ -90,7 +100,7 @@ public class InitializeDataPresenter implements
             //数据库现在full
             beanDataSaver.saveToLocal();
             beanDataSaver.clean();
-            mProgressBarCallback.onCompleteFirstNetwork();
+            mProgressBarCallback.onCompleteFirstWork();
         }
     }
 
@@ -98,32 +108,37 @@ public class InitializeDataPresenter implements
     public void onNetDataFailed() {
         //失败的话，从assets读取植物信息文件
         initLocalData();
-
-        //todo 接在其它回调后面
-        //开始爬虫
-        //爬虫结束
-        //爬虫成功
-        //保存到本地数据库
-        //再上传到服务器数据库
-        //数据库现在full
-        mProgressBarCallback.onCompleteFirstNetwork();
-        //就是说爬虫失败，再调用onFailedNetwork,之后重新爬虫
-        //爬虫失败，才调用onFailedNetwork
-        //提示开启网络后，重新尝试，或退出
     }
 
     @Override
-    public void onPullSuccess(String response) {
+    public void onPullSuccess(String response, MyDataThreadPool threadPool) {
+        //爬虫成功
         //开始处理爬虫数据
         //这里也可以加入线程任务中
-        mMyDataThreadPool.addPageResolveTask(mPagesResolver,response);
-        mPagesResolver.resolve(response);
+        mMyDataThreadPool=threadPool;
+        mMyDataThreadPool.addPageResolveTask(mPagesResolver, response);
         //再保存到数据库
+        //到达了获取的值那么就增加新任务，保存到db，然后现在这个任务结束
+        mPulledNumber++;
+        if(mPulledNumber==mSucculentsCount){
+            // todo add task 保存到本地数据库
+            mMyDataThreadPool.addSaveResolved(mPagesResolver);
+            //爬虫结束
+            //todo 接在其它回调后面
+            mProgressBarCallback.onCompleteFirstWork();
+            //再上传到服务器数据库
+            //todo 上传完整的数据到服务器
+            mNetworkUtil.setPostDataListener(this);
+            mMyDataThreadPool.addPostToServerTask(mPagesResolver, mNetworkUtil);
+        }
     }
 
     @Override
     public void onPullFailed() {
-
+        //就是说爬虫失败，再调用onFailedNetwork,之后重新爬虫
+        //爬虫失败，才调用onFailedNetwork
+        //提示开启网络后，重新尝试，或退出
+        mProgressBarCallback.onFailedPullNetwork();
     }
 
     @Override
@@ -133,6 +148,22 @@ public class InitializeDataPresenter implements
 
     @Override
     public void onLocalDataFailed() {
+
+    }
+
+    @Override
+    public void onPostSuccess(int initializePostDataCount) {
+        Log.e("提交初始化数据给服务器已完成",initializePostDataCount+"条");
+    }
+
+    @Override
+    public void onPostFailed(Throwable throwable) {
+        Log.e("提交初始化数据给服务器发生错误",throwable.getMessage());
+    }
+
+    @Override
+    public void onPostComplete() {
+        Log.e("提交初始化数据给服务器已全部完成","<已经全部完成！>");
 
     }
 

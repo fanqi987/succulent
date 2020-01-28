@@ -4,10 +4,19 @@ import java.util.Date;
 
 public class Genera extends  Bean {
     private int id;
+    private int post_id;
     private String name;
     private int family_id;
     private Date created_at;
     private Date updated_at;
+    public int getPost_id() {
+        return post_id;
+    }
+
+    public void setPost_id(int post_id) {
+        this.post_id = post_id;
+    }
+
 
     public int getId() {
         return id;
