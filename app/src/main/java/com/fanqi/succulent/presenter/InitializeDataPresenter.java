@@ -51,6 +51,7 @@ public class InitializeDataPresenter implements
         mSucculents = new ArrayList<>();
 
     }
+
     private static class InitializeDataPresenterCreator {
         private static InitializeDataPresenter sPresenter = new InitializeDataPresenter();
     }
@@ -115,12 +116,12 @@ public class InitializeDataPresenter implements
         //爬虫成功
         //开始处理爬虫数据
         //这里也可以加入线程任务中
-        mMyDataThreadPool=threadPool;
+        mMyDataThreadPool = threadPool;
         mMyDataThreadPool.addPageResolveTask(mPagesResolver, response);
         //再保存到数据库
         //到达了获取的值那么就增加新任务，保存到db，然后现在这个任务结束
         mPulledNumber++;
-        if(mPulledNumber==mSucculentsCount){
+        if (mPulledNumber == mSucculentsCount) {
             // todo add task 保存到本地数据库
             mMyDataThreadPool.addSaveResolved(mPagesResolver);
             //爬虫结束
@@ -141,31 +142,30 @@ public class InitializeDataPresenter implements
         mProgressBarCallback.onFailedPullNetwork();
     }
 
-    @Override
-    public void onLocalDataSuccess() {
-
-    }
-
-    @Override
-    public void onLocalDataFailed() {
-
-    }
 
     @Override
     public void onPostSuccess(int initializePostDataCount) {
-        Log.e("提交初始化数据给服务器已完成",initializePostDataCount+"条");
+        Log.e("提交初始化数据给服务器已完成", initializePostDataCount + "条");
     }
 
     @Override
     public void onPostFailed(Throwable throwable) {
-        Log.e("提交初始化数据给服务器发生错误",throwable.getMessage());
+        Log.e("提交初始化数据给服务器发生错误", throwable.getMessage());
     }
 
     @Override
-    public void onPostComplete() {
-        Log.e("提交初始化数据给服务器已全部完成","<已经全部完成！>");
-
+    public void onPostComplete(MyDataThreadPool threadPool) {
+        Log.e("提交初始化数据给服务器已全部完成", "<已经全部完成！>");
+        threadPool.getThreadPool().shutdown();
     }
-
+//    @Override
+//    public void onLocalDataSuccess() {
+//
+//    }
+//
+//    @Override
+//    public void onLocalDataFailed() {
+//
+//    }
 
 }

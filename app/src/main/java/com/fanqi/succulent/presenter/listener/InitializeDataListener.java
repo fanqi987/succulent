@@ -9,8 +9,8 @@ public interface InitializeDataListener {
 
     void onNetDataFailed();
 
-    void onLocalDataSuccess();
-
-    void onLocalDataFailed();
+//    void onLocalDataSuccess();
+//
+//    void onLocalDataFailed();
 
 }

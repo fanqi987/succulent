@@ -103,7 +103,7 @@ public class RetrofitCallback<T> implements Observer<T> {
                     FirstEnterRequester.FAMILY_COUNT +
                             FirstEnterRequester.GENERAS_COUNT +
                             FirstEnterRequester.SUCCULENT_COUNT) {
-                mInitializePostDataListener.onPostComplete();
+                mInitializePostDataListener.onPostComplete(mThreadPool);
             }
         }
     }
