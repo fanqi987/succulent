@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.fanqi.succulent.bean.Succulent;
 import com.fanqi.succulent.bean.SucculentFull;
-import com.fanqi.succulent.network.page.PagesResolver;
+import com.fanqi.succulent.network.page.PagesBaseDataResolver;
 import com.fanqi.succulent.presenter.listener.InitializeByPullListener;
 import com.fanqi.succulent.presenter.listener.InitializeDataListener;
 import com.fanqi.succulent.presenter.listener.InitializePostDataListener;
@@ -34,7 +34,7 @@ public class InitializeDataPresenter implements
     private LocalDataUtil mLocalDataUtil;
     private ProgressBarCallback mProgressBarCallback;
     private BeanSaver mBeanSaver;
-    private PagesResolver mPagesResolver;
+    private PagesBaseDataResolver mPagesBaseDataResolver;
     private MyDataThreadPool mMyDataThreadPool;
 
     private List<SucculentFull> mSucculents;
@@ -43,7 +43,7 @@ public class InitializeDataPresenter implements
 
     private InitializeDataPresenter() {
         mMyDataThreadPool = new MyDataThreadPool();
-        mPagesResolver = new PagesResolver();
+        mPagesBaseDataResolver = new PagesBaseDataResolver();
         mNetworkUtil = new NetworkUtil();
         mLocalDataUtil = new LocalDataUtil();
         mRequestSuccessCount = 0;
@@ -79,8 +79,8 @@ public class InitializeDataPresenter implements
         mSucculentsCount = succulents.length;
         mSucculents = Arrays.asList((SucculentFull[]) succulents);
         //把从文件获取的初始数据列表设置到页面解析者中
-        mPagesResolver.initDataList(mSucculents);
-        //todo 读取完成，保存到本地数据库
+        mPagesBaseDataResolver.initDataList(mSucculents);
+        //读取完成，保存到本地数据库
         mBeanSaver = new BeanSaver();
         mBeanSaver.addValue(succulents);
         mBeanSaver.saveToLocal();
@@ -99,6 +99,7 @@ public class InitializeDataPresenter implements
             //若成功
             //保存到本地数据库中，最后初始化页面，
             //数据库现在full
+            Log.e("服务器初始化数据成功", "服务器初始化数据成功");
             beanDataSaver.saveToLocal();
             beanDataSaver.clean();
             mProgressBarCallback.onCompleteFirstWork();
@@ -108,6 +109,7 @@ public class InitializeDataPresenter implements
     @Override
     public void onNetDataFailed() {
         //失败的话，从assets读取植物信息文件
+        Log.e("服务器初始化数据失败", "服务器获取初始化数据失败");
         initLocalData();
     }
 
@@ -117,20 +119,23 @@ public class InitializeDataPresenter implements
         //开始处理爬虫数据
         //这里也可以加入线程任务中
         mMyDataThreadPool = threadPool;
-        mMyDataThreadPool.addPageResolveTask(mPagesResolver, response);
+        mMyDataThreadPool.addPageResolveTask(mPagesBaseDataResolver, response);
         //再保存到数据库
         //到达了获取的值那么就增加新任务，保存到db，然后现在这个任务结束
         mPulledNumber++;
+        Log.e("爬虫成功", "爬虫成功" + mPulledNumber + "条");
+
         if (mPulledNumber == mSucculentsCount) {
-            // todo add task 保存到本地数据库
-            mMyDataThreadPool.addSaveResolved(mPagesResolver);
+            Log.e("爬虫全部成功", "爬虫全部成功");
+            //  保存到本地数据库
+            mMyDataThreadPool.addSaveResolved(mPagesBaseDataResolver);
             //爬虫结束
-            //todo 接在其它回调后面
+            //接在其它回调后面
             mProgressBarCallback.onCompleteFirstWork();
             //再上传到服务器数据库
-            //todo 上传完整的数据到服务器
-            mNetworkUtil.setPostDataListener(this);
-            mMyDataThreadPool.addPostToServerTask(mPagesResolver, mNetworkUtil);
+            //上传完整的数据到服务器
+            mNetworkUtil.setInitializePostDataListener(this);
+            mMyDataThreadPool.addPostToServerTask(mPagesBaseDataResolver, mNetworkUtil);
         }
     }
 
@@ -139,23 +144,25 @@ public class InitializeDataPresenter implements
         //就是说爬虫失败，再调用onFailedNetwork,之后重新爬虫
         //爬虫失败，才调用onFailedNetwork
         //提示开启网络后，重新尝试，或退出
+        Log.e("爬虫失败", "爬虫失败");
+
         mProgressBarCallback.onFailedPullNetwork();
     }
 
 
     @Override
     public void onPostSuccess(int initializePostDataCount) {
-        Log.e("提交初始化数据给服务器已完成", initializePostDataCount + "条");
+        Log.e("提交初始化数据已完成", initializePostDataCount + "条");
     }
 
     @Override
     public void onPostFailed(Throwable throwable) {
-        Log.e("提交初始化数据给服务器发生错误", throwable.getMessage());
+        Log.e("提交初始化数据发生错误", throwable.getMessage());
     }
 
     @Override
     public void onPostComplete(MyDataThreadPool threadPool) {
-        Log.e("提交初始化数据给服务器已全部完成", "<已经全部完成！>");
+        Log.e("提交初始化数据已全部完成", "<已经全部完成！>");
         threadPool.getThreadPool().shutdown();
     }
 //    @Override

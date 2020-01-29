@@ -3,7 +3,7 @@ package com.fanqi.succulent.network;
 import com.fanqi.succulent.bean.Family;
 import com.fanqi.succulent.bean.Genera;
 import com.fanqi.succulent.bean.Succulent;
-import com.fanqi.succulent.network.page.PagesResolver;
+import com.fanqi.succulent.network.page.PagesBaseDataResolver;
 import com.fanqi.succulent.presenter.listener.InitializePostDataListener;
 import com.fanqi.succulent.thread.MyDataThreadPool;
 
@@ -27,25 +27,25 @@ public class SucculentPostRequester extends  Requester{
     public static final String LIGHT="light";
     public static final String WATER="water";
 
-    private PagesResolver mPagesResolver;
+    private PagesBaseDataResolver mPagesBaseDataResolver;
 
     public SucculentPostRequester() {
 
     }
 
     public void doPostDataToServer(InitializePostDataListener postDataListener,
-                                   PagesResolver pagesResolver, MyDataThreadPool myDataThreadPool) {
+                                   PagesBaseDataResolver pagesBaseDataResolver, MyDataThreadPool myDataThreadPool) {
         this.mThreadPool=myDataThreadPool;
-        this.mPagesResolver=pagesResolver;
+        this.mPagesBaseDataResolver = pagesBaseDataResolver;
         mCallback.setThreadPool(mThreadPool);
         mCallback.setInitializePostDataListener(postDataListener);
         mExecutor.setHerokuServer();
         mExecutor.initRequester();
         mExecutor.request(Name.FAMILY);
 
-        List<Family> familyList=pagesResolver.getFamilies();
-        List<Genera> generaList=pagesResolver.getGeneras();
-        List<Succulent> succulentList=pagesResolver.getSucculents();
+        List<Family> familyList= pagesBaseDataResolver.getFamilies();
+        List<Genera> generaList= pagesBaseDataResolver.getGeneras();
+        List<Succulent> succulentList= pagesBaseDataResolver.getSucculents();
         for(Family family:familyList){
             Map<String,Object> postMap=new HashMap<>();
             postMap.put(NAME,family.getName());

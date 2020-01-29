@@ -1,14 +1,32 @@
 package com.fanqi.succulent.network;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+
+import com.bumptech.glide.Glide;
 import com.fanqi.succulent.presenter.listener.InitializeByPullListener;
 import com.fanqi.succulent.presenter.listener.InitializeDataListener;
 import com.fanqi.succulent.presenter.listener.InitializePostDataListener;
 import com.fanqi.succulent.thread.MyDataThreadPool;
+import com.fanqi.succulent.util.ClosableCloser;
+import com.fanqi.succulent.util.constant.Constant;
 import com.fanqi.succulent.util.local.BeanSaver;
 import com.fanqi.succulent.util.local.Saver;
 import com.fanqi.succulent.util.provider.SaverProvider;
+import com.fanqi.succulent.viewmodel.SucculentDailyViewModel;
+import com.fanqi.succulent.viewmodel.listener.ViewModelCallback;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.Buffer;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -24,6 +42,7 @@ public class RetrofitCallback<T> implements Observer<T> {
     private InitializeDataListener mInitializeDataListener;
     private InitializeByPullListener mInitializeByPullListener;
     private InitializePostDataListener mInitializePostDataListener;
+    private ViewModelCallback mViewModelCallback;
 
     private Disposable mDisposable;
 
@@ -49,6 +68,19 @@ public class RetrofitCallback<T> implements Observer<T> {
         initializeDataProcess(value);
         initializeByPullProcess(value);
         initializePostDataProcess(value);
+        mediaDataProcess(value);
+    }
+
+    private void mediaDataProcess(T value) {
+        if (mViewModelCallback != null) {
+            InputStream is;
+            ResponseBody responseBody = (ResponseBody) value;
+            is = responseBody.byteStream();
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(SucculentDailyViewModel.IMAGE, bitmap);
+            mViewModelCallback.onSuccessed(bundle);
+        }
     }
 
     @Override
@@ -58,11 +90,15 @@ public class RetrofitCallback<T> implements Observer<T> {
         if (mInitializeDataListener != null) {
             mInitializeDataListener.onNetDataFailed();
         }
-        if(mInitializeByPullListener!=null){
+        if (mInitializeByPullListener != null) {
             mInitializeByPullListener.onPullFailed();
         }
         if (mInitializePostDataListener != null) {
             mInitializePostDataListener.onPostFailed(e);
+        }
+        //todo 因为使用glide而这里没有调用了
+        if (mViewModelCallback != null) {
+            mViewModelCallback.onFailed(e);
         }
     }
 
@@ -100,9 +136,9 @@ public class RetrofitCallback<T> implements Observer<T> {
             mInitializePostDataCount++;
             mInitializePostDataListener.onPostSuccess(mInitializePostDataCount);
             if (mInitializePostDataCount ==
-                    FirstEnterRequester.FAMILY_COUNT +
-                            FirstEnterRequester.GENERAS_COUNT +
-                            FirstEnterRequester.SUCCULENT_COUNT) {
+                    Constant.FAMILY_COUNT +
+                            Constant.GENERAS_COUNT +
+                            Constant.SUCCULENT_COUNT) {
                 mInitializePostDataListener.onPostComplete(mThreadPool);
             }
         }
@@ -112,6 +148,11 @@ public class RetrofitCallback<T> implements Observer<T> {
     public void onComplete() {
         mDisposable.dispose();
     }
+
+    public void setThreadPool(MyDataThreadPool threadPool) {
+        mThreadPool = threadPool;
+    }
+
 
     public void setInitializeDataListener(InitializeDataListener initializeDataListener) {
         this.mInitializeDataListener = initializeDataListener;
@@ -125,9 +166,7 @@ public class RetrofitCallback<T> implements Observer<T> {
         this.mInitializePostDataListener = postDataListener;
     }
 
-    public void setThreadPool(MyDataThreadPool threadPool) {
-        mThreadPool = threadPool;
+    public void setViewModelCallBack(ViewModelCallback viewModelCallback) {
+        this.mViewModelCallback = viewModelCallback;
     }
-
-
 }

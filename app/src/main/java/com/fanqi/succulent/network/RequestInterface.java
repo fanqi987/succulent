@@ -21,7 +21,10 @@ public interface RequestInterface {
 
     String baseUrlHeroku = "https://android-server-fanqi.herokuapp.com/";
     String baseUrlBaidu = " https://baike.baidu.com/item/";
-    String baseUrlBaiduPic="https://baike.baidu.com/pic/";
+    String baseUrlBaiduPic = "https://baike.baidu.com/pic/";
+
+    @GET("/")
+    Observable<ResponseBody> get();
 
     @GET("succulents.json")
     Observable<Succulent[]> getSucculents();
@@ -43,14 +46,15 @@ public interface RequestInterface {
 
     @POST("families.json")
     @FormUrlEncoded
-    Observable<ResponseBody> postFamily(@FieldMap Map<String,Object> postMap);
+    Observable<ResponseBody> postFamily(@FieldMap Map<String, Object> postMap);
 
     @POST("generas.json")
     @FormUrlEncoded
-    Observable<ResponseBody> postGenera(@FieldMap Map<String,Object> postMap);
+    Observable<ResponseBody> postGenera(@FieldMap Map<String, Object> postMap);
 
     @POST("succulents.json")
     @FormUrlEncoded
-    Observable<ResponseBody> postSucculent(@FieldMap Map<String,Object> postMap);
+    Observable<ResponseBody> postSucculent(@FieldMap Map<String, Object> postMap);
+
 
 }

@@ -1,9 +1,20 @@
 package com.fanqi.succulent.thread;
 
-import com.fanqi.succulent.network.RetrofitExecutor;
-import com.fanqi.succulent.network.page.PagesResolver;
-import com.fanqi.succulent.util.NetworkUtil;
+import android.os.Bundle;
 
+import com.fanqi.succulent.network.RequestInterface;
+import com.fanqi.succulent.network.RetrofitExecutor;
+import com.fanqi.succulent.network.callback.MediaPageResolveCallback;
+import com.fanqi.succulent.network.page.PageResolver;
+import com.fanqi.succulent.network.page.PagesBaseDataResolver;
+import com.fanqi.succulent.util.NetworkUtil;
+import com.fanqi.succulent.viewmodel.SucculentDailyViewModel;
+import com.fanqi.succulent.viewmodel.listener.ViewModelCallback;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -44,7 +55,6 @@ public class MyDataThreadPool {
 
     /**
      * 增加页面爬虫的任务
-     * @param tasksParameter
      */
     public void addPullPageTasks(final String requestName, final String pageName) {
         mRunnable = new Runnable() {
@@ -59,11 +69,11 @@ public class MyDataThreadPool {
     /**
      * 增加页面解析的任务
      */
-    public void addPageResolveTask(final PagesResolver pagesResolver, final String response) {
+    public void addPageResolveTask(final PagesBaseDataResolver pagesBaseDataResolver, final String response) {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                pagesResolver.resolve(response);
+                pagesBaseDataResolver.resolve(response);
             }
         };
         addTask(mRunnable);
@@ -71,13 +81,14 @@ public class MyDataThreadPool {
 
     /**
      * 增加解析的数据保存的任务
-     * @param pagesResolver
+     *
+     * @param pagesBaseDataResolver
      */
-    public void addSaveResolved(final PagesResolver pagesResolver) {
+    public void addSaveResolved(final PagesBaseDataResolver pagesBaseDataResolver) {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                pagesResolver.saveToDB();
+                pagesBaseDataResolver.saveToDB();
             }
         };
         addTask(mRunnable);
@@ -85,14 +96,15 @@ public class MyDataThreadPool {
 
     /**
      * 增加把完整数据上传至服务器的任务
-     * @param pagesResolver
+     *
+     * @param pagesBaseDataResolver
      * @param networkUtil
      */
-    public void addPostToServerTask(final PagesResolver pagesResolver, final NetworkUtil networkUtil) {
-        mRunnable=new Runnable() {
+    public void addPostToServerTask(final PagesBaseDataResolver pagesBaseDataResolver, final NetworkUtil networkUtil) {
+        mRunnable = new Runnable() {
             @Override
             public void run() {
-                networkUtil.postFullDataToServer(pagesResolver,MyDataThreadPool.this);
+                networkUtil.postFullDataToServer(pagesBaseDataResolver, MyDataThreadPool.this);
             }
         };
         addTask(mRunnable);
@@ -102,16 +114,56 @@ public class MyDataThreadPool {
      * 增加post请求任务
      */
     public void addPostItemTask(final String family, final Map<String, Object> postMap) {
-        mRunnable=new Runnable() {
+        mRunnable = new Runnable() {
             @Override
             public void run() {
-                mRequester.request(family,postMap);
+                mRequester.request(family, postMap);
             }
         };
         addTask(mRunnable);
     }
+
     public ExecutorService getThreadPool() {
         return mThreadPool;
+    }
+
+
+    public void addResolveMediaPageTask(final String pageName, final MediaPageResolveCallback callback) {
+        mRunnable = new Runnable() {
+            @Override
+            public void run() {
+                Document document = Jsoup.parse(RequestInterface.baseUrlBaiduPic +
+                        pageName + "/0");
+                List<String> urls = PageResolver.resolveImageUrl(document);
+                callback.onResolved(urls);
+            }
+        };
+        addTask(mRunnable);
+    }
+
+    public void addResolveTextPageTask(final String pageName, final ViewModelCallback viewModelCallback) {
+        mRunnable = new Runnable() {
+            @Override
+            public void run() {
+                Document document = Jsoup.parse(RequestInterface.baseUrlBaidu +
+                        pageName);
+                Bundle bundle = new Bundle();
+                String summary = PageResolver.resolveItemSummary(document);
+                bundle.putString(SucculentDailyViewModel.SUMMARY, summary);
+                viewModelCallback.onSuccessed(bundle);
+            }
+        };
+        addTask(mRunnable);
+    }
+
+    public void addGetMediaInfoTask() {
+        mRunnable = new Runnable() {
+            @Override
+            public void run() {
+                mRequester.request();
+            }
+        };
+        addTask(mRunnable);
     }
 
 

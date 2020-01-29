@@ -1,6 +1,7 @@
 package com.fanqi.succulent.presenter;
 
 import android.app.Activity;
+import android.os.Bundle;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -30,6 +31,7 @@ public class NavigationPresenter implements NavigationPresenterCallback {
 
     private void initNavigationUI() {
         navController = Navigation.findNavController(mActivity, R.id.main_fragment);
+        navController.setGraph(null);
         appBarConfiguration = new AppBarConfiguration
                 .Builder(R.id.succulentDailyFragment, R.id.succulentListFragment, R.id.succulentFavoriteFragment)
                 .setDrawerLayout(mBinding.drawerLayout).build();
@@ -44,5 +46,10 @@ public class NavigationPresenter implements NavigationPresenterCallback {
     public void onBottomMenuSelected(int graphId, int fragmentId) {
         navController.setGraph(graphId);
         navController.navigate(fragmentId);
+    }
+
+    public void firstNavigate() {
+        navController.setGraph(R.navigation.navigation_daily);
+        navController.navigate(R.id.navigation_daily);
     }
 }

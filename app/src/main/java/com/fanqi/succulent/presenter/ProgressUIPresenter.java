@@ -4,19 +4,19 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 
-import com.fanqi.succulent.activity.MainActivity;
 import com.fanqi.succulent.presenter.listener.ProgressBarCallback;
 import com.fanqi.succulent.util.PreferenceUtil;
 
 public class ProgressUIPresenter implements
         ProgressBarCallback,
         DialogInterface.OnCancelListener {
-
     private Activity mActivity;
     private ProgressDialog mProgressDialog;
+    private NavigationPresenter mNavigationPresenter;
 
-    public ProgressUIPresenter(Activity activity) {
+    public ProgressUIPresenter(Activity activity, NavigationPresenter navigationPresenter) {
         this.mActivity = activity;
+        this.mNavigationPresenter = navigationPresenter;
         mProgressDialog = new ProgressDialog(activity);
     }
 
@@ -36,12 +36,8 @@ public class ProgressUIPresenter implements
         //取消第1次进入标志
         PreferenceUtil.setFirstEnterFlag(false);
 
-
-        //todo 显示占拉符页面,再初始化页面
-
-        //生成今日植物
-        //爬虫今日植物的所有数据
-        //显示今日植物的数据
+        //  初始化页面
+        mNavigationPresenter.firstNavigate();
     }
 
     @Override

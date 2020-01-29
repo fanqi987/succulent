@@ -1,19 +1,22 @@
 package com.fanqi.succulent.util;
 
 import com.fanqi.succulent.network.FirstEnterRequester;
+import com.fanqi.succulent.network.MediaInfoRequester;
 import com.fanqi.succulent.network.SucculentPostRequester;
 import com.fanqi.succulent.network.page.PagesRequester;
-import com.fanqi.succulent.network.page.PagesResolver;
+import com.fanqi.succulent.network.page.PagesBaseDataResolver;
 import com.fanqi.succulent.presenter.listener.InitializeByPullListener;
 import com.fanqi.succulent.presenter.listener.InitializeDataListener;
 import com.fanqi.succulent.presenter.listener.InitializePostDataListener;
 import com.fanqi.succulent.thread.MyDataThreadPool;
+import com.fanqi.succulent.viewmodel.listener.ViewModelCallback;
 
 public class NetworkUtil {
 
     private InitializeDataListener mDataListener;
     private InitializeByPullListener mByPullListener;
     private InitializePostDataListener mPostDataListener;
+    private ViewModelCallback mViewModelCallback;
 
     public void initFirstEnterData() {
         FirstEnterRequester requester = new FirstEnterRequester();
@@ -22,16 +25,21 @@ public class NetworkUtil {
 
     public void pullDataFromPage(Object[] values) {
         PagesRequester requester = new PagesRequester();
-        requester.doPullDataFromPage(mByPullListener,values);
+        requester.doPullDataFromPage(mByPullListener, values);
     }
 
-    public void postFullDataToServer(PagesResolver pagesResolver, MyDataThreadPool myDataThreadPool) {
-        SucculentPostRequester requester=new SucculentPostRequester();
-        requester.doPostDataToServer(mPostDataListener,pagesResolver,myDataThreadPool);
+    public void postFullDataToServer(PagesBaseDataResolver pagesBaseDataResolver, MyDataThreadPool myDataThreadPool) {
+        SucculentPostRequester requester = new SucculentPostRequester();
+        requester.doPostDataToServer(mPostDataListener, pagesBaseDataResolver, myDataThreadPool);
     }
 
-    public void setPostDataListener(InitializePostDataListener postDataListener){
-        mPostDataListener =postDataListener;
+    public void requestGetMediaInfo(String pageName) {
+        MediaInfoRequester requester = new MediaInfoRequester();
+        requester.doGetMediaInfo(mViewModelCallback, pageName);
+    }
+
+    public void setInitializePostDataListener(InitializePostDataListener postDataListener) {
+        mPostDataListener = postDataListener;
     }
 
     public void setInitializeByPullListener(InitializeByPullListener pullListener) {
@@ -42,4 +50,8 @@ public class NetworkUtil {
         mDataListener = dataListener;
     }
 
+
+    public void setViewModelCallback(ViewModelCallback viewModelCallback) {
+        mViewModelCallback = viewModelCallback;
+    }
 }

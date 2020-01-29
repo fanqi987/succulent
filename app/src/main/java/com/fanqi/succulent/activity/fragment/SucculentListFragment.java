@@ -18,4 +18,11 @@ public class SucculentListFragment extends BaseFragment {
         View v = inflater.inflate(R.layout.succulent_list_fragment, container, false);
         return v;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //todo 显示占拉符页面,再初始化页面
+        //切换到每日推荐的fragment
+    }
 }

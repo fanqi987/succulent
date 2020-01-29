@@ -4,12 +4,10 @@ import com.fanqi.succulent.bean.Bean;
 import com.fanqi.succulent.bean.Family;
 import com.fanqi.succulent.bean.Genera;
 import com.fanqi.succulent.bean.Succulent;
-import com.fanqi.succulent.network.FirstEnterRequester;
 import com.fanqi.succulent.network.RetrofitCallback;
+import com.fanqi.succulent.util.constant.Constant;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class BeanSaver implements Saver {
 
@@ -60,17 +58,17 @@ public class BeanSaver implements Saver {
 
     public boolean checkWrongCount(Object value) {
         if (value instanceof Succulent[]) {
-            if (((Succulent[]) value).length != FirstEnterRequester.SUCCULENT_COUNT) {
+            if (((Succulent[]) value).length != Constant.SUCCULENT_COUNT) {
                 return false;
             }
         }
         if (value instanceof Family[]) {
-            if (((Family[]) value).length != FirstEnterRequester.FAMILY_COUNT) {
+            if (((Family[]) value).length != Constant.FAMILY_COUNT) {
                 return false;
             }
         }
         if (value instanceof Genera[]) {
-            if (((Genera[]) value).length != FirstEnterRequester.GENERAS_COUNT) {
+            if (((Genera[]) value).length != Constant.GENERAS_COUNT) {
                 return false;
             }
         }

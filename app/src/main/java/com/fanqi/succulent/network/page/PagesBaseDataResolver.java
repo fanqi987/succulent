@@ -19,7 +19,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PagesResolver {
+/**
+ * 解析固定的基本文字数据类
+ */
+public class PagesBaseDataResolver {
 
 
     private List<SucculentFull> mSucculentFulls;
@@ -30,9 +33,9 @@ public class PagesResolver {
 
     private Elements mElements;
 
-    public PagesResolver() {
+    public PagesBaseDataResolver() {
         mSucculentFulls = new ArrayList<>();
-        mSucculents=new ArrayList<>();
+        mSucculents = new ArrayList<>();
         mNames = new ArrayList<>();
         mFamilies = Collections.synchronizedList(new ArrayList<Family>());
         mGeneras = Collections.synchronizedList(new ArrayList<Genera>());
@@ -52,12 +55,15 @@ public class PagesResolver {
     public List<Family> getFamilies() {
         return mFamilies;
     }
+
     public List<Genera> getGeneras() {
         return mGeneras;
     }
+
     public List<Succulent> getSucculents() {
         return mSucculents;
     }
+
     public void resolve(String response) {
         Document document = Jsoup.parse(response);
 
@@ -97,50 +103,62 @@ public class PagesResolver {
     public void saveToDB() {
         initFamilies();
         save(mFamilies);
-        reset(mFamilies,Family.class);
+        reset(mFamilies, Family.class);
         initGeneras();
         save(mGeneras);
-        reset(mGeneras,Genera.class);
-        mSucculents=(List<Succulent>) (Object)mSucculentFulls;
+        reset(mGeneras, Genera.class);
+        initSucculents();
+        mSucculents = (List<Succulent>) (Object) mSucculentFulls;
         save(mSucculents);
-        reset(mSucculents,Succulent.class);
+        reset(mSucculents, Succulent.class);
+    }
+
+    private void initSucculents() {
+        for (SucculentFull succulentFull : mSucculentFulls) {
+            for (Genera genera : mGeneras) {
+                if (succulentFull.getGeneraName().equals(genera.getName())) {
+                    succulentFull.setGenera_id(genera.getPost_id());
+                    break;
+                }
+            }
+        }
     }
 
     private void initFamilies() {
         //判断出正确的名字，并保存，再保存到family列表中
-        for(SucculentFull succulentFull:mSucculentFulls)
-        {
-         String familyName=FamilySimiliarNameChanger.setGetNormalFamilyName(succulentFull);
-         if(!mFamilies.contains(familyName)){
-             Family family=new Family();
-             family.setName(familyName);
-             family.setPost_id(mFamilies.size()+1);
-             mFamilies.add(family);
-         }
+        for (SucculentFull succulentFull : mSucculentFulls) {
+            String familyName = FamilySimiliarNameChanger.setGetNormalFamilyName(succulentFull);
+            if (!mFamilies.contains(familyName)) {
+                Family family = new Family();
+                family.setName(familyName);
+                family.setPost_id(mFamilies.size() + 1);
+                mFamilies.add(family);
+            }
         }
     }
+
     private void initGeneras() {
         //判断出正确的名字，并保存，再保存到genera列表中
-        for(SucculentFull succulentFull:mSucculentFulls)
-        {
-            String generaName= GenusSimiliarNameChanger.
-                    setGetNormalGeneraName(mFamilies,succulentFull);
-            if(!mGeneras.contains(generaName)){
-                Genera genera=new Genera();
+        for (SucculentFull succulentFull : mSucculentFulls) {
+            String generaName = GenusSimiliarNameChanger.
+                    setGetNormalGeneraName(mFamilies, succulentFull);
+            if (!mGeneras.contains(generaName)) {
+                Genera genera = new Genera();
                 genera.setName(generaName);
-                genera.setPost_id(mGeneras.size()+1);
+                genera.setPost_id(mGeneras.size() + 1);
                 mGeneras.add(genera);
             }
         }
     }
+
     private void save(List list) {
-        List<Bean> beans= (List<Bean>) list;
-        for(Bean bean:beans)
-        {
+        List<Bean> beans = (List<Bean>) list;
+        for (Bean bean : beans) {
             bean.save();
         }
     }
-    private void reset(List list,Class clazz){
-        list=LitePal.findAll(clazz);
+
+    private void reset(List list, Class clazz) {
+        list = LitePal.findAll(clazz);
     }
 }

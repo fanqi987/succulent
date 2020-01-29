@@ -42,15 +42,17 @@ public class RetrofitExecutor<T> implements Executor {
         request(requestName, null);
     }
 
-
-//    public void setBaseServer(String server) throws ServerNameErrException {
-//        if (!RetrofitExecutor.BAIDU_SERVER.equals(server)
-//                && !RetrofitExecutor.HEROKU_SERVER.equals(server)) {
-//            throw new ServerNameErrException();
-//        } else {
-//            mServerName = server;
-//        }
-//    }
+    public void request() {
+        Method method = null;
+        Observable<T> observable = null;
+        try {
+            method = request.getClass().getMethod("get");
+            observable = (Observable<T>) method.invoke(request);
+            observable.subscribe(mRetrofitCallback);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void setHerokuServer() {
         mServerName = RequestInterface.baseUrlHeroku;
@@ -60,9 +62,17 @@ public class RetrofitExecutor<T> implements Executor {
         mServerName = RequestInterface.baseUrlBaidu;
     }
 
+
     public void initRequester() {
         retrofit = mRetrofitInitializer.buildDefault(mServerName);
         request = retrofit.create(RequestInterface.class);
     }
 
+    public void setBaiduImageServer() {
+        mServerName = RequestInterface.baseUrlBaiduPic;
+    }
+
+    public void setServerName(String serverName) {
+        mServerName = serverName;
+    }
 }

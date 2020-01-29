@@ -20,10 +20,7 @@ public class PagesRequester extends Requester {
         mExecutor.initRequester();
         mCallback.setInitializeByPullListener(byPullListener);
         try {
-            Constructor constructor = ResponseBody.class.getConstructor();
-            constructor.setAccessible(true);
-            ResponseBody responseBody = (ResponseBody) constructor.newInstance();
-            mCallback.setValue(responseBody);
+            mCallback.setValue(getResponseBody());
             for (int i = 0; i < values.length; i++) {
                 mThreadPool.addPullPageTasks(Name.PAGE,
                         ((Succulent[]) values)[i].getPage_name());
