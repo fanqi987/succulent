@@ -60,4 +60,10 @@ public class MainActivity extends BaseActivity {
     public MainAcBinding getBinding() {
         return mBinding;
     }
+
+    public NavigationPresenter getNavigationPresenter() {
+        return mNavigationPresenter;
+    }
+
+
 }

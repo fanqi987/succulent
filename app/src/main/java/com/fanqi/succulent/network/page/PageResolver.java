@@ -12,8 +12,15 @@ import java.util.List;
  */
 public class PageResolver {
 
-
     public static List<String> resolveImageUrl(Document document) {
+        List<String> urls = new ArrayList<>();
+        Elements elements = document.select(PagesHtmlConstant.IMAGE_URL_CHOOSER);
+        urls.add(elements.first().attr("src").split(PagesHtmlConstant.IMAGE_URL_SPLITER)[0]);
+        return urls;
+    }
+
+
+    public static List<String> resolveImageUrls(Document document) {
         List<String> urls = new ArrayList<>();
         Elements elements = document.select(PagesHtmlConstant.IMAGE_URL_CHOOSER);
         for (Element element : elements) {

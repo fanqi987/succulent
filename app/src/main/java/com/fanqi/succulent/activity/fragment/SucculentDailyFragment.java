@@ -26,7 +26,10 @@ public class SucculentDailyFragment extends BaseFragment {
 //        LayoutInflater.from(this, R.layout.)
         mBinding = DataBindingUtil.inflate(inflater, R.layout.succulent_daily_fragment,
                 container, false);
-        model = new SucculentDailyViewModel(mBinding, this);
+        model = new SucculentDailyViewModel();
+        model.setBroccoli(mBroccoli);
+        model.setFragment(this);
+        model.setBinding(mBinding);
         mBinding.setModel(model);
         View v = mBinding.getRoot();
         return v;
@@ -35,7 +38,7 @@ public class SucculentDailyFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        model.initView(mBroccoli);
+        model.initView();
         //切换到每日推荐的fragment
     }
 }

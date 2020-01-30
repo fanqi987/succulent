@@ -2,18 +2,20 @@ package com.fanqi.succulent.thread;
 
 import android.os.Bundle;
 
+import com.fanqi.succulent.activity.adapter.SucculentListAdapter;
 import com.fanqi.succulent.network.RequestInterface;
 import com.fanqi.succulent.network.RetrofitExecutor;
-import com.fanqi.succulent.network.callback.MediaPageResolveCallback;
+import com.fanqi.succulent.network.callback.ImageUrlCallback;
 import com.fanqi.succulent.network.page.PageResolver;
 import com.fanqi.succulent.network.page.PagesBaseDataResolver;
 import com.fanqi.succulent.util.NetworkUtil;
-import com.fanqi.succulent.viewmodel.SucculentDailyViewModel;
+import com.fanqi.succulent.util.constant.Constant;
 import com.fanqi.succulent.viewmodel.listener.ViewModelCallback;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -128,14 +130,29 @@ public class MyDataThreadPool {
     }
 
 
-    public void addResolveMediaPageTask(final String pageName, final MediaPageResolveCallback callback) {
+    public void addResolveMediaPageTask(final String pageName, final ImageUrlCallback callback) {
+        mRunnable = new Runnable() {
+            @Override
+            public void run() {
+                Document document = Jsoup.parse(RequestInterface.baseUrlBaiduPic +
+                        pageName + "/0");
+                List<String> urls = PageResolver.resolveImageUrls(document);
+                callback.onResolvedImageUrls(urls);
+            }
+        };
+        addTask(mRunnable);
+    }
+
+    public void addResolveSingleImagePageTask(final String pageName,
+                                              final ImageUrlCallback callback,
+                                              final Serializable holder) {
         mRunnable = new Runnable() {
             @Override
             public void run() {
                 Document document = Jsoup.parse(RequestInterface.baseUrlBaiduPic +
                         pageName + "/0");
                 List<String> urls = PageResolver.resolveImageUrl(document);
-                callback.onResolved(urls);
+                callback.onResolvedSingleImageUrl(urls, holder);
             }
         };
         addTask(mRunnable);
@@ -149,7 +166,7 @@ public class MyDataThreadPool {
                         pageName);
                 Bundle bundle = new Bundle();
                 String summary = PageResolver.resolveItemSummary(document);
-                bundle.putString(SucculentDailyViewModel.SUMMARY, summary);
+                bundle.putString(Constant.ViewModel.SUMMARY, summary);
                 viewModelCallback.onSuccessed(bundle);
             }
         };

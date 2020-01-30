@@ -1,5 +1,6 @@
 package com.fanqi.succulent.util;
 
+import com.fanqi.succulent.activity.adapter.SucculentListAdapter;
 import com.fanqi.succulent.network.FirstEnterRequester;
 import com.fanqi.succulent.network.MediaInfoRequester;
 import com.fanqi.succulent.network.SucculentPostRequester;
@@ -10,6 +11,8 @@ import com.fanqi.succulent.presenter.listener.InitializeDataListener;
 import com.fanqi.succulent.presenter.listener.InitializePostDataListener;
 import com.fanqi.succulent.thread.MyDataThreadPool;
 import com.fanqi.succulent.viewmodel.listener.ViewModelCallback;
+
+import java.io.Serializable;
 
 public class NetworkUtil {
 
@@ -38,6 +41,11 @@ public class NetworkUtil {
         requester.doGetMediaInfo(mViewModelCallback, pageName);
     }
 
+    public void requestGetSingleImage(String pageName, Serializable holder) {
+        MediaInfoRequester requester = new MediaInfoRequester();
+        requester.doGetSingleImageUrl(mViewModelCallback, pageName,  holder);
+    }
+
     public void setInitializePostDataListener(InitializePostDataListener postDataListener) {
         mPostDataListener = postDataListener;
     }
@@ -54,4 +62,6 @@ public class NetworkUtil {
     public void setViewModelCallback(ViewModelCallback viewModelCallback) {
         mViewModelCallback = viewModelCallback;
     }
+
+
 }

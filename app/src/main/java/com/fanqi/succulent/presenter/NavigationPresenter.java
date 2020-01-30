@@ -2,6 +2,7 @@ package com.fanqi.succulent.presenter;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -51,5 +52,22 @@ public class NavigationPresenter implements NavigationPresenterCallback {
     public void firstNavigate() {
         navController.setGraph(R.navigation.navigation_daily);
         navController.navigate(R.id.navigation_daily);
+
+    }
+
+    public void navigate(int actionId) {
+        navController.navigate(actionId);
+    }
+
+    public void navigate(int actionId, Bundle bundle) {
+        navController.navigate(actionId, bundle);
+    }
+
+    public void hiddenBottomNavigation() {
+        mBinding.drawerBottomNavigationView.setVisibility(View.GONE);
+    }
+
+    public void showBottomNavigation() {
+        mBinding.drawerBottomNavigationView.setVisibility(View.VISIBLE);
     }
 }

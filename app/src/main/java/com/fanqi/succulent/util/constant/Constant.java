@@ -13,4 +13,13 @@ public class Constant {
     public static final int FAMILY_COUNT = 6;
     public static final int GENERAS_COUNT = 12;
     public static final int SUCCULENT_COUNT = 149;
+
+    public class ViewModel {
+        public static final String SUCCULENT = "succulent";
+        public static final String IMAGE = "image";
+        public static final String SUMMARY = "summary";
+        public static final String INFO_TITLE = "info_title";
+        public static final String INFO_CONTENT = "info_content";
+        public static final String VIEW_HOLDER = "view_holder";
+    }
 }

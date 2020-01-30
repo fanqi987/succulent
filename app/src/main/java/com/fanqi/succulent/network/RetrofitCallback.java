@@ -4,29 +4,18 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
-import com.bumptech.glide.Glide;
 import com.fanqi.succulent.presenter.listener.InitializeByPullListener;
 import com.fanqi.succulent.presenter.listener.InitializeDataListener;
 import com.fanqi.succulent.presenter.listener.InitializePostDataListener;
 import com.fanqi.succulent.thread.MyDataThreadPool;
-import com.fanqi.succulent.util.ClosableCloser;
 import com.fanqi.succulent.util.constant.Constant;
 import com.fanqi.succulent.util.local.BeanSaver;
 import com.fanqi.succulent.util.local.Saver;
 import com.fanqi.succulent.util.provider.SaverProvider;
-import com.fanqi.succulent.viewmodel.SucculentDailyViewModel;
 import com.fanqi.succulent.viewmodel.listener.ViewModelCallback;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.Buffer;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -78,7 +67,7 @@ public class RetrofitCallback<T> implements Observer<T> {
             is = responseBody.byteStream();
             Bitmap bitmap = BitmapFactory.decodeStream(is);
             Bundle bundle = new Bundle();
-            bundle.putParcelable(SucculentDailyViewModel.IMAGE, bitmap);
+            bundle.putParcelable(Constant.ViewModel.IMAGE, bitmap);
             mViewModelCallback.onSuccessed(bundle);
         }
     }

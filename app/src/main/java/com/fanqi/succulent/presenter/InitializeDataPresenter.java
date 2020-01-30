@@ -31,7 +31,6 @@ public class InitializeDataPresenter implements
     private int mRequestSuccessCount;
     private static Context mContext;
     private NetworkUtil mNetworkUtil;
-    private LocalDataUtil mLocalDataUtil;
     private ProgressBarCallback mProgressBarCallback;
     private BeanSaver mBeanSaver;
     private PagesBaseDataResolver mPagesBaseDataResolver;
@@ -45,7 +44,6 @@ public class InitializeDataPresenter implements
         mMyDataThreadPool = new MyDataThreadPool();
         mPagesBaseDataResolver = new PagesBaseDataResolver();
         mNetworkUtil = new NetworkUtil();
-        mLocalDataUtil = new LocalDataUtil();
         mRequestSuccessCount = 0;
         mPulledNumber = 0;
         mSucculents = new ArrayList<>();
