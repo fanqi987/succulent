@@ -22,10 +22,10 @@ public class FirstEnterRequester extends Requester {
         mCallback.setInitializeDataListener(dataListener);
 
         mCallback.setValue(new Succulent[0]);
-        mThreadPool.addFirstEnterTasks(Name.SUCCULENTS);
+        mThreadPool.addFirstEnterTasks(Name.SUCCULENTS, new Succulent[0]);
         mCallback.setValue(new Family[0]);
-        mThreadPool.addFirstEnterTasks(Name.FAMILIES);
+        mThreadPool.addFirstEnterTasks(Name.FAMILIES, new Family[0]);
         mCallback.setValue(new Genera[0]);
-        mThreadPool.addFirstEnterTasks(Name.GENERAS);
+        mThreadPool.addFirstEnterTasks(Name.GENERAS, new Genera[0]);
     }
 }

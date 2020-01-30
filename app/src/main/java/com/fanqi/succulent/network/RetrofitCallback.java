@@ -97,7 +97,7 @@ public class RetrofitCallback<T> implements Observer<T> {
         // 再通知数据成功,3个不同实体类的数组
         if (mInitializeDataListener != null) {
             mBeanDataSaver = new SaverProvider(value).getSaver();
-            if (((BeanSaver) mBeanDataSaver).checkWrongCount(value)) {
+            if (!((BeanSaver) mBeanDataSaver).checkCount(value)) {
                 //立即关闭线程池，并通知网页api获取失败
                 mThreadPool.getThreadPool().shutdownNow();
                 mInitializeDataListener.onNetDataFailed();

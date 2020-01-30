@@ -28,9 +28,8 @@
                 android:id="@+id/daily_item_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 android:scaleType="centerCrop"
-                android:src="@{model.mBean.image}" />
+                />
         </androidx.cardview.widget.CardView>
 
         <!--    名字 科属 介绍 光照 浇水-->

@@ -43,11 +43,11 @@ public class MyDataThreadPool {
     }
 
     //第1次进入时的网络请求，参数是将被调用的网络请求方法名
-    public void addFirstEnterTasks(final String requestName) {
+    public void addFirstEnterTasks(final String requestName,Object[] args) {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                mRequester.request(requestName);
+                mRequester.request(requestName,args);
             }
         };
         addTask(mRunnable);

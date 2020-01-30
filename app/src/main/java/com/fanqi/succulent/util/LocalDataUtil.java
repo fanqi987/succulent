@@ -3,6 +3,7 @@ package com.fanqi.succulent.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import com.fanqi.succulent.R;
 import com.fanqi.succulent.bean.Bean;
@@ -36,12 +37,14 @@ public class LocalDataUtil {
     public static Succulent[] getAssetsPlantInfo(Context context) {
         AssetManager assetManager = context.getAssets();
         String fileName =
-                context.getResources().getString(R.string.assets_path) +
-                        context.getResources().getString(R.string.assets_file_name_plant);
+//                context.getResources().getString(R.string.assets_path) +
+                context.getResources().getString(R.string.assets_file_name_plant);
         BufferedReader bufferedReader = null;
         ArrayList<Succulent> beanArrayList = new ArrayList<>();
         InputStream inputStream = null;
         try {
+            String[] ss = assetManager.list("plant_info.txt");
+            Log.e("assetManager", String.valueOf(ss.length));
             inputStream = assetManager.open(fileName);
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String tmp;

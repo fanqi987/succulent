@@ -56,23 +56,23 @@ public class BeanSaver implements Saver {
         }
     }
 
-    public boolean checkWrongCount(Object value) {
+    public boolean checkCount(Object value) {
         if (value instanceof Succulent[]) {
-            if (((Succulent[]) value).length != Constant.SUCCULENT_COUNT) {
-                return false;
+            if (((Succulent[]) value).length == Constant.SUCCULENT_COUNT) {
+                return true;
             }
         }
         if (value instanceof Family[]) {
-            if (((Family[]) value).length != Constant.FAMILY_COUNT) {
-                return false;
+            if (((Family[]) value).length == Constant.FAMILY_COUNT) {
+                return true;
             }
         }
         if (value instanceof Genera[]) {
-            if (((Genera[]) value).length != Constant.GENERAS_COUNT) {
-                return false;
+            if (((Genera[]) value).length == Constant.GENERAS_COUNT) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public void clean() {

@@ -26,21 +26,22 @@ public class RetrofitExecutor<T> implements Executor {
         Method method = null;
         Observable<T> observable = null;
         try {
-            if (args == null) {
+            if (args.length == 0) {
                 method = request.getClass().getMethod(requestName);
+                observable = (Observable<T>) method.invoke(request);
             } else {
                 method = request.getClass().getMethod(requestName, args.getClass());
+                observable = (Observable<T>) method.invoke(request, args);
             }
-            observable = (Observable<T>) method.invoke(request, args);
             observable.subscribe(mRetrofitCallback);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void request(String requestName) {
-        request(requestName, null);
-    }
+//    public void request(String requestName) {
+//        request(requestName, new Object[0]);
+//    }
 
     public void request() {
         Method method = null;
