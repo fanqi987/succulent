@@ -7,6 +7,8 @@ import com.fanqi.succulent.bean.Succulent;
 import com.fanqi.succulent.network.RetrofitCallback;
 import com.fanqi.succulent.util.constant.Constant;
 
+import org.litepal.LitePal;
+
 import java.util.ArrayList;
 
 public class BeanSaver implements Saver {
@@ -18,14 +20,10 @@ public class BeanSaver implements Saver {
         mBeans = new ArrayList<>();
     }
 
+
     @Override
-    public void addValue(Object[] value, String flag) {
-        //成功的话
-        //保存到实体类中，再保存到本地数据库
+    public void addValue(Object[] value) {
         mBeans.add((Bean[]) value);
-        if (RetrofitCallback.RETROFIT_CALLBACK_FLAG.equals(flag)) {
-            saveToLocal();
-        }
     }
 
     @Override
@@ -34,19 +32,15 @@ public class BeanSaver implements Saver {
     }
 
     @Override
-    public Object getValues() {
-        return mBeans;
-    }
-
-    @Override
     public Object[] getValue(int index) {
         return mBeans.get(index);
     }
 
-
-    public void addValue(Object[] value) {
-        mBeans.add((Bean[]) value);
+    @Override
+    public Object getValues() {
+        return mBeans;
     }
+
 
     public void saveToLocal() {
         for (Bean[] beans : mBeans) {

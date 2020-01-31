@@ -19,10 +19,6 @@ import retrofit2.http.Url;
 
 public interface RequestInterface {
 
-    String baseUrlHeroku = "https://android-server-fanqi.herokuapp.com/";
-    String baseUrlBaidu = " https://baike.baidu.com/item/";
-    String baseUrlBaiduPic = "https://baike.baidu.com/pic/";
-
     @GET("/")
     Observable<ResponseBody> get();
 
@@ -42,7 +38,7 @@ public interface RequestInterface {
     Observable<UserFavorite[]> getUserFavorites();
 
     @GET("{item}")
-    Observable<ResponseBody> getPage(@Path("item") String itemName);
+    Observable<ResponseBody> getPage(@Path(value = "item", encoded = true) String itemName);
 
     @POST("families.json")
     @FormUrlEncoded

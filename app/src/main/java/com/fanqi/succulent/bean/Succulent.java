@@ -2,7 +2,7 @@ package com.fanqi.succulent.bean;
 
 import java.util.Date;
 
-public class Succulent extends  Bean{
+public class Succulent extends Bean {
 
     protected int id;
     protected String name;
@@ -88,6 +88,4 @@ public class Succulent extends  Bean{
     public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
     }
-
-
 }

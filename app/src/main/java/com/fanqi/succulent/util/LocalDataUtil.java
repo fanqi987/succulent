@@ -1,28 +1,23 @@
 package com.fanqi.succulent.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;
 
 import com.fanqi.succulent.R;
-import com.fanqi.succulent.bean.Bean;
 import com.fanqi.succulent.bean.Family;
 import com.fanqi.succulent.bean.Genera;
 import com.fanqi.succulent.bean.Succulent;
-import com.fanqi.succulent.util.constant.Constant;
+import com.fanqi.succulent.bean.SucculentFull;
 
 import org.litepal.LitePal;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 public class LocalDataUtil {
 
@@ -34,29 +29,28 @@ public class LocalDataUtil {
         throw new UnsupportedOperationException("Can not be instantiated");
     }
 
-    public static Succulent[] getAssetsPlantInfo(Context context) {
+    public static SucculentFull[] getAssetsPlantInfo(Context context) {
         AssetManager assetManager = context.getAssets();
         String fileName =
 //                context.getResources().getString(R.string.assets_path) +
                 context.getResources().getString(R.string.assets_file_name_plant);
         BufferedReader bufferedReader = null;
-        ArrayList<Succulent> beanArrayList = new ArrayList<>();
+        List<SucculentFull> beanArrayList = new ArrayList<>();
         InputStream inputStream = null;
         try {
-            String[] ss = assetManager.list("plant_info.txt");
-            Log.e("assetManager", String.valueOf(ss.length));
             inputStream = assetManager.open(fileName);
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String tmp;
+            bufferedReader.readLine();
             while ((tmp = bufferedReader.readLine()) != null) {
-                Succulent succulent = new Succulent();
+                SucculentFull succulentFull = new SucculentFull();
                 //网页名字 光 水
                 String[] item = tmp.split(" ");
-                succulent.setPage_name(item[0]);
-                succulent.setName(item[0].split("/")[0]);
-                succulent.setLight(Integer.valueOf(item[1]));
-                succulent.setWater(Integer.valueOf(item[2]));
-                beanArrayList.add(succulent);
+                succulentFull.setPage_name(item[0]);
+                succulentFull.setName(item[0].split("/")[0]);
+                succulentFull.setLight(Integer.valueOf(item[1]));
+                succulentFull.setWater(Integer.valueOf(item[2]));
+                beanArrayList.add(succulentFull);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -64,7 +58,7 @@ public class LocalDataUtil {
             ClosableCloser.close(inputStream);
             ClosableCloser.close(bufferedReader);
         }
-        return (Succulent[]) beanArrayList.toArray();
+        return beanArrayList.toArray(new SucculentFull[beanArrayList.size()]);
     }
 
     public static List<Succulent> getSucculents() {

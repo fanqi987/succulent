@@ -3,7 +3,7 @@ package com.fanqi.succulent.util.local;
 import java.util.List;
 
 public interface Saver {
-    void addValue(Object[] value, String flag);
+    void addValue(Object[] value);
 
     void addValues(Object values);
 

@@ -5,7 +5,7 @@ import java.util.List;
 public class SucculentFull extends Succulent {
 
     //图片地址集合
-    protected List<String> imageUrls;
+    protected List<String> imageUrl;
 
     //条目信息集合，标题，内容
     //第1条infos.get(0)是介绍，可以没有标题infos.get(0)[0]
@@ -16,15 +16,15 @@ public class SucculentFull extends Succulent {
 
 
     //因为在保存植物数据前，还没有初始化科属归类，所以先暂时保存他们的名字。
-    protected  String familyName;
-    protected  String GeneraName;
+    protected String familyName;
+    protected String GeneraName;
 
-    public List<String> getImageUrls() {
-        return imageUrls;
+    public List<String> getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageUrls(List<String> imageUrls) {
-        this.imageUrls = imageUrls;
+    public void setImageUrl(List<String> imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public List<String[]> getInfos() {
@@ -57,5 +57,16 @@ public class SucculentFull extends Succulent {
 
     public void setGeneraName(String generaName) {
         GeneraName = generaName;
+    }
+
+    public Succulent getSucculent() {
+        Succulent succulent = new Succulent();
+        succulent.setName(this.getName());
+        succulent.setPage_name(this.getPage_name());
+        succulent.setWater(this.getWater());
+        succulent.setLight(this.getLight());
+        succulent.setFamily_id(this.getFamily_id());
+        succulent.setGenera_id(this.getGenera_id());
+        return succulent;
     }
 }

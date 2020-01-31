@@ -31,9 +31,9 @@ public class NetworkUtil {
         requester.doPullDataFromPage(mByPullListener, values);
     }
 
-    public void postFullDataToServer(PagesBaseDataResolver pagesBaseDataResolver, MyDataThreadPool myDataThreadPool) {
+    public void postFullDataToServer(PagesBaseDataResolver pagesBaseDataResolver) {
         SucculentPostRequester requester = new SucculentPostRequester();
-        requester.doPostDataToServer(mPostDataListener, pagesBaseDataResolver, myDataThreadPool);
+        requester.doPostDataToServer(mPostDataListener, pagesBaseDataResolver);
     }
 
     public void requestGetMediaInfo(String pageName) {

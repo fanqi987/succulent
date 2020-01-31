@@ -17,10 +17,4 @@ public abstract class Requester {
         mThreadPool = new MyDataThreadPool(mExecutor);
         mCallback.setThreadPool(mThreadPool);
     }
-
-    protected ResponseBody getResponseBody() throws Exception {
-        Constructor constructor = ResponseBody.class.getConstructor();
-        constructor.setAccessible(true);
-        return (ResponseBody) constructor.newInstance();
-    }
 }

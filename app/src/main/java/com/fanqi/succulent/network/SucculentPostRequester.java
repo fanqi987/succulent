@@ -34,8 +34,7 @@ public class SucculentPostRequester extends  Requester{
     }
 
     public void doPostDataToServer(InitializePostDataListener postDataListener,
-                                   PagesBaseDataResolver pagesBaseDataResolver, MyDataThreadPool myDataThreadPool) {
-        this.mThreadPool=myDataThreadPool;
+                                   PagesBaseDataResolver pagesBaseDataResolver) {
         this.mPagesBaseDataResolver = pagesBaseDataResolver;
         mCallback.setThreadPool(mThreadPool);
         mCallback.setInitializePostDataListener(postDataListener);

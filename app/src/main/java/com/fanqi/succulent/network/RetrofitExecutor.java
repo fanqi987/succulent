@@ -1,5 +1,7 @@
 package com.fanqi.succulent.network;
 
+import com.fanqi.succulent.util.constant.Constant;
+
 import java.lang.reflect.Method;
 
 import io.reactivex.Observable;
@@ -30,7 +32,11 @@ public class RetrofitExecutor<T> implements Executor {
                 method = request.getClass().getMethod(requestName);
                 observable = (Observable<T>) method.invoke(request);
             } else {
-                method = request.getClass().getMethod(requestName, args.getClass());
+                Class[] classes = new Class[args.length];
+                for (int i = 0; i < args.length; i++) {
+                    classes[i] = args[i].getClass();
+                }
+                method = request.getClass().getMethod(requestName, classes);
                 observable = (Observable<T>) method.invoke(request, args);
             }
             observable.subscribe(mRetrofitCallback);
@@ -56,11 +62,11 @@ public class RetrofitExecutor<T> implements Executor {
     }
 
     public void setHerokuServer() {
-        mServerName = RequestInterface.baseUrlHeroku;
+        mServerName = Constant.baseUrlHeroku;
     }
 
     public void setBaiduServer() {
-        mServerName = RequestInterface.baseUrlBaidu;
+        mServerName = Constant.baseUrlBaidu;
     }
 
 
@@ -69,8 +75,13 @@ public class RetrofitExecutor<T> implements Executor {
         request = retrofit.create(RequestInterface.class);
     }
 
+    public void initRequester(int timeOut) {
+        retrofit = mRetrofitInitializer.buildDefault(mServerName);
+        request = retrofit.create(RequestInterface.class);
+    }
+
     public void setBaiduImageServer() {
-        mServerName = RequestInterface.baseUrlBaiduPic;
+        mServerName = Constant.baseUrlBaiduPic;
     }
 
     public void setServerName(String serverName) {

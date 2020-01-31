@@ -57,7 +57,7 @@ public class GenusSimiliarNameChanger {
         GENERAS_NAME.add(Arrays.asList(shiErJuanShu));
     }
 
-    public static String setGetNormalGeneraName(List<Family> families, SucculentFull succulentFull) {
+    public static String setGetNormalGeneraName(List<String> familyNames, SucculentFull succulentFull) {
         if (succulentFull != null) {
             for (List<String> genera : GENERAS_NAME) {
                 //找到属中包含的名字，或名字包含属
@@ -65,23 +65,25 @@ public class GenusSimiliarNameChanger {
                     //设置属的标准名字，再返回名字
                     succulentFull.setGeneraName(genera.get(0));
                     //设置属的科id
-                    succulentFull.setFamily_id(families.indexOf(succulentFull.getFamilyName()) + 1);
+                    succulentFull.setFamily_id(familyNames.indexOf(succulentFull.getFamilyName()) + 1);
                     return genera.get(0);
                 } else {
                     // 或名字包含属,循环所有属的别名，若包含，那就设为此名
                     for (String generaName : genera) {
                         if (succulentFull.getGeneraName().contains(generaName)) {
-                            //设置科的标准名字，再返回名字
+                            //设置属的标准名字，再返回名字
                             succulentFull.setGeneraName(genera.get(0));
                             //设置属的科id
-                            succulentFull.setFamily_id(families.indexOf(succulentFull.getFamilyName()) + 1);
+                            succulentFull.setFamily_id(familyNames.indexOf(succulentFull.getFamilyName()) + 1);
                             return genera.get(0);
                         }
                     }
                 }
             }
+            //设置属的标准名字，再返回名字
+            succulentFull.setGeneraName(OTHER_GENERA);
             //设置属的科id
-            succulentFull.setFamily_id(families.indexOf(succulentFull.getFamilyName()));
+            succulentFull.setFamily_id(familyNames.indexOf(succulentFull.getFamilyName()) + 1);
             return OTHER_GENERA;
         }
         return null;

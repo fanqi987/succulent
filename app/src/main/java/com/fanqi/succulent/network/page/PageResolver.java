@@ -1,5 +1,7 @@
 package com.fanqi.succulent.network.page;
 
+import com.fanqi.succulent.util.constant.Constant;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -14,17 +16,19 @@ public class PageResolver {
 
     public static List<String> resolveImageUrl(Document document) {
         List<String> urls = new ArrayList<>();
-        Elements elements = document.select(PagesHtmlConstant.IMAGE_URL_CHOOSER);
-        urls.add(elements.first().attr("src").split(PagesHtmlConstant.IMAGE_URL_SPLITER)[0]);
+        Elements elements = document.select(PagesHtmlConstant.IMAGE_DATA_CHOOSER);
+        urls.add(Constant.baseUrlBaiduDataImg +
+                elements.first().attr(PagesHtmlConstant.IMAGE_DATA_ATTR));
         return urls;
     }
 
 
     public static List<String> resolveImageUrls(Document document) {
         List<String> urls = new ArrayList<>();
-        Elements elements = document.select(PagesHtmlConstant.IMAGE_URL_CHOOSER);
+        Elements elements = document.select(PagesHtmlConstant.IMAGE_DATA_CHOOSER);
         for (Element element : elements) {
-            urls.add(element.attr("src").split(PagesHtmlConstant.IMAGE_URL_SPLITER)[0]);
+            urls.add(Constant.baseUrlBaiduDataImg +
+                    element.attr(PagesHtmlConstant.IMAGE_DATA_ATTR));
         }
         return urls;
     }

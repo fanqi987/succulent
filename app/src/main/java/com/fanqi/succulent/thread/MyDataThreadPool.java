@@ -2,8 +2,6 @@ package com.fanqi.succulent.thread;
 
 import android.os.Bundle;
 
-import com.fanqi.succulent.activity.adapter.SucculentListAdapter;
-import com.fanqi.succulent.network.RequestInterface;
 import com.fanqi.succulent.network.RetrofitExecutor;
 import com.fanqi.succulent.network.callback.ImageUrlCallback;
 import com.fanqi.succulent.network.page.PageResolver;
@@ -30,8 +28,7 @@ public class MyDataThreadPool {
     private Runnable mRunnable;
 
     public MyDataThreadPool(RetrofitExecutor requester) {
-        mThreadPool = Executors.newFixedThreadPool(
-                Runtime.getRuntime().availableProcessors());
+        mThreadPool = Executors.newFixedThreadPool(1);
         mRequester = requester;
     }
 
@@ -43,11 +40,11 @@ public class MyDataThreadPool {
     }
 
     //第1次进入时的网络请求，参数是将被调用的网络请求方法名
-    public void addFirstEnterTasks(final String requestName,Object[] args) {
+    public void addFirstEnterTasks(final String requestName) {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                mRequester.request(requestName,args);
+                mRequester.request(requestName);
             }
         };
         addTask(mRunnable);
@@ -75,7 +72,7 @@ public class MyDataThreadPool {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                pagesBaseDataResolver.resolve(response);
+
             }
         };
         addTask(mRunnable);
@@ -106,7 +103,7 @@ public class MyDataThreadPool {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                networkUtil.postFullDataToServer(pagesBaseDataResolver, MyDataThreadPool.this);
+                networkUtil.postFullDataToServer(pagesBaseDataResolver);
             }
         };
         addTask(mRunnable);
@@ -134,7 +131,7 @@ public class MyDataThreadPool {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                Document document = Jsoup.parse(RequestInterface.baseUrlBaiduPic +
+                Document document = Jsoup.parse(Constant.baseUrlBaiduPic +
                         pageName + "/0");
                 List<String> urls = PageResolver.resolveImageUrls(document);
                 callback.onResolvedImageUrls(urls);
@@ -149,7 +146,7 @@ public class MyDataThreadPool {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                Document document = Jsoup.parse(RequestInterface.baseUrlBaiduPic +
+                Document document = Jsoup.parse(Constant.baseUrlBaiduPic +
                         pageName + "/0");
                 List<String> urls = PageResolver.resolveImageUrl(document);
                 callback.onResolvedSingleImageUrl(urls, holder);
@@ -162,7 +159,7 @@ public class MyDataThreadPool {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                Document document = Jsoup.parse(RequestInterface.baseUrlBaidu +
+                Document document = Jsoup.parse(Constant.baseUrlBaidu +
                         pageName);
                 Bundle bundle = new Bundle();
                 String summary = PageResolver.resolveItemSummary(document);

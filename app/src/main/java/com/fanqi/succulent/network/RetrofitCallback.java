@@ -3,6 +3,7 @@ package com.fanqi.succulent.network;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.fanqi.succulent.presenter.listener.InitializeByPullListener;
 import com.fanqi.succulent.presenter.listener.InitializeDataListener;
@@ -39,6 +40,8 @@ public class RetrofitCallback<T> implements Observer<T> {
 
     private int mInitializePostDataCount;
 
+    private int mPullPagesCount = 0;
+
     public RetrofitCallback() {
         mInitializePostDataCount = 0;
     }
@@ -54,6 +57,7 @@ public class RetrofitCallback<T> implements Observer<T> {
 
     @Override
     public void onNext(T value) {
+
         initializeDataProcess(value);
         initializeByPullProcess(value);
         initializePostDataProcess(value);
@@ -74,6 +78,7 @@ public class RetrofitCallback<T> implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
+        Log.e("onError", e.toString());
         e.printStackTrace();
         //初始化数据监听非空时，则通知数据失败
         if (mInitializeDataListener != null) {
@@ -96,10 +101,11 @@ public class RetrofitCallback<T> implements Observer<T> {
         // 判断是否数据大小正确
         // 再通知数据成功,3个不同实体类的数组
         if (mInitializeDataListener != null) {
+            Log.e("onNext DataProcess", value.toString());
+
             mBeanDataSaver = new SaverProvider(value).getSaver();
             if (!((BeanSaver) mBeanDataSaver).checkCount(value)) {
                 //立即关闭线程池，并通知网页api获取失败
-                mThreadPool.getThreadPool().shutdownNow();
                 mInitializeDataListener.onNetDataFailed();
                 return;
             }
@@ -109,11 +115,15 @@ public class RetrofitCallback<T> implements Observer<T> {
     }
 
     private void initializeByPullProcess(T value) {
+
         //爬虫数据监听非空时，则通知数据成功
         mValue = value;
         if (mInitializeByPullListener != null) {
+            Log.e("onNext PullProcess", value.toString());
+            Log.e("onNext PullProcess", String.valueOf(++mPullPagesCount));
+
             try {
-                mInitializeByPullListener.onPullSuccess(((ResponseBody) mValue).string(), mThreadPool);
+                mInitializeByPullListener.onPullSuccess(((ResponseBody) mValue).string());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -122,6 +132,7 @@ public class RetrofitCallback<T> implements Observer<T> {
 
     private void initializePostDataProcess(T value) {
         if (mInitializePostDataListener != null) {
+            Log.e("onNext PostDataProcess", value.toString());
             mInitializePostDataCount++;
             mInitializePostDataListener.onPostSuccess(mInitializePostDataCount);
             if (mInitializePostDataCount ==
@@ -135,6 +146,7 @@ public class RetrofitCallback<T> implements Observer<T> {
 
     @Override
     public void onComplete() {
+        Log.e("onComplete", "onComplete");
         mDisposable.dispose();
     }
 

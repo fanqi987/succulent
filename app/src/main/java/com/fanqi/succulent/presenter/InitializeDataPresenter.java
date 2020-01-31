@@ -1,8 +1,11 @@
 package com.fanqi.succulent.presenter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
+import com.fanqi.succulent.bean.Family;
+import com.fanqi.succulent.bean.Genera;
 import com.fanqi.succulent.bean.Succulent;
 import com.fanqi.succulent.bean.SucculentFull;
 import com.fanqi.succulent.network.page.PagesBaseDataResolver;
@@ -14,6 +17,8 @@ import com.fanqi.succulent.thread.MyDataThreadPool;
 import com.fanqi.succulent.util.LocalDataUtil;
 import com.fanqi.succulent.util.NetworkUtil;
 import com.fanqi.succulent.util.local.BeanSaver;
+
+import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,19 +39,19 @@ public class InitializeDataPresenter implements
     private ProgressBarCallback mProgressBarCallback;
     private BeanSaver mBeanSaver;
     private PagesBaseDataResolver mPagesBaseDataResolver;
-    private MyDataThreadPool mMyDataThreadPool;
 
-    private List<SucculentFull> mSucculents;
+    private List<SucculentFull> mSucculentFulls;
     private int mPulledNumber;
     private int mSucculentsCount;
 
+    private int mInitLocalDataCount = 0;
+
     private InitializeDataPresenter() {
-        mMyDataThreadPool = new MyDataThreadPool();
         mPagesBaseDataResolver = new PagesBaseDataResolver();
         mNetworkUtil = new NetworkUtil();
         mRequestSuccessCount = 0;
         mPulledNumber = 0;
-        mSucculents = new ArrayList<>();
+        mSucculentFulls = new ArrayList<>();
 
     }
 
@@ -72,16 +77,26 @@ public class InitializeDataPresenter implements
 
     }
 
-    private void initLocalData() {
-        Succulent[] succulents = LocalDataUtil.getAssetsPlantInfo(mContext);
-        mSucculentsCount = succulents.length;
-        mSucculents = Arrays.asList((SucculentFull[]) succulents);
+    private synchronized void initLocalData() {
+        ++mInitLocalDataCount;
+        Log.e("init local data", String.valueOf(mInitLocalDataCount));
+        LitePal.deleteAll(Succulent.class);
+        LitePal.deleteAll(Family.class);
+        LitePal.deleteAll(Genera.class);
+
+        SucculentFull[] succulentFulls = LocalDataUtil.getAssetsPlantInfo(mContext);
+        mSucculentFulls = Arrays.asList(succulentFulls);
+        mSucculentsCount = mSucculentFulls.size();
         //把从文件获取的初始数据列表设置到页面解析者中
-        mPagesBaseDataResolver.initDataList(mSucculents);
-        //读取完成，保存到本地数据库
+        mPagesBaseDataResolver.initDataList(mSucculentFulls);
+        //读取完成，保存到 beanSaver
+        Succulent[] succulents = new Succulent[succulentFulls.length];
+        for (int i = 0; i < succulentFulls.length; i++) {
+            succulents[i] = succulentFulls[i].getSucculent();
+        }
         mBeanSaver = new BeanSaver();
         mBeanSaver.addValue(succulents);
-        mBeanSaver.saveToLocal();
+//        mBeanSaver.saveToLocal();
         //开始从网上爬虫文字数据
         mNetworkUtil.setInitializeByPullListener(this);
         //开始爬虫
@@ -108,16 +123,16 @@ public class InitializeDataPresenter implements
     public void onNetDataFailed() {
         //失败的话，从assets读取植物信息文件
         Log.e("服务器初始化数据失败", "服务器获取初始化数据失败");
-        initLocalData();
+        if (mInitLocalDataCount == 0) {
+            initLocalData();
+        }
     }
 
     @Override
-    public void onPullSuccess(String response, MyDataThreadPool threadPool) {
+    public void onPullSuccess(String response) {
         //爬虫成功
         //开始处理爬虫数据
-        //这里也可以加入线程任务中
-        mMyDataThreadPool = threadPool;
-        mMyDataThreadPool.addPageResolveTask(mPagesBaseDataResolver, response);
+        mPagesBaseDataResolver.resolve(response);
         //再保存到数据库
         //到达了获取的值那么就增加新任务，保存到db，然后现在这个任务结束
         mPulledNumber++;
@@ -126,14 +141,19 @@ public class InitializeDataPresenter implements
         if (mPulledNumber == mSucculentsCount) {
             Log.e("爬虫全部成功", "爬虫全部成功");
             //  保存到本地数据库
-            mMyDataThreadPool.addSaveResolved(mPagesBaseDataResolver);
+            mPagesBaseDataResolver.saveToDB();
             //爬虫结束
             //接在其它回调后面
-            mProgressBarCallback.onCompleteFirstWork();
+            ((Activity) mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mProgressBarCallback.onCompleteFirstWork();
+                }
+            });
             //再上传到服务器数据库
             //上传完整的数据到服务器
             mNetworkUtil.setInitializePostDataListener(this);
-            mMyDataThreadPool.addPostToServerTask(mPagesBaseDataResolver, mNetworkUtil);
+            mNetworkUtil.postFullDataToServer(mPagesBaseDataResolver);
         }
     }
 
