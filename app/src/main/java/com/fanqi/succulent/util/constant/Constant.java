@@ -16,14 +16,14 @@ public class Constant {
     public static final int DAY_MILLISECONDS = 24 * 60 * 60 * 1000;
 
     //统计后的结果，包括科属多包括一个"其它科和其它属"
-    public static final int FAMILY_COUNT = 6;
+    public static final int FAMILY_COUNT = 7;
     public static final int GENERAS_COUNT = 12;
     public static final int SUCCULENT_COUNT = 148;
 
     public class ViewModel {
         public static final String SUCCULENT = "succulent";
         public static final String IMAGE = "image";
-        public static final String SUMMARY = "summary";
+        public static final String TEXTS = "texts";
         public static final String INFO_TITLE = "info_title";
         public static final String INFO_CONTENT = "info_content";
         public static final String VIEW_HOLDER = "view_holder";

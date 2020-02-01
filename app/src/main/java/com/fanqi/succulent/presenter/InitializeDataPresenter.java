@@ -107,14 +107,17 @@ public class InitializeDataPresenter implements
     @Override
     public void onNetDataSuccess(BeanSaver beanDataSaver, Object[] value) {
         mRequestSuccessCount++;
-        beanDataSaver.addValue(value);
+        if (mBeanSaver == null) {
+            mBeanSaver = beanDataSaver;
+        }
+        mBeanSaver.addValue(value);
         if (mRequestSuccessCount == FIRST_INIT_TABLE_NUMBER) {
             //若成功
             //保存到本地数据库中，最后初始化页面，
             //数据库现在full
             Log.e("服务器初始化数据成功", "服务器初始化数据成功");
-            beanDataSaver.saveToLocal();
-            beanDataSaver.clean();
+            mBeanSaver.saveToLocal();
+            mBeanSaver.clean();
             mProgressBarCallback.onCompleteFirstWork();
         }
     }
@@ -183,14 +186,4 @@ public class InitializeDataPresenter implements
         Log.e("提交初始化数据已全部完成", "<已经全部完成！>");
         threadPool.getThreadPool().shutdown();
     }
-//    @Override
-//    public void onLocalDataSuccess() {
-//
-//    }
-//
-//    @Override
-//    public void onLocalDataFailed() {
-//
-//    }
-
 }

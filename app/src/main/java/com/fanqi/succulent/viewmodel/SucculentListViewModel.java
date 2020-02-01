@@ -42,15 +42,15 @@ public class SucculentListViewModel extends BaseViewModel implements
     public void initView() {
         GridLayoutManager layoutManager = new GridLayoutManager(mFragment.getContext(), 2);
         mBinding.succulentListRecyclerView.setLayoutManager(layoutManager);
-        mListAdapter = new SucculentListAdapter(mFragment.getContext(), mBroccoli);
-        mListAdapter.setData(mSucculentList);
+        mListAdapter = new SucculentListAdapter(mFragment, mBroccoli);
+        mListAdapter.setData(mSucculentList.subList(0, 19));
         mListAdapter.setItemClickedCallback(this);
         mBinding.succulentListRecyclerView.setAdapter(mListAdapter);
     }
 
     @Override
     public void onRefresh() {
-        mListAdapter = new SucculentListAdapter(mFragment.getContext(), mBroccoli);
+        mListAdapter = new SucculentListAdapter(mFragment, mBroccoli);
         mListAdapter.setData(mSucculentList);
         mBinding.succulentListRecyclerView.setAdapter(mListAdapter);
         mMainAcBinding.swipeRefreshLayout.setRefreshing(false);

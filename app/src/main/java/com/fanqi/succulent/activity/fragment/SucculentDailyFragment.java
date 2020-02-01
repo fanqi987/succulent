@@ -18,19 +18,17 @@ public class SucculentDailyFragment extends BaseFragment {
 
     private SucculentDailyViewModel model;
     private SucculentDailyFragmentBinding mBinding;
-    private int mDailyItemNumber;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        LayoutInflater.from(this, R.layout.)
         mBinding = DataBindingUtil.inflate(inflater, R.layout.succulent_daily_fragment,
                 container, false);
         model = new SucculentDailyViewModel();
+        mBinding.setModel(model);
         model.setBroccoli(mBroccoli);
         model.setFragment(this);
         model.setBinding(mBinding);
-        mBinding.setModel(model);
         View v = mBinding.getRoot();
         return v;
     }

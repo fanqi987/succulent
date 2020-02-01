@@ -70,7 +70,7 @@ public class LocalDataUtil {
 
 
     public static Family findFamily(int post_id) {
-        return LitePal.where("post_id", String.valueOf(post_id)).find(Family.class).get(0);
+        return LitePal.where("post_id = ?", String.valueOf(post_id)).find(Family.class).get(0);
     }
 
     public static List<Family> getFamilies() {
@@ -81,7 +81,7 @@ public class LocalDataUtil {
     }
 
     public static Genera findGenera(int post_id) {
-        return LitePal.where("post_id", String.valueOf(post_id)).find(Genera.class).get(0);
+        return LitePal.where("post_id = ?", String.valueOf(post_id)).find(Genera.class).get(0);
     }
 
     public static List<Genera> getGeneras() {

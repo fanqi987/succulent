@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorGreen200"
                 android:padding="10dp"
-                android:text="@{model.mBean.name}" />
+                android:text="@{model.mBean.getName}" />
         </com.fanqi.succulent.activity.view.SucculentDailyCardView>
 
 
@@ -69,7 +69,7 @@
                 android:layout_gravity="left"
                 android:background="@color/colorGreen200"
                 android:padding="10dp"
-                android:text="@{model.mBean.familyName}" />
+                android:text="@{model.mBean.getFamilyName}" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -88,7 +88,7 @@
                 android:layout_gravity="left"
                 android:background="@color/colorGreen200"
                 android:padding="10dp"
-                android:text="@{model.mBean.generaName}" />
+                android:text="@{model.mBean.getGeneraName}" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorGreen200"
                 android:padding="10dp"
-                android:text="@{model.mBean.summary}" />
+                android:text="@{model.mBean.getSummary}" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -125,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorGreen200"
                 android:padding="10dp"
-                android:text="@{model.mBean.light}" />
+                android:text="@{model.mBean.getLight}" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -145,7 +145,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorGreen200"
                 android:padding="10dp"
-                android:text="@{model.mBean.water}" />
+                android:text="@{model.mBean.getWater}" />
 
         </androidx.cardview.widget.CardView>
 

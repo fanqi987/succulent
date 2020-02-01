@@ -19,7 +19,7 @@ public class SucculentFull extends Succulent {
     protected String familyName;
     protected String GeneraName;
 
-    public List<String> getImageUrl() {
+    public List<String> getImageUrls() {
         return imageUrl;
     }
 

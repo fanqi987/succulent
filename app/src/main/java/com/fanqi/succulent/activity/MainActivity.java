@@ -17,7 +17,7 @@ import com.fanqi.succulent.viewmodel.MainViewModel;
 
 public class MainActivity extends BaseActivity {
 
-    private MainViewModel model;
+    public MainViewModel model;
     private NavigationPresenter mNavigationPresenter;
     private ProgressUIPresenter mProgressUIPresenter;
     private CallbackPresenter mCallbackPresenter;
@@ -41,7 +41,9 @@ public class MainActivity extends BaseActivity {
         // 获取初始化数据代理者
         mInitializeDataPresenter = InitializeDataPresenter.getInstance();
         //判断是否第1次进入,标志在sharedPreference工具获取
-        PreferenceUtil.setFirstEnterFlag(true);
+
+        //todo 之后调试好上传，需要删除这句
+//        PreferenceUtil.setFirstEnterFlag(true);
         if (PreferenceUtil.getFirstEnterFlag()) {
             //创建后台进度提示进度框相关UI的代理者
             mProgressUIPresenter = new ProgressUIPresenter(this, mNavigationPresenter);

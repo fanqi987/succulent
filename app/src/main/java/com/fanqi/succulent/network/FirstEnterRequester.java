@@ -18,7 +18,7 @@ public class FirstEnterRequester extends Requester {
     public void doFirstInfoRequest(InitializeDataListener dataListener) {
         //请求3项内容，植物数据，科数据，属数据，必须全部请求成功
         mExecutor.setHerokuServer();
-        mExecutor.initRequester();
+        mExecutor.initRequester(60);
         mCallback.setInitializeDataListener(dataListener);
 
 //        mCallback.setValue(new Succulent[0]);

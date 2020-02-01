@@ -24,6 +24,7 @@ public class PageResolver {
 
 
     public static List<String> resolveImageUrls(Document document) {
+
         List<String> urls = new ArrayList<>();
         Elements elements = document.select(PagesHtmlConstant.IMAGE_DATA_CHOOSER);
         for (Element element : elements) {
@@ -34,7 +35,26 @@ public class PageResolver {
     }
 
     public static String resolveItemSummary(Document document) {
-        Elements elements = document.select(PagesHtmlConstant.INFOS_SUMMARY_CHOOSER);
+        return resolve(document, PagesHtmlConstant.INFOS_SUMMARY_CHOOSER);
+
+    }
+
+    public static String resolveItemFamily(Document document) {
+        return resolve(document, PagesHtmlConstant.FAMILY_CHOOSER);
+
+    }
+
+    public static String resolveItemGenera(Document document) {
+        return resolve(document, PagesHtmlConstant.GENUS_CHOOSER);
+
+    }
+
+    public static String resolveItemName(Document document) {
+        return resolve(document, PagesHtmlConstant.NAME_CHOOSER);
+    }
+
+    public static String resolve(Document document, String chooser) {
+        Elements elements = document.select(chooser);
         return elements.first().text();
     }
 }

@@ -1,5 +1,8 @@
 package com.fanqi.succulent.network;
 
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.CallAdapter;
 import retrofit2.Converter;
@@ -44,6 +47,22 @@ public class RetrofitInitializer {
                 .baseUrl(mServerName)
                 .addConverterFactory(mConverterFactory)
                 .addCallAdapterFactory(mCallAdapterFactory)
+                .build();
+    }
+
+    public Retrofit buildWithTimeout(String serverName, int timeoutSeconds) {
+        mServerName = serverName;
+        mConverterFactory = GsonConverterFactory.create();
+        mCallAdapterFactory = RxJava2CallAdapterFactory.create();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(timeoutSeconds, TimeUnit.SECONDS)
+                .readTimeout(timeoutSeconds, TimeUnit.SECONDS)
+                .writeTimeout(timeoutSeconds, TimeUnit.SECONDS).build();
+        return new Retrofit.Builder()
+                .baseUrl(mServerName)
+                .addConverterFactory(mConverterFactory)
+                .addCallAdapterFactory(mCallAdapterFactory)
+                .client(client)
                 .build();
     }
 }

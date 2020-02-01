@@ -2,7 +2,6 @@ package com.fanqi.succulent.network;
 
 import android.os.Bundle;
 
-import com.fanqi.succulent.activity.adapter.SucculentListAdapter;
 import com.fanqi.succulent.network.callback.ImageUrlCallback;
 import com.fanqi.succulent.util.constant.Constant;
 import com.fanqi.succulent.viewmodel.listener.ViewModelCallback;
@@ -20,7 +19,7 @@ public class MediaInfoRequester extends Requester
         mViewModelCallback = viewModelCallback;
         mExecutor.setBaiduImageServer();
         mExecutor.initRequester();
-        mThreadPool.addResolveTextPageTask(pageName, viewModelCallback);
+        mThreadPool.addResolvePageTextInfoTask(pageName, viewModelCallback);
         mThreadPool.addResolveMediaPageTask(pageName, this);
     }
 
@@ -35,10 +34,6 @@ public class MediaInfoRequester extends Requester
     @Override
     public void onResolvedImageUrls(List<String> urls) {
         for (String url : urls) {
-            //todo 使用Glide
-//            mExecutor.setServerName(url);
-//            mExecutor.initRequester();
-//            mThreadPool.addGetMediaInfoTask();
             Bundle bundle = new Bundle();
             bundle.putString(Constant.ViewModel.IMAGE, url);
             mViewModelCallback.onSuccessed(bundle);

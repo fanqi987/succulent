@@ -75,8 +75,8 @@ public class RetrofitExecutor<T> implements Executor {
         request = retrofit.create(RequestInterface.class);
     }
 
-    public void initRequester(int timeOut) {
-        retrofit = mRetrofitInitializer.buildDefault(mServerName);
+    public void initRequester(int timeOutSeconds) {
+        retrofit = mRetrofitInitializer.buildWithTimeout(mServerName, timeOutSeconds);
         request = retrofit.create(RequestInterface.class);
     }
 

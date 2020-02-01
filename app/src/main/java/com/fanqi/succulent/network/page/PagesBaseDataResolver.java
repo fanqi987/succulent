@@ -105,26 +105,28 @@ public class PagesBaseDataResolver {
             succulentFull.setGeneraName(mElements.first().text().trim());
         }
         //找摘要信息
-        mElements = document.select(PagesHtmlConstant.INFOS_SUMMARY_CHOOSER);
-        ArrayList<String[]> infos = new ArrayList<>();
-        infos.add(new String[]{"", mElements.first().text()});
-        succulentFull.setInfos(infos);
+
+//        mElements = document.select(PagesHtmlConstant.INFOS_SUMMARY_CHOOSER);
+//        ArrayList<String[]> infos = new ArrayList<>();
+//        infos.add(new String[]{"", mElements.first().text()});
+//        succulentFull.setInfos(infos);
+
         //找图片data属性
 
 
-        try {
-            document = Jsoup.connect(Constant.baseUrlBaiduPic
-                    + succulentFull.getPage_name() + "/0/#").get();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mElements = document.select(PagesHtmlConstant.IMAGE_DATA_CHOOSER);
-        ArrayList<String> imageUrl = new ArrayList<>();
-        for (Element element : mElements) {
-            imageUrl.add(Constant.baseUrlBaiduDataImg +
-                    element.attr(PagesHtmlConstant.IMAGE_DATA_ATTR));
-        }
-        succulentFull.setImageUrl(imageUrl);
+//        try {
+//            document = Jsoup.connect(Constant.baseUrlBaiduPic
+//                    + succulentFull.getPage_name() + "/0/#").get();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        mElements = document.select(PagesHtmlConstant.IMAGE_DATA_CHOOSER);
+//        ArrayList<String> imageUrl = new ArrayList<>();
+//        for (Element element : mElements) {
+//            imageUrl.add(Constant.baseUrlBaiduDataImg +
+//                    element.attr(PagesHtmlConstant.IMAGE_DATA_ATTR));
+//        }
+//        succulentFull.setImageUrl(imageUrl);
 
 
 //        mSucculentFulls.add(succulentFull);

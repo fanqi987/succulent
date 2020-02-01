@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -18,6 +19,7 @@ import com.fanqi.succulent.R;
 import com.fanqi.succulent.bean.Succulent;
 import com.fanqi.succulent.databinding.SucculentListItemLayoutBinding;
 import com.fanqi.succulent.util.NetworkUtil;
+import com.fanqi.succulent.util.SettingsUtil;
 import com.fanqi.succulent.util.constant.Constant;
 import com.fanqi.succulent.viewmodel.SucculentListItemViewModel;
 import com.fanqi.succulent.viewmodel.listener.SucculentItemClickedCallback;
@@ -32,6 +34,7 @@ import me.samlss.broccoli.Broccoli;
 public class SucculentListAdapter extends RecyclerView.Adapter<SucculentListAdapter.ViewHolder>
         implements ViewModelCallback {
 
+    private Fragment mFragment;
     private Context mContext;
     private Broccoli mBroccoli;
     private SucculentListItemLayoutBinding mBinding;
@@ -39,9 +42,10 @@ public class SucculentListAdapter extends RecyclerView.Adapter<SucculentListAdap
     private NetworkUtil mNetworkUtil;
     private SucculentItemClickedCallback mItemClickedCallback;
 
-    public SucculentListAdapter(Context context, Broccoli broccoli) {
+    public SucculentListAdapter(Fragment fragment, Broccoli broccoli) {
         mBroccoli = broccoli;
-        mContext = context;
+        mFragment = fragment;
+        mContext = mFragment.getContext();
         mSucculentList = new ArrayList<>();
         mNetworkUtil = new NetworkUtil();
         mNetworkUtil.setViewModelCallback(this);
@@ -61,6 +65,9 @@ public class SucculentListAdapter extends RecyclerView.Adapter<SucculentListAdap
         viewHolder.textView = mBinding.succulentListItemTextView;
         //todo 需要设置imageView的高度
         viewHolder.imageView = mBinding.succulentListItemImage;
+        ViewGroup.LayoutParams layoutParams = viewHolder.imageView.getLayoutParams();
+        layoutParams.height = (int) (SettingsUtil.getDisplayMetrics(mFragment.getActivity())
+                .widthPixels / 2 * 0.8);
         return viewHolder;
     }
 
@@ -92,7 +99,12 @@ public class SucculentListAdapter extends RecyclerView.Adapter<SucculentListAdap
         String url = object.getString(Constant.ViewModel.IMAGE);
         ViewHolder viewHolder = (ViewHolder) object.getSerializable(Constant.ViewModel.VIEW_HOLDER);
         viewHolder.url = url;
-        Glide.with(mContext).load(url).into(viewHolder.imageView);
+        mFragment.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Glide.with(mContext).load(url).into(viewHolder.imageView);
+            }
+        });
         mBroccoli.removePlaceholder(viewHolder.imageView);
     }
 

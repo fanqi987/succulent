@@ -3,21 +3,17 @@ package com.fanqi.succulent.viewmodel;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
-import com.fanqi.succulent.activity.fragment.SucculentFragment;
 import com.fanqi.succulent.bean.Succulent;
 import com.fanqi.succulent.databinding.SucculentItemDetailLayoutBinding;
 import com.fanqi.succulent.util.LocalDataUtil;
 import com.fanqi.succulent.util.NetworkUtil;
 import com.fanqi.succulent.util.constant.Constant;
-import com.fanqi.succulent.viewmodel.bean.SucculentDailyViewBean;
 import com.fanqi.succulent.viewmodel.bean.SucculentViewBean;
 import com.fanqi.succulent.viewmodel.listener.ViewModelCallback;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import me.samlss.broccoli.Broccoli;
 
 /**
  * 具体信息页面的model
@@ -97,8 +93,8 @@ public class SucculentViewModel extends BaseViewModel implements ViewModelCallba
 
     @Override
     public void onSuccessed(Bundle bundle) {
-        if (bundle.getString(Constant.ViewModel.SUMMARY) != null) {
-            mBean.setSummary(bundle.getString(Constant.ViewModel.SUMMARY));
+        if (bundle.getString(Constant.ViewModel.TEXTS) != null) {
+            mBean.setSummary(bundle.getString(Constant.ViewModel.TEXTS));
             mBroccoli.removePlaceholder(mBinding.itemDetailIntroCardview);
         }
         if (bundle.get(Constant.ViewModel.IMAGE) != null) {

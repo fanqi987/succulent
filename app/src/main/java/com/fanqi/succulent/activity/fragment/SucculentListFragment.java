@@ -22,7 +22,8 @@ public class SucculentListFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.succulent_list_fragment, container, false);
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.succulent_list_fragment,
+                container, false);
         model = new SucculentListViewModel();
         mBinding.setModel(model);
         model.setBroccoli(mBroccoli);

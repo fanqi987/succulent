@@ -19,6 +19,7 @@ public class PagesHtmlConstant {
     //需要调用专用的图片地址
     public static final String IMAGE_DATA_CHOOSER = ".pic-list a";
     public static final String IMAGE_DATA_ATTR = "data-sign";
+    public static final String IMAGE_PAGE_SUFFIX = "/0/#";
 
 //    public static final String IMAGE_CONTACT_STRING = "/0/#aid=0&pic=";
 //    public static final String IMAGE_ID_ATTR = "imgPicture";

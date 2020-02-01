@@ -37,7 +37,12 @@ public class ProgressUIPresenter implements
         PreferenceUtil.setFirstEnterFlag(false);
 
         //  初始化页面
-        mNavigationPresenter.firstNavigate();
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mNavigationPresenter.firstNavigate();
+            }
+        });
     }
 
     @Override

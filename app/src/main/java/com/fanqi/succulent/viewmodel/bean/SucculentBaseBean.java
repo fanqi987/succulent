@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
+import androidx.databinding.library.baseAdapters.BR;
 
 public class SucculentBaseBean extends BaseObservable {
 
@@ -20,7 +21,8 @@ public class SucculentBaseBean extends BaseObservable {
     }
 
     public void setWater(String water) {
-        this.water = water;
+        this.water = "水分：" + water;
+        notifyPropertyChanged(BR._all);
     }
 
     public String getLight() {
@@ -28,7 +30,9 @@ public class SucculentBaseBean extends BaseObservable {
     }
 
     public void setLight(String light) {
-        this.light = light;
+        this.light = "光照：" + light;
+        notifyPropertyChanged(BR._all);
+
     }
 
     @Bindable
@@ -38,6 +42,8 @@ public class SucculentBaseBean extends BaseObservable {
 
     public void setName(String name) {
         this.name = name;
+        notifyPropertyChanged(BR.name);
+
     }
 
     @Bindable
@@ -47,6 +53,8 @@ public class SucculentBaseBean extends BaseObservable {
 
     public void setFamilyName(String familyName) {
         this.familyName = familyName;
+        notifyPropertyChanged(BR.familyName);
+
     }
 
     @Bindable
@@ -56,6 +64,8 @@ public class SucculentBaseBean extends BaseObservable {
 
     public void setGeneraName(String genera) {
         this.genera = genera;
+        notifyPropertyChanged(BR.generaName);
+
     }
 
     @Bindable
@@ -74,6 +84,7 @@ public class SucculentBaseBean extends BaseObservable {
 
     public void setSummary(String summary) {
         this.summary = summary;
+        notifyPropertyChanged(BR.summary);
     }
 
 }

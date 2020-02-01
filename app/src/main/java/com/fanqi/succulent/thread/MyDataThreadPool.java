@@ -2,38 +2,65 @@ package com.fanqi.succulent.thread;
 
 import android.os.Bundle;
 
+import com.fanqi.succulent.bean.SucculentFull;
 import com.fanqi.succulent.network.RetrofitExecutor;
 import com.fanqi.succulent.network.callback.ImageUrlCallback;
 import com.fanqi.succulent.network.page.PageResolver;
 import com.fanqi.succulent.network.page.PagesBaseDataResolver;
+import com.fanqi.succulent.network.page.PagesHtmlConstant;
 import com.fanqi.succulent.util.NetworkUtil;
 import com.fanqi.succulent.util.constant.Constant;
 import com.fanqi.succulent.viewmodel.listener.ViewModelCallback;
+import com.google.gson.JsonObject;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MyDataThreadPool {
 
-
-    private ExecutorService mThreadPool;
-    private RetrofitExecutor mRequester;
+    private static ExecutorService mThreadPool;
+    private RetrofitExecutor mExecutor;
 
     private Runnable mRunnable;
 
-    public MyDataThreadPool(RetrofitExecutor requester) {
-        mThreadPool = Executors.newFixedThreadPool(1);
-        mRequester = requester;
+//    private MyDataThreadPool() {
+////        mThreadPool = MyDataThreadPoolCreator.sExecutorService;
+//    }
+
+    public MyDataThreadPool(RetrofitExecutor executor) {
+        if (mThreadPool == null) {
+            mThreadPool = Executors.newFixedThreadPool(1);
+        }
+        mExecutor = executor;
     }
 
-    public MyDataThreadPool() {
+    public MyDataThreadPool(RetrofitExecutor executor, int processorCount) {
+        if (mThreadPool == null) {
+            mThreadPool = Executors.newFixedThreadPool(processorCount);
+        }
+        mExecutor = executor;
     }
+
+//    public static MyDataThreadPool getInstance() {
+////        MyDataThreadPoolCreator.sMyDataThreadPool;
+//        return MyDataThreadPoolCreator.sMyDataThreadPool;
+//    }
+//
+//    public void setExecutor(RetrofitExecutor executor) {
+//        mExecutor = executor;
+//    }
+
+//    private static class MyDataThreadPoolCreator {
+//        private static ExecutorService sExecutorService = Executors.newFixedThreadPool(1);
+//        private static MyDataThreadPool sMyDataThreadPool = new MyDataThreadPool();
+//    }
 
     public void addTask(Runnable runable) {
         mThreadPool.submit(runable);
@@ -44,7 +71,7 @@ public class MyDataThreadPool {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                mRequester.request(requestName);
+                mExecutor.request(requestName);
             }
         };
         addTask(mRunnable);
@@ -59,7 +86,7 @@ public class MyDataThreadPool {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                mRequester.request(requestName, pageName);
+                mExecutor.request(requestName, pageName);
             }
         };
         addTask(mRunnable);
@@ -112,11 +139,11 @@ public class MyDataThreadPool {
     /**
      * 增加post请求任务
      */
-    public void addPostItemTask(final String family, final Map<String, Object> postMap) {
+    public void addPostItemTask(final String family, final JsonObject requestBody) {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                mRequester.request(family, postMap);
+                mExecutor.request(family, requestBody);
             }
         };
         addTask(mRunnable);
@@ -131,8 +158,13 @@ public class MyDataThreadPool {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                Document document = Jsoup.parse(Constant.baseUrlBaiduPic +
-                        pageName + "/0");
+                Document document = null;
+                try {
+                    document = Jsoup.connect(Constant.baseUrlBaiduPic +
+                            pageName + PagesHtmlConstant.IMAGE_PAGE_SUFFIX).get();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 List<String> urls = PageResolver.resolveImageUrls(document);
                 callback.onResolvedImageUrls(urls);
             }
@@ -146,8 +178,13 @@ public class MyDataThreadPool {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                Document document = Jsoup.parse(Constant.baseUrlBaiduPic +
-                        pageName + "/0");
+                Document document = null;
+                try {
+                    document = Jsoup.connect(Constant.baseUrlBaiduPic +
+                            pageName + PagesHtmlConstant.IMAGE_PAGE_SUFFIX).get();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 List<String> urls = PageResolver.resolveImageUrl(document);
                 callback.onResolvedSingleImageUrl(urls, holder);
             }
@@ -155,15 +192,25 @@ public class MyDataThreadPool {
         addTask(mRunnable);
     }
 
-    public void addResolveTextPageTask(final String pageName, final ViewModelCallback viewModelCallback) {
+    public void addResolvePageTextInfoTask(final String pageName, final ViewModelCallback viewModelCallback) {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                Document document = Jsoup.parse(Constant.baseUrlBaidu +
-                        pageName);
+                Document document = null;
+                try {
+                    document = Jsoup.connect(Constant.baseUrlBaidu +
+                            pageName).get();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 Bundle bundle = new Bundle();
-                String summary = PageResolver.resolveItemSummary(document);
-                bundle.putString(Constant.ViewModel.SUMMARY, summary);
+                SucculentFull succulentFull = new SucculentFull();
+                List<String[]> infos = new ArrayList<>();
+                infos.add(new String[]{"", PageResolver.resolveItemSummary(document)});
+                succulentFull.setInfos(infos);
+                succulentFull.setFamilyName(PageResolver.resolveItemFamily(document));
+                succulentFull.setGeneraName(PageResolver.resolveItemGenera(document));
+                bundle.putSerializable(Constant.ViewModel.TEXTS, succulentFull);
                 viewModelCallback.onSuccessed(bundle);
             }
         };
@@ -174,7 +221,7 @@ public class MyDataThreadPool {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                mRequester.request();
+                mExecutor.request();
             }
         };
         addTask(mRunnable);

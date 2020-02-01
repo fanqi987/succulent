@@ -5,11 +5,15 @@ import com.fanqi.succulent.bean.Genera;
 import com.fanqi.succulent.bean.Succulent;
 import com.fanqi.succulent.bean.User;
 import com.fanqi.succulent.bean.UserFavorite;
+import com.google.gson.JsonObject;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import retrofit2.http.Body;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -18,10 +22,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Url;
 
 public interface RequestInterface {
-
-    @GET("/")
-    Observable<ResponseBody> get();
-
+    
     @GET("succulents.json")
     Observable<Succulent[]> getSucculents();
 
@@ -40,17 +41,17 @@ public interface RequestInterface {
     @GET("{item}")
     Observable<ResponseBody> getPage(@Path(value = "item", encoded = true) String itemName);
 
-    @POST("families.json")
-    @FormUrlEncoded
-    Observable<ResponseBody> postFamily(@FieldMap Map<String, Object> postMap);
+    @POST("families")
+//    @FormUrlEncoded
+    Observable<ResponseBody> postFamily(@Body JsonObject requestBody);
 
-    @POST("generas.json")
-    @FormUrlEncoded
-    Observable<ResponseBody> postGenera(@FieldMap Map<String, Object> postMap);
+    @POST("generas")
+//    @FormUrlEncoded
+    Observable<ResponseBody> postGenera(@Body JsonObject requestBody);
 
-    @POST("succulents.json")
-    @FormUrlEncoded
-    Observable<ResponseBody> postSucculent(@FieldMap Map<String, Object> postMap);
+    @POST("succulents")
+//    @FormUrlEncoded
+    Observable<ResponseBody> postSucculent(@Body JsonObject requestBody);
 
 
 }
