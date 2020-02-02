@@ -13,10 +13,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
         <!--    名字 科属 介绍 光照 浇水-->
-        <com.fanqi.succulent.activity.view.SucculentDailyCardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/item_detail_name_cardview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -32,8 +33,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorGreen200"
                 android:padding="10dp"
-                android:text="多肉名称" />
-        </com.fanqi.succulent.activity.view.SucculentDailyCardView>
+                android:text="@{model.mBean.name}" />
+        </androidx.cardview.widget.CardView>
 
 
         <androidx.cardview.widget.CardView
@@ -53,7 +54,7 @@
                 android:layout_gravity="left"
                 android:background="@color/colorGreen200"
                 android:padding="10dp"
-                android:text="多肉科属名称" />
+                android:text="@{model.mBean.familyName}" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -73,7 +74,7 @@
                 android:layout_gravity="left"
                 android:background="@color/colorGreen200"
                 android:padding="10dp"
-                android:text="多肉科属名称" />
+                android:text="@{model.mBean.generaName}" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -92,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorGreen200"
                 android:padding="10dp"
-                android:text="多肉介绍多肉介绍\n多肉介绍多肉介绍" />
+                android:text="@{model.mBean.summary}" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -111,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorGreen200"
                 android:padding="10dp"
-                android:text="多肉光照" />
+                android:text="@{model.mBean.light}" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -131,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorGreen200"
                 android:padding="10dp"
-                android:text="多肉浇水" />
+                android:text="@{model.mBean.water}" />
         </androidx.cardview.widget.CardView>
 
 
@@ -161,7 +162,6 @@
                 android:padding="10dp"
                 android:text="查阅更多详情请点击访问百度百科哦"
                 android:textStyle="bold" />
-
         </androidx.cardview.widget.CardView>
 
         <LinearLayout
@@ -169,6 +169,7 @@
             android:layout_height="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_detail_recycler_view" />
+            app:layout_constraintTop_toBottomOf="@+id/item_detail_visit_web" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

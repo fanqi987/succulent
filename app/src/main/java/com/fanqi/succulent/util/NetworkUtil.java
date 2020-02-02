@@ -41,9 +41,9 @@ public class NetworkUtil {
         requester.doGetMediaInfo(mViewModelCallback, pageName);
     }
 
-    public void requestGetSingleImage(String pageName, Serializable holder) {
+    public void requestGetSingleImage(String pageName, Serializable holder,int position) {
         MediaInfoRequester requester = new MediaInfoRequester();
-        requester.doGetSingleImageUrl(mViewModelCallback, pageName,  holder);
+        requester.doGetSingleImageUrl(mViewModelCallback, pageName,  holder,position);
     }
 
     public void setInitializePostDataListener(InitializePostDataListener postDataListener) {

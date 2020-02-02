@@ -1,5 +1,6 @@
 package com.fanqi.succulent.bean;
 
+import java.util.Date;
 import java.util.List;
 
 public class SucculentFull extends Succulent {
@@ -18,6 +19,20 @@ public class SucculentFull extends Succulent {
     //因为在保存植物数据前，还没有初始化科属归类，所以先暂时保存他们的名字。
     protected String familyName;
     protected String GeneraName;
+
+    public SucculentFull(){
+    }
+    public SucculentFull(Succulent succulent) {
+        this.id = succulent.id;
+        this.name = succulent.name;
+        this.page_name = succulent.page_name;
+        this.family_id = succulent.family_id;
+        this.genera_id = succulent.genera_id;
+        this.light = succulent.light;
+        this.water = succulent.water;
+        this.created_at = succulent.created_at;
+        this.updated_at = succulent.updated_at;
+    }
 
     public List<String> getImageUrls() {
         return imageUrl;

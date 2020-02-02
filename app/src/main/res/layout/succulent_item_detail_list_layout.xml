@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--    名字 科属 介绍 光照 浇水-->
     <com.fanqi.succulent.activity.view.SucculentDailyCardView
         android:id="@+id/item_detail_cardview"
         android:layout_width="0dp"

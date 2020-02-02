@@ -174,7 +174,7 @@ public class MyDataThreadPool {
 
     public void addResolveSingleImagePageTask(final String pageName,
                                               final ImageUrlCallback callback,
-                                              final Serializable holder) {
+                                              final Serializable holder, int position) {
         mRunnable = new Runnable() {
             @Override
             public void run() {
@@ -186,7 +186,7 @@ public class MyDataThreadPool {
                     e.printStackTrace();
                 }
                 List<String> urls = PageResolver.resolveImageUrl(document);
-                callback.onResolvedSingleImageUrl(urls, holder);
+                callback.onResolvedSingleImageUrl(urls, holder,position);
             }
         };
         addTask(mRunnable);
@@ -210,7 +210,7 @@ public class MyDataThreadPool {
                 succulentFull.setInfos(infos);
                 succulentFull.setFamilyName(PageResolver.resolveItemFamily(document));
                 succulentFull.setGeneraName(PageResolver.resolveItemGenera(document));
-                bundle.putSerializable(Constant.ViewModel.TEXTS, succulentFull);
+                bundle.putSerializable(Constant.ViewModel.SUCCULENT_FULL, succulentFull);
                 viewModelCallback.onSuccessed(bundle);
             }
         };

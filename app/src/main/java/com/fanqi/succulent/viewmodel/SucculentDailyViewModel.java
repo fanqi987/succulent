@@ -1,9 +1,6 @@
 package com.fanqi.succulent.viewmodel;
 
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -17,8 +14,8 @@ import com.fanqi.succulent.util.NetworkUtil;
 import com.fanqi.succulent.util.constant.Constant;
 import com.fanqi.succulent.viewmodel.bean.SucculentDailyViewBean;
 import com.fanqi.succulent.viewmodel.listener.ViewModelCallback;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,40 +48,28 @@ public class SucculentDailyViewModel extends BaseViewModel
         mShowedBitmap = false;
         // 显示占拉符页面,再初始化页面
         addPlaceHolders();
-
-
         //设置好本地数据
         //获取今日植物序号
         mDailyItemNumber = LocalDataUtil.getDailyItem();
         //获取今日植物
         Succulent succulent = LocalDataUtil.getSucculents().get(mDailyItemNumber);
+        mSucculentFull = new SucculentFull(succulent);
+        mBean.setName(mSucculentFull.getName());
 
-        mBean.setName(succulent.getName());
-
-        mMainAcBinding.appbarLayout.setExpanded(false);
-        mMainAcBinding.collapsingToolbarLayout.setTitle(succulent.getName());
+        //导航控制
+        mNavigationPresenter.dailyViewNav(mSucculentFull.getName());
 
         mBroccoli.removePlaceholder(mBinding.dailyItemNameCardview);
 
-        mBean.setLight(String.valueOf(succulent.getLight()));
+        mBean.setLight(String.valueOf(mSucculentFull.getLight()));
         mBroccoli.removePlaceholder(mBinding.dailyItemLightCardview);
 
-        mBean.setWater(String.valueOf(succulent.getWater()));
+        mBean.setWater(String.valueOf(mSucculentFull.getWater()));
         mBroccoli.removePlaceholder(mBinding.dailyItemWaterCardview);
-
-//        //todo 即将放入网络数据
-//        int familyId = succulent.getFamily_id();
-//        mBean.setFamilyName(LocalDataUtil.findFamily(familyId).getName());
-//        mBroccoli.removePlaceholder(mBinding.dailyItemFamilyCardview);
-//
-//        //todo 即将放入网络数据
-//        int generaId = succulent.getGenera_id();
-//        mBean.setGeneraName(LocalDataUtil.findGenera(generaId).getName());
-//        mBroccoli.removePlaceholder(mBinding.dailyItemGenusCardview);
 
         //设置好网络数据
         mNetworkUtil.setViewModelCallback(this);
-        String pageName = succulent.getPage_name();
+        String pageName = mSucculentFull.getPage_name();
         mNetworkUtil.requestGetMediaInfo(pageName);
     }
 
@@ -100,16 +85,34 @@ public class SucculentDailyViewModel extends BaseViewModel
         mBroccoli.show();
     }
 
+    public void initViewByCache(Serializable savedInstanceState) {
+        mSucculentFull = (SucculentFull) savedInstanceState;
+        mShowedBitmap = true;
+        mBean.setName(mSucculentFull.getName());
+        //导航控制
+        mNavigationPresenter.dailyViewNav(mSucculentFull.getName());
+        mBean.setLight(String.valueOf(mSucculentFull.getLight()));
+        mBean.setWater(String.valueOf(mSucculentFull.getWater()));
+        mBean.setSummary(mSucculentFull.getInfos().get(0)[1]);
+        mBean.setFamilyName(mSucculentFull.getFamilyName());
+        mBean.setGeneraName(mSucculentFull.getGeneraName());
+        mFragment.getActivity().runOnUiThread(new UIRunnable(UIRunnable.SUCCESS_TEXT));
+        mFragment.getActivity().runOnUiThread(new UIRunnable(UIRunnable.SUCCESS_IMAGE));
+        mMainAcBinding.swipeRefreshLayout.setEnabled(true);
+    }
+
     @Override
     public void onSuccessed(Bundle bundle) {
-        if (bundle.getSerializable(Constant.ViewModel.TEXTS) != null) {
-            mSucculentFull = (SucculentFull) bundle.getSerializable(Constant.ViewModel.TEXTS);
+        if (bundle.getSerializable(Constant.ViewModel.SUCCULENT_FULL) != null) {
+            SucculentFull succulentFull = (SucculentFull) bundle
+                    .getSerializable(Constant.ViewModel.SUCCULENT_FULL);
+            mSucculentFull.setInfos(succulentFull.getInfos());
+            mSucculentFull.setFamilyName(succulentFull.getFamilyName());
+            mSucculentFull.setGeneraName(succulentFull.getGeneraName());
             mBean.setSummary(mSucculentFull.getInfos().get(0)[1]);
-            mBroccoli.removePlaceholder(mBinding.dailyItemIntroCardview);
             mBean.setFamilyName(mSucculentFull.getFamilyName());
-            mBroccoli.removePlaceholder(mBinding.dailyItemFamilyCardview);
             mBean.setGeneraName(mSucculentFull.getGeneraName());
-            mBroccoli.removePlaceholder(mBinding.dailyItemGenusCardview);
+            mFragment.getActivity().runOnUiThread(new UIRunnable(UIRunnable.SUCCESS_TEXT));
         }
         if (bundle.get(Constant.ViewModel.IMAGE) != null) {
             if (mSucculentFull.getImageUrls() == null) {
@@ -118,21 +121,8 @@ public class SucculentDailyViewModel extends BaseViewModel
             List<String> bitmapUrls = mSucculentFull.getImageUrls();
             bitmapUrls.add(bundle.getString(Constant.ViewModel.IMAGE));
             if (!mShowedBitmap && bitmapUrls.size() > 0) {
-                mFragment.getActivity().runOnUiThread(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                Glide.with(mFragment.getActivity()).load(bitmapUrls.get(0))
-                                        .into(mBinding.dailyItemImage);
-                            }
-                        }
-                );
-                mBroccoli.removePlaceholder(mBinding.dailyItemImageCardview);
+                mFragment.getActivity().runOnUiThread(new UIRunnable(UIRunnable.SUCCESS_IMAGE));
                 mShowedBitmap = true;
-                if (mMainAcBinding.swipeRefreshLayout.isRefreshing()) {
-                    mMainAcBinding.swipeRefreshLayout.setRefreshing(false);
-                }
-                mMainAcBinding.swipeRefreshLayout.setEnabled(true);
             }
         }
     }
@@ -141,21 +131,47 @@ public class SucculentDailyViewModel extends BaseViewModel
     public void onFailed(Throwable e) {
         //todo 提示获取数据失败，提示刷新
         //todo 再增加一个主动刷新按钮接口，点击后刷新，可以提示在下面点击图片刷新
-        mFragment.getActivity().runOnUiThread(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(mFragment.getContext(), "加载失败，请再次刷新~",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
-
+        mFragment.getActivity().runOnUiThread(new UIRunnable(UIRunnable.FAILED));
     }
 
     @Override
     public void onRefresh() {
         initView();
+    }
+
+
+    class UIRunnable extends  BaseViewModel.UIRunnable implements Runnable {
+
+        public UIRunnable(int flag) {
+            super(flag);
+        }
+
+        @Override
+        public void run() {
+            switch (mFlag) {
+                case SUCCESS_TEXT:
+                    mBroccoli.removePlaceholder(mBinding.dailyItemIntroCardview);
+                    mBroccoli.removePlaceholder(mBinding.dailyItemFamilyCardview);
+                    mBroccoli.removePlaceholder(mBinding.dailyItemGenusCardview);
+                    break;
+                case SUCCESS_IMAGE:
+                    Glide.with(mFragment.getActivity()).load(mSucculentFull.getImageUrls().get(0))
+                            .into(mBinding.dailyItemImage);
+                    Glide.with(mFragment.getActivity()).load(mSucculentFull.getImageUrls().get(0))
+                            .into(mMainAcBinding.toolbarImage);
+                    mBroccoli.removePlaceholder(mBinding.dailyItemImageCardview);
+                    if (mMainAcBinding.swipeRefreshLayout.isRefreshing()) {
+                        mMainAcBinding.swipeRefreshLayout.setRefreshing(false);
+                    }
+                    mMainAcBinding.swipeRefreshLayout.setEnabled(true);
+                    mApplicationDataPresenter.setDailyFragmentData(mSucculentFull);
+                    break;
+                case FAILED:
+                    Toast.makeText(mFragment.getContext(), Constant.Common.FAILED,
+                            Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
     }
 
 }

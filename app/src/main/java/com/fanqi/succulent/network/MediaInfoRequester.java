@@ -24,11 +24,11 @@ public class MediaInfoRequester extends Requester
     }
 
     public void doGetSingleImageUrl(ViewModelCallback viewModelCallback, String pageName,
-                                    Serializable holder) {
+                                    Serializable holder, int position) {
         mViewModelCallback = viewModelCallback;
         mExecutor.setBaiduImageServer();
         mExecutor.initRequester();
-        mThreadPool.addResolveSingleImagePageTask(pageName, this, holder);
+        mThreadPool.addResolveSingleImagePageTask(pageName, this, holder,position);
     }
 
     @Override
@@ -41,11 +41,12 @@ public class MediaInfoRequester extends Requester
     }
 
     @Override
-    public void onResolvedSingleImageUrl(List<String> urls, Object viewHolder) {
+    public void onResolvedSingleImageUrl(List<String> urls, Object viewHolder, int position) {
         for (String url : urls) {
             Bundle bundle = new Bundle();
             bundle.putString(Constant.ViewModel.IMAGE, url);
             bundle.putSerializable(Constant.ViewModel.VIEW_HOLDER, (Serializable) viewHolder);
+            bundle.putInt(Constant.ViewModel.LIST_POSITION,position);
             mViewModelCallback.onSuccessed(bundle);
         }
     }

@@ -67,7 +67,18 @@ public class LocalDataUtil {
         }
         return sSucculents;
     }
-
+    public static List<Succulent> getSucculents(int family_id) {
+        if (sSucculents == null) {
+            sSucculents = LitePal.findAll(Succulent.class);
+        }
+        List<Succulent> succulentList=new ArrayList<>();
+        for(Succulent succulent:sSucculents){
+            if(succulent.getFamily_id()==family_id){
+                succulentList.add(succulent);
+            }
+        }
+        return succulentList;
+    }
 
     public static Family findFamily(int post_id) {
         return LitePal.where("post_id = ?", String.valueOf(post_id)).find(Family.class).get(0);
@@ -94,4 +105,6 @@ public class LocalDataUtil {
     public static int getDailyItem() {
         return PreferenceUtil.getDailyNumber();
     }
+
+
 }

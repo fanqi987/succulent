@@ -22,10 +22,27 @@ public class Constant {
 
     public class ViewModel {
         public static final String SUCCULENT = "succulent";
+        public static final String SUCCULENT_FULL = "succulent_full";
         public static final String IMAGE = "image";
-        public static final String TEXTS = "texts";
         public static final String INFO_TITLE = "info_title";
         public static final String INFO_CONTENT = "info_content";
         public static final String VIEW_HOLDER = "view_holder";
+        public static final String LIST_POSITION = "list_position";
+    }
+
+    public class SaveInstance {
+        public static final String DAILY_FRAGMENT = "daily_fragment";
+        public static final String LIST_FRAGMENT = "list_fragment";
+        public static final String FAVORITE_FRAGMENT = "favorite_fragment";
+    }
+
+    public class Navigation{
+        public static final int ITEM_TOOLBAR_HEIGHT=300;
+        public static final int NORMAL_TOOLBAR_HEIGHT=250;
+
+    }
+
+    public class Common {
+        public static final String FAILED = "加载失败，请再次刷新~";
     }
 }

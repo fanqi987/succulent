@@ -60,6 +60,12 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+//    @Override
+//    public void o() {
+//        mNavigationPresenter.onBackPressed();
+//    }
+
+
     public MainAcBinding getBinding() {
         return mBinding;
     }

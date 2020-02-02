@@ -46,12 +46,12 @@ public class SucculentFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         //todo 显示占拉符页面,再初始化页面
         model.initView();
-        //切换到每日推荐的fragment
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        //todo 显示底部栏
         mNavigationPresenter.showBottomNavigation();
     }
 }

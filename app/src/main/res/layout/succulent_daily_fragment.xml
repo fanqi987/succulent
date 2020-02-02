@@ -33,7 +33,7 @@
         </androidx.cardview.widget.CardView>
 
         <!--    名字 科属 介绍 光照 浇水-->
-        <com.fanqi.succulent.activity.view.SucculentDailyCardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/daily_item_name_cardview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
                 android:background="@color/colorGreen200"
                 android:padding="10dp"
                 android:text="@{model.mBean.getName}" />
-        </com.fanqi.succulent.activity.view.SucculentDailyCardView>
+        </androidx.cardview.widget.CardView>
 
 
         <androidx.cardview.widget.CardView

@@ -17,17 +17,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.fanqi.succulent.R;
 import com.fanqi.succulent.bean.Succulent;
-import com.fanqi.succulent.databinding.SucculentListItemLayoutBinding;
+import com.fanqi.succulent.databinding.SucculentListTabItemLayoutBinding;
 import com.fanqi.succulent.util.NetworkUtil;
 import com.fanqi.succulent.util.SettingsUtil;
 import com.fanqi.succulent.util.constant.Constant;
-import com.fanqi.succulent.viewmodel.SucculentListItemViewModel;
+import com.fanqi.succulent.viewmodel.SucculentListTabItemViewModel;
 import com.fanqi.succulent.viewmodel.listener.SucculentItemClickedCallback;
 import com.fanqi.succulent.viewmodel.listener.ViewModelCallback;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import me.samlss.broccoli.Broccoli;
 
@@ -37,8 +39,9 @@ public class SucculentListAdapter extends RecyclerView.Adapter<SucculentListAdap
     private Fragment mFragment;
     private Context mContext;
     private Broccoli mBroccoli;
-    private SucculentListItemLayoutBinding mBinding;
+    private SucculentListTabItemLayoutBinding mBinding;
     private List<Succulent> mSucculentList;
+    private Map<Integer,String> mImageUrls;
     private NetworkUtil mNetworkUtil;
     private SucculentItemClickedCallback mItemClickedCallback;
 
@@ -47,24 +50,26 @@ public class SucculentListAdapter extends RecyclerView.Adapter<SucculentListAdap
         mFragment = fragment;
         mContext = mFragment.getContext();
         mSucculentList = new ArrayList<>();
+        mImageUrls=new HashMap<>();
         mNetworkUtil = new NetworkUtil();
         mNetworkUtil.setViewModelCallback(this);
+        mBroccoli.show();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext),
-                R.layout.succulent_list_item_layout, parent, false);
-        SucculentListItemViewModel model = new SucculentListItemViewModel();
+                R.layout.succulent_list_tab_item_layout, parent, false);
+        SucculentListTabItemViewModel model = new SucculentListTabItemViewModel();
         mBinding.setModel(model);
 
         View v = mBinding.getRoot();
         ViewHolder viewHolder = new ViewHolder(v);
         viewHolder.view = v;
-        viewHolder.textView = mBinding.succulentListItemTextView;
+        viewHolder.textView = mBinding.succulentListTabItemTextView;
         //todo 需要设置imageView的高度
-        viewHolder.imageView = mBinding.succulentListItemImage;
+        viewHolder.imageView = mBinding.succulentListTabItemImage;
         ViewGroup.LayoutParams layoutParams = viewHolder.imageView.getLayoutParams();
         layoutParams.height = (int) (SettingsUtil.getDisplayMetrics(mFragment.getActivity())
                 .widthPixels / 2 * 0.8);
@@ -74,13 +79,12 @@ public class SucculentListAdapter extends RecyclerView.Adapter<SucculentListAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.view.setOnClickListener(new ListItemOnClickListener(position));
-        mBroccoli.addPlaceholders(holder.imageView);
-        mBroccoli.show();
+        mBroccoli.addPlaceholders(holder.imageView);;
         holder.textView.setText(mSucculentList.get(position).getName());
-        if (!TextUtils.isEmpty(holder.url)) {
-            Glide.with(mContext).load(holder.url).into(holder.imageView);
+        if (mImageUrls.get(position)!=null) {
+            Glide.with(mContext).load(mImageUrls.get(position)).into(holder.imageView);
         } else {
-            mNetworkUtil.requestGetSingleImage(mSucculentList.get(position).getPage_name(), holder);
+            mNetworkUtil.requestGetSingleImage(mSucculentList.get(position).getPage_name(),holder,position);
         }
     }
 
@@ -96,9 +100,10 @@ public class SucculentListAdapter extends RecyclerView.Adapter<SucculentListAdap
 
     @Override
     public void onSuccessed(Bundle object) {
-        String url = object.getString(Constant.ViewModel.IMAGE);
         ViewHolder viewHolder = (ViewHolder) object.getSerializable(Constant.ViewModel.VIEW_HOLDER);
-        viewHolder.url = url;
+        String url = object.getString(Constant.ViewModel.IMAGE);
+        int position = object.getInt(Constant.ViewModel.LIST_POSITION);
+        mImageUrls.put(position,url);
         mFragment.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -120,7 +125,6 @@ public class SucculentListAdapter extends RecyclerView.Adapter<SucculentListAdap
         public TextView textView;
         public ImageView imageView;
         public View view;
-        public String url;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
