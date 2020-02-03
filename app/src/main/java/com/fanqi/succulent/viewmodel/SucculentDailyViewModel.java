@@ -140,7 +140,7 @@ public class SucculentDailyViewModel extends BaseViewModel
     }
 
 
-    class UIRunnable extends  BaseViewModel.UIRunnable implements Runnable {
+    class UIRunnable extends BaseViewModel.UIRunnable implements Runnable {
 
         public UIRunnable(int flag) {
             super(flag);
@@ -155,6 +155,8 @@ public class SucculentDailyViewModel extends BaseViewModel
                     mBroccoli.removePlaceholder(mBinding.dailyItemGenusCardview);
                     break;
                 case SUCCESS_IMAGE:
+                    Glide.with(mFragment.getActivity()).load(mSucculentFull.getImageUrls().get(0))
+                            .preload();
                     Glide.with(mFragment.getActivity()).load(mSucculentFull.getImageUrls().get(0))
                             .into(mBinding.dailyItemImage);
                     Glide.with(mFragment.getActivity()).load(mSucculentFull.getImageUrls().get(0))

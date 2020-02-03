@@ -83,6 +83,7 @@
                     android:id="@+id/drawer_bottom_navigation_view"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:theme="@style/Theme.Design.Light"
                     android:background="@color/colorGreen800"
                     app:menu="@menu/bottom_navigation" />
             </LinearLayout>

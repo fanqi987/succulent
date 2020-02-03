@@ -41,7 +41,7 @@ public class SucculentListAdapter extends RecyclerView.Adapter<SucculentListAdap
     private Broccoli mBroccoli;
     private SucculentListTabItemLayoutBinding mBinding;
     private List<Succulent> mSucculentList;
-    private Map<Integer,String> mImageUrls;
+    private Map<Integer, String> mImageUrls;
     private NetworkUtil mNetworkUtil;
     private SucculentItemClickedCallback mItemClickedCallback;
 
@@ -50,7 +50,7 @@ public class SucculentListAdapter extends RecyclerView.Adapter<SucculentListAdap
         mFragment = fragment;
         mContext = mFragment.getContext();
         mSucculentList = new ArrayList<>();
-        mImageUrls=new HashMap<>();
+        mImageUrls = new HashMap<>();
         mNetworkUtil = new NetworkUtil();
         mNetworkUtil.setViewModelCallback(this);
         mBroccoli.show();
@@ -78,15 +78,19 @@ public class SucculentListAdapter extends RecyclerView.Adapter<SucculentListAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        //todo 重新选择菜单后这里没有执行
         holder.view.setOnClickListener(new ListItemOnClickListener(position));
-        mBroccoli.addPlaceholders(holder.imageView);;
         holder.textView.setText(mSucculentList.get(position).getName());
-        if (mImageUrls.get(position)!=null) {
-            Glide.with(mContext).load(mImageUrls.get(position)).into(holder.imageView);
+        if (mImageUrls.get(position) != null) {
+            Glide.with(mContext).load((mImageUrls.get(position)))
+                    .preload();
+            Glide.with(mContext).load(mImageUrls.get(position))
+                    .into(holder.imageView);
         } else {
-            mNetworkUtil.requestGetSingleImage(mSucculentList.get(position).getPage_name(),holder,position);
+            mNetworkUtil.requestGetSingleImage(mSucculentList.get(position).getPage_name(), holder, position);
         }
     }
+
 
     @Override
     public int getItemCount() {
@@ -103,14 +107,13 @@ public class SucculentListAdapter extends RecyclerView.Adapter<SucculentListAdap
         ViewHolder viewHolder = (ViewHolder) object.getSerializable(Constant.ViewModel.VIEW_HOLDER);
         String url = object.getString(Constant.ViewModel.IMAGE);
         int position = object.getInt(Constant.ViewModel.LIST_POSITION);
-        mImageUrls.put(position,url);
+        mImageUrls.put(position, url);
         mFragment.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Glide.with(mContext).load(url).into(viewHolder.imageView);
             }
         });
-        mBroccoli.removePlaceholder(viewHolder.imageView);
     }
 
     @Override

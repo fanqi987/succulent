@@ -24,6 +24,7 @@ public class MainActivity extends BaseActivity {
     private InitializeDataPresenter mInitializeDataPresenter;
     private MainAcBinding mBinding;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

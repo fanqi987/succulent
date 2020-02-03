@@ -44,5 +44,6 @@ public class Constant {
 
     public class Common {
         public static final String FAILED = "加载失败，请再次刷新~";
+        public static final String SAME_IMAGE = "没有找到更多图片哦~";
     }
 }

@@ -29,16 +29,10 @@ public class MainActivityCallbackPresenter implements
                 mBinding.drawerLayout.closeDrawers();
                 break;
             case R.id.succulentDailyFragment:
-                mNavigationPresenterCallback.onBottomMenuSelected
-                        (R.navigation.navigation_daily, menuItem.getItemId());
-                break;
             case R.id.succulentFavoriteFragment:
-                mNavigationPresenterCallback.onBottomMenuSelected
-                        (R.navigation.navigation_favorite, menuItem.getItemId());
-                break;
             case R.id.succulentListFragment:
                 mNavigationPresenterCallback.onBottomMenuSelected
-                        (R.navigation.navigation_list, menuItem.getItemId());
+                        (R.navigation.navigation_daily, menuItem.getItemId());
                 break;
         }
         return true;

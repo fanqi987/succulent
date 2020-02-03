@@ -31,12 +31,12 @@ public class SucculentListTabViewModel extends BaseViewModel implements
     private SucculentListTabFragmentBinding mBinding;
     private SucculentListAdapter mListAdapter;
     private List<Succulent> mSucculentList;
+    private GridLayoutManager mLayoutManager;
     private Family mFamily;
 
     public SucculentListTabViewModel(Family family) {
         mSucculentList = new ArrayList<>();
         mFamily = family;
-        mSucculentList = LocalDataUtil.getSucculents(mFamily.getPost_id());
     }
 
     public void setBinding(SucculentListTabFragmentBinding binding) {
@@ -44,12 +44,13 @@ public class SucculentListTabViewModel extends BaseViewModel implements
     }
 
     public void initView() {
-        GridLayoutManager layoutManager = new GridLayoutManager(mFragment.getContext(), 2);
-        mBinding.succulentListRecyclerView.setLayoutManager(layoutManager);
+        mLayoutManager = new GridLayoutManager(mFragment.getContext(), 2);
+        mBinding.succulentListRecyclerView.setLayoutManager(mLayoutManager);
         mListAdapter = new SucculentListAdapter(mFragment, mBroccoli);
 //        if (mSucculentList.size() > 20) {
 //            mListAdapter.setData(mSucculentList.subList(0, 20));
 //        } else {
+        mSucculentList = LocalDataUtil.getSucculents(mFamily.getPost_id());
         mListAdapter.setData(mSucculentList);
 //        }
         mListAdapter.setItemClickedCallback(this);
@@ -60,9 +61,9 @@ public class SucculentListTabViewModel extends BaseViewModel implements
 
     @Override
     public void onRefresh() {
-//        mListAdapter = new SucculentListAdapter(mFragment, mBroccoli);
-//        mListAdapter.setData(mSucculentList);
-//        mBinding.succulentListRecyclerView.setAdapter(mListAdapter);
+        mListAdapter = new SucculentListAdapter(mFragment, mBroccoli);
+        mListAdapter.setData(mSucculentList);
+        mBinding.succulentListRecyclerView.setAdapter(mListAdapter);
         mListAdapter.notifyDataSetChanged();
         mMainAcBinding.swipeRefreshLayout.setRefreshing(false);
     }
@@ -76,4 +77,7 @@ public class SucculentListTabViewModel extends BaseViewModel implements
                 .navigate(R.id.succulentFragment, bundle);
     }
 
+    public void notifyDataSetChanged() {
+        mListAdapter.notifyDataSetChanged();
+    }
 }

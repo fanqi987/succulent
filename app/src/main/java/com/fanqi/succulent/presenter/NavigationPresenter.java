@@ -56,7 +56,7 @@ public class NavigationPresenter implements NavigationPresenterCallback {
 
     @Override
     public void onBottomMenuSelected(int graphId, int fragmentId) {
-        mNavController.setGraph(graphId);
+//        mNavController.setGraph(graphId);
         mNavController.navigate(fragmentId);
     }
 

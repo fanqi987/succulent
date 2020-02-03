@@ -24,52 +24,63 @@ public class SucculentListFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.succulent_list_fragment,
-                container, false);
-        if(mView==null){
+        if (mView == null) {
+            mBinding = DataBindingUtil.inflate(inflater, R.layout.succulent_list_fragment,
+                    container, false);
             mView = mBinding.getRoot();
+            model.setBinding(mBinding);
+            mBinding.setModel(model);
         }
         Log.e("list fragment", "onCreateView");
-
         return mView;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        model = new SucculentListViewModel();
+        model.setBroccoli(mBroccoli);
+        model.setFragment(this);
+        model.initViewPagerAdapter();
+    }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        model.initView();
+
+        Log.e("list fragment", "onActivityCreated");
+    }
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        getArguments();
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.e("list fragment", "onViewCreated");
-
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        model = new SucculentListViewModel();
-        mBinding.setModel(model);
-        model.setBroccoli(mBroccoli);
-        model.setFragment(this);
-        model.setBinding(mBinding);
-        model.initView();
-        Log.e("list fragment", "onActivityCreated");
-
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+//        model.notifyDataChanged();
         Log.e("list fragment", "onDestroyView");
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        Log.e("list fragment", "onSaveInstanceState");
-
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        Log.e("list fragment", "onViewStateRestored");
     }
 
     @Override

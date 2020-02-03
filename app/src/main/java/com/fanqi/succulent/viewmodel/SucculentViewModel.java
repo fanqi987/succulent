@@ -146,6 +146,10 @@ public class SucculentViewModel extends BaseViewModel
                     dice = random.nextInt(urls.size());
                     i++;
                 } while (dice == mShowedBitmapNumber && i < 10);
+                if(dice == mShowedBitmapNumber){
+                    Toast.makeText(mFragment.getContext(), Constant.Common.SAME_IMAGE,
+                            Toast.LENGTH_SHORT).show();
+                }
                 mShowedBitmapNumber = dice;
                 Glide.with(mFragment.getContext()).load(urls.get(mShowedBitmapNumber))
                         .into(mMainAcBinding.toolbarImage);

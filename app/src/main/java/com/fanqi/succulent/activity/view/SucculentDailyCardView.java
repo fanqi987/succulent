@@ -1,6 +1,7 @@
 package com.fanqi.succulent.activity.view;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
@@ -15,5 +16,11 @@ public class SucculentDailyCardView extends CardView {
     public SucculentDailyCardView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.setBackgroundColor(getResources().getColor(R.color.colorGreen800));
+    }
+
+    @Nullable
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        return super.onSaveInstanceState();
     }
 }

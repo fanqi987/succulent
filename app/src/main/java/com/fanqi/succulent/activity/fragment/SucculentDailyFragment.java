@@ -54,37 +54,37 @@ public class SucculentDailyFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.e("daily fragment", "onDestroyView");
+//        Log.e("daily fragment", "onDestroyView");
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.e("daily fragment", "onViewCreated");
+//        Log.e("daily fragment", "onViewCreated");
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        Log.e("daily fragment", "onSaveInstanceState");
+//        Log.e("daily fragment", "onSaveInstanceState");
 
     }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        Log.e("daily fragment", "onViewStateRestored");
+//        Log.e("daily fragment", "onViewStateRestored");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.e("daily fragment", "onStop");
+//        Log.e("daily fragment", "onStop");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("daily fragment", "onDestroy");
+//        Log.e("daily fragment", "onDestroy");
     }
 
 }
