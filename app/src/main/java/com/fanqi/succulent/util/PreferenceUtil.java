@@ -32,18 +32,37 @@ public class PreferenceUtil {
     }
 
     public static int getDailyNumber() {
+//        Long timeNow = System.currentTimeMillis();
+//        int dailyNumber;
+//        if (timeNow - sPreferences.getLong(Constant.DAILY_ITEM_TIME, 0)
+//                > Constant.DAY_MILLISECONDS) {
+//            dailyNumber = new Random().nextInt(Constant.SUCCULENT_COUNT);
+//            sEditor = sPreferences.edit();
+//            sEditor.putInt(Constant.DAILY_ITEM_NUMBER, dailyNumber);
+//            sEditor.putLong(Constant.DAILY_ITEM_TIME, timeNow);
+//            sEditor.commit();
+//        } else {
+//            dailyNumber = sPreferences.getInt(Constant.DAILY_ITEM_NUMBER, 0);
+//        }
+        return sPreferences.getInt(Constant.DAILY_ITEM_NUMBER, 0);
+    }
+
+
+    public static void saveDailyItem(int itemNumber) {
         Long timeNow = System.currentTimeMillis();
-        int dailyNumber;
+        sEditor = sPreferences.edit();
+        sEditor.putInt(Constant.DAILY_ITEM_NUMBER, itemNumber);
+        sEditor.putLong(Constant.DAILY_ITEM_TIME, timeNow);
+        sEditor.commit();
+    }
+
+    public static boolean getDailyIsShowed() {
+        Long timeNow = System.currentTimeMillis();
         if (timeNow - sPreferences.getLong(Constant.DAILY_ITEM_TIME, 0)
                 > Constant.DAY_MILLISECONDS) {
-            dailyNumber = new Random().nextInt(Constant.SUCCULENT_COUNT);
-            sEditor = sPreferences.edit();
-            sEditor.putInt(Constant.DAILY_ITEM_NUMBER, dailyNumber);
-            sEditor.putLong(Constant.DAILY_ITEM_TIME, timeNow);
-            sEditor.commit();
+            return false;
         } else {
-            dailyNumber = sPreferences.getInt(Constant.DAILY_ITEM_NUMBER, 0);
+            return true;
         }
-        return dailyNumber;
     }
 }

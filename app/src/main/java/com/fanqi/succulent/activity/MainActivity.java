@@ -59,13 +59,32 @@ public class MainActivity extends BaseActivity {
             //爬虫今日植物的所有数据
             //显示今日植物的数据
         }
+
+        //todo 目前未实现的主要功能
+        // 1。欢迎页面，
+        // 2。后退键的监听设定，
+        // 3。抽屉页面的美观布局。
+        // 4。植物信息项目的颜色设置，
+        // 5。阳光浇水的图片设置，
+        // 6。阳光浇水的提示页面，
+        // 7。详细信息页面设置不能打开抽屉。
+        // 8。保存图片。
+        // 9。设置应用图标
+        //
+        // todo
+        //  1。登录功能，
+        //  2，收藏页面，
+        //  3，收藏按钮设置，
+        //  4。设置植物2级分类，
+        //  5。设置底部菜单寻找到之前的位置
+
     }
 
 //    @Override
-//    public void o() {
+//    public void onBackPressed() {
+//        super.onBackPressed();
 //        mNavigationPresenter.onBackPressed();
 //    }
-
 
     public MainAcBinding getBinding() {
         return mBinding;

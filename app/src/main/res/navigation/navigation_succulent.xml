@@ -14,8 +14,8 @@
     <fragment
         android:id="@+id/succulentFavoriteFragment"
         android:name="com.fanqi.succulent.activity.fragment.SucculentFavoriteFragment"
-        tools:layout="@layout/succulent_favorite_fragment"
-        android:label="succulent_favorite_fragment" />
+        android:label="succulent_favorite_fragment"
+        tools:layout="@layout/succulent_favorite_fragment" />
 
     <fragment
         android:id="@+id/succulentListFragment"
@@ -24,11 +24,7 @@
         tools:layout="@layout/succulent_list_fragment">
         <action
             android:id="@+id/action_succulentListFragment_to_succulentFragment"
-            app:destination="@id/succulentFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:destination="@id/succulentFragment" />
     </fragment>
     <fragment
         android:id="@+id/succulentFragment"
@@ -43,7 +39,6 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/succulentListFragment"
             app:popUpToInclusive="false" />
-
     </fragment>
 
 </navigation>

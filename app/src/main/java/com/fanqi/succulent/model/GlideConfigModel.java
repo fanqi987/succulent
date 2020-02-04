@@ -5,5 +5,4 @@ import com.bumptech.glide.module.AppGlideModule;
 
 @GlideModule
 public class GlideConfigModel extends AppGlideModule {
-
 }

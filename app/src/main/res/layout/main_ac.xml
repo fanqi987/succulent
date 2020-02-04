@@ -32,9 +32,9 @@
                     android:id="@+id/collapsing_toolbar_layout"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
-                    android:background="@color/colorGreen900"
+                    android:background="@color/colorGreen400"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                    app:contentScrim="@color/colorGreen800"
+                    app:contentScrim="@color/colorGreen300"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                     <ImageView
@@ -44,7 +44,7 @@
                         android:layout_height="match_parent"
                         android:alpha="0.85"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@drawable/launch" />
 
                     <androidx.appcompat.widget.Toolbar
                         android:id="@+id/toolbar"
@@ -84,7 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:theme="@style/Theme.Design.Light"
-                    android:background="@color/colorGreen800"
+                    android:background="@color/colorGreen300"
                     app:menu="@menu/bottom_navigation" />
             </LinearLayout>
 

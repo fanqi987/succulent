@@ -15,4 +15,14 @@
     <color name="colorGreen800">#00695c</color>
     <color name="colorGreen900">#004d40</color>
 
+    <color name="guideViewBottomStart">#eeeeee</color>
+    <color name="guideViewBottomCenter">#d9d9d6</color>
+    <color name="guideViewBottomEnd">#dedede</color>
+    <color name="guideViewTopStart">#f4f4f4</color>
+    <color name="guideViewTopEnd">#e9e9e9</color>
+
+    <color name="guideTitleBorder">#e1d0b6</color>
+    <color name="guideEnterBtn">#ffeed4</color>
+    <color name="guideEnterBtnText">#b69c75</color>
+
 </resources>

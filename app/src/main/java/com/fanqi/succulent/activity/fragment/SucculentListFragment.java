@@ -24,12 +24,16 @@ public class SucculentListFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.succulent_list_fragment,
+                container, false);
         if (mView == null) {
-            mBinding = DataBindingUtil.inflate(inflater, R.layout.succulent_list_fragment,
-                    container, false);
             mView = mBinding.getRoot();
-            model.setBinding(mBinding);
             mBinding.setModel(model);
+            model = new SucculentListViewModel();
+            model.setBroccoli(mBroccoli);
+            model.setFragment(this);
+            model.setBinding(mBinding);
+            model.initViewPagerAdapter();
         }
         Log.e("list fragment", "onCreateView");
         return mView;
@@ -38,10 +42,7 @@ public class SucculentListFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        model = new SucculentListViewModel();
-        model.setBroccoli(mBroccoli);
-        model.setFragment(this);
-        model.initViewPagerAdapter();
+
     }
 
 

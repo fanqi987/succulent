@@ -102,6 +102,7 @@ public class RetrofitCallback<T> implements Observer<T> {
         // 再通知数据成功,3个不同实体类的数组
         if (mInitializeDataListener != null) {
             Log.e("onNext DataProcess", value.toString());
+            Log.e("onNext Data size", "Size:  " + ((Object[]) value).length);
 
             mBeanDataSaver = new SaverProvider(value).getSaver();
             if (!((BeanSaver) mBeanDataSaver).checkCount(value)) {
@@ -110,12 +111,11 @@ public class RetrofitCallback<T> implements Observer<T> {
                 return;
             }
             mValue = value;
-            mInitializeDataListener.onNetDataSuccess((BeanSaver) mBeanDataSaver, (Object[]) mValue);
+            mInitializeDataListener.onNetDataSuccess((Object[]) mValue);
         }
     }
 
     private void initializeByPullProcess(T value) {
-
         //爬虫数据监听非空时，则通知数据成功
         mValue = value;
         if (mInitializeByPullListener != null) {

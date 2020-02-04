@@ -28,6 +28,9 @@ public class Constant {
         public static final String INFO_CONTENT = "info_content";
         public static final String VIEW_HOLDER = "view_holder";
         public static final String LIST_POSITION = "list_position";
+
+
+
     }
 
     public class SaveInstance {

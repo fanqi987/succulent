@@ -48,20 +48,6 @@ public class MyDataThreadPool {
         mExecutor = executor;
     }
 
-//    public static MyDataThreadPool getInstance() {
-////        MyDataThreadPoolCreator.sMyDataThreadPool;
-//        return MyDataThreadPoolCreator.sMyDataThreadPool;
-//    }
-//
-//    public void setExecutor(RetrofitExecutor executor) {
-//        mExecutor = executor;
-//    }
-
-//    private static class MyDataThreadPoolCreator {
-//        private static ExecutorService sExecutorService = Executors.newFixedThreadPool(1);
-//        private static MyDataThreadPool sMyDataThreadPool = new MyDataThreadPool();
-//    }
-
     public void addTask(Runnable runable) {
         mThreadPool.submit(runable);
     }

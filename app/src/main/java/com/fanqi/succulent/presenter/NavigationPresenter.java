@@ -3,7 +3,6 @@ package com.fanqi.succulent.presenter;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -14,7 +13,6 @@ import com.fanqi.succulent.R;
 import com.fanqi.succulent.databinding.MainAcBinding;
 import com.fanqi.succulent.presenter.listener.CallbackPresenter;
 import com.fanqi.succulent.presenter.listener.NavigationPresenterCallback;
-import com.fanqi.succulent.util.constant.Constant;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -43,7 +41,6 @@ public class NavigationPresenter implements NavigationPresenterCallback {
 
     private void initNavigationUI() {
         mNavController = Navigation.findNavController(mActivity, R.id.main_fragment);
-//        mNavController.setGraph(null);
         mAppBarConfiguration = new AppBarConfiguration
                 .Builder(R.id.succulentDailyFragment, R.id.succulentListFragment, R.id.succulentFavoriteFragment)
                 .setDrawerLayout(mBinding.drawerLayout).build();
@@ -52,6 +49,7 @@ public class NavigationPresenter implements NavigationPresenterCallback {
                 mBinding.toolbar, mNavController, mAppBarConfiguration);
         mBinding.drawerNavigationView.setNavigationItemSelectedListener(mCallbackPresenter);
         mBinding.drawerBottomNavigationView.setOnNavigationItemSelectedListener(mCallbackPresenter);
+
     }
 
     @Override
@@ -61,7 +59,7 @@ public class NavigationPresenter implements NavigationPresenterCallback {
     }
 
     public void firstNavigate() {
-        mNavController.setGraph(R.navigation.navigation_daily);
+        mNavController.setGraph(R.navigation.navigation_succulent);
         mNavController.navigate(R.id.succulentDailyFragment);
 
     }
@@ -84,7 +82,7 @@ public class NavigationPresenter implements NavigationPresenterCallback {
     }
 
     public void dailyViewNav(String titleName) {
-//        mBinding.appbarLayout.setExpanded(false);
+        mBinding.appbarLayout.setExpanded(false);
         mBinding.collapsingToolbarLayout.setTitle(titleName);
         mBinding.toolbar.getMenu().findItem(R.id.toolbar_refresh).setVisible(false);
         mBinding.toolbar.getMenu().findItem(R.id.toolbar_favorite).setVisible(false);

@@ -10,150 +10,258 @@
             type="com.fanqi.succulent.viewmodel.SucculentDailyViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/daily_item_image_cardview"
-            android:layout_width="0dp"
-            android:layout_height="300dp"
-            android:layout_margin="15dp"
-            app:cardCornerRadius="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/daily_item_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                />
-        </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/daily_item_image_cardview"
+                android:layout_width="0dp"
+                android:layout_height="300dp"
+                android:layout_margin="15dp"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <!--    名字 科属 介绍 光照 浇水-->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/daily_item_name_cardview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            app:cardCornerRadius="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/daily_item_image_cardview">
+                <ImageView
+                    android:id="@+id/daily_item_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
+            </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:layout_width="match_parent"
+            <!--    名字 科属 介绍 光照 浇水-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/daily_item_name_cardview"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/colorGreen200"
-                android:padding="10dp"
-                android:text="@{model.mBean.getName}" />
-        </androidx.cardview.widget.CardView>
+                android:layout_margin="15dp"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/daily_item_image_cardview">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorGreen200"
+                    android:padding="10dp"
+                    android:text="@{model.mBean.getName}" />
+            </androidx.cardview.widget.CardView>
 
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/daily_item_family_cardview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            app:cardCornerRadius="5dp"
-
-            app:layout_constraintEnd_toStartOf="@id/daily_item_genus_cardview"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/daily_item_name_cardview">
-
-            <TextView
-                android:layout_width="match_parent"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/daily_item_family_cardview"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:background="@color/colorGreen200"
-                android:padding="10dp"
-                android:text="@{model.mBean.getFamilyName}" />
-        </androidx.cardview.widget.CardView>
+                android:layout_margin="15dp"
+                app:cardCornerRadius="5dp"
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/daily_item_genus_cardview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            app:cardCornerRadius="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/daily_item_family_cardview"
-            app:layout_constraintTop_toBottomOf="@id/daily_item_name_cardview">
+                app:layout_constraintEnd_toStartOf="@id/daily_item_genus_cardview"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/daily_item_name_cardview">
 
-            <TextView
-                android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="@color/colorGreen200"
+                    android:padding="10dp"
+                    android:text="@{model.mBean.getFamilyName}" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/daily_item_genus_cardview"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:background="@color/colorGreen200"
-                android:padding="10dp"
-                android:text="@{model.mBean.getGeneraName}" />
-        </androidx.cardview.widget.CardView>
+                android:layout_margin="15dp"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/daily_item_family_cardview"
+                app:layout_constraintTop_toBottomOf="@id/daily_item_name_cardview">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/daily_item_intro_cardview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            app:cardCornerRadius="5dp"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="@color/colorGreen200"
+                    android:padding="10dp"
+                    android:text="@{model.mBean.getGeneraName}" />
+            </androidx.cardview.widget.CardView>
 
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/daily_item_family_cardview">
-
-            <TextView
-                android:layout_width="match_parent"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/daily_item_intro_cardview"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/colorGreen200"
-                android:padding="10dp"
-                android:text="@{model.mBean.getSummary}" />
-        </androidx.cardview.widget.CardView>
+                android:layout_margin="15dp"
+                app:cardCornerRadius="5dp"
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/daily_item_light_cardview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            app:cardCornerRadius="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/daily_item_intro_cardview">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/daily_item_family_cardview">
 
-            <TextView
-                android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorGreen200"
+                    android:padding="10dp"
+                    android:text="@{model.mBean.getSummary}" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/daily_item_light_cardview"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/colorGreen200"
-                android:padding="10dp"
-                android:text="@{model.mBean.getLight}" />
-        </androidx.cardview.widget.CardView>
+                android:layout_margin="15dp"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/daily_item_intro_cardview">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/daily_item_water_cardview"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorGreen200"
+                    android:padding="10dp"
+                    android:text="@{model.mBean.getLight}" />
+            </androidx.cardview.widget.CardView>
 
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            app:cardCornerRadius="5dp"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/daily_item_water_cardview"
 
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/daily_item_light_cardview">
-
-            <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/colorGreen200"
-                android:padding="10dp"
-                android:text="@{model.mBean.getWater}" />
+                android:layout_margin="15dp"
+                app:cardCornerRadius="5dp"
 
-        </androidx.cardview.widget.CardView>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/daily_item_light_cardview">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/daily_item_water_cardview" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorGreen200"
+                    android:padding="10dp"
+                    android:text="@{model.mBean.getWater}" />
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/daily_item_water_cardview" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/lucky_plant_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/white">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/lucky_plant_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="获取今日幸运多肉"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/lucky_plant_title_image"
+                        app:layout_constraintEnd_toStartOf="@+id/lucky_plant_title_image"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"></TextView>
+
+                    <pl.droidsonroids.gif.GifImageView
+                        android:id="@+id/lucky_plant_title_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/lucky_plant"
+
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/lucky_plant_title"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </pl.droidsonroids.gif.GifImageView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/lucky_plant_btn_cardview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:onClick="@{model.onDiceClick}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/lucky_plant_title_image">
+
+                        <TextView
+                            android:id="@+id/lucky_plant_btn_cardview_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorGreen600"
+                            android:paddingHorizontal="35dp"
+                            android:paddingVertical="10dp"
+                            android:text="@{model.mBean.getLuckySucculentBtnShowing}"
+                            android:textColor="#fff" />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/lucky_plant_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:text="@{model.mBean.getLuckySucculentName}"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="25sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/lucky_plant_btn_cardview">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/lucky_plant_content_wish"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:text="@{model.mBean.getLuckySucculentWish}"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:lineSpacingMultiplier="1.5"
+                        android:padding="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/lucky_plant_content">
+                    </TextView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
 </layout>

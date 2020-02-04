@@ -5,7 +5,7 @@
     <data>
 
         <variable
-            name="guideModel"
+            name="model"
             type="com.fanqi.succulent.viewmodel.GuideViewModel" />
     </data>
 
@@ -13,15 +13,85 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <View
+                android:id="@+id/guide_image_view_top_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/guide_view_top" />
+
+            <ImageView
+                android:id="@+id/guide_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/guide" />
+
+            <View
+                android:id="@+id/guide_image_view_bottom_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/guide_view_bottom" />
+        </LinearLayout>
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{guideModel.onClickEnterHome}"
-            android:text="进入主页面"
+            android:lineSpacingMultiplier="1.25"
+            android:padding="10dp"
+            android:shadowColor="#777"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="3"
+            android:text="多  肉\n之  家"
+            android:textColor="@color/guideTitleBorder"
+            android:textSize="25sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:onClick="@{model.onClickEnterHome}"
+            app:cardBackgroundColor="@color/guideEnterBtn"
+            app:cardCornerRadius="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/guide_copyright_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@{model.mBean.guideEnterText}"
+                android:textColor="@color/guideEnterBtnText"
+                android:textStyle="bold"></TextView>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/guide_copyright_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="By c-dev @2020"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"></TextView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

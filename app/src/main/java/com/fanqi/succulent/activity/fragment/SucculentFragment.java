@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -38,6 +39,14 @@ public class SucculentFragment extends BaseFragment {
         mNavigationPresenter = ((MainActivity) this.getActivity()).getNavigationPresenter();
         //todo 隐藏底部栏
         mNavigationPresenter.hiddenBottomNavigation();
+        //todo 注册back键回调到activity
+        OnBackPressedCallback onBackPressedCallback=new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                    mNavigationPresenter.onBackPressed();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this,onBackPressedCallback);
         return v;
     }
 
@@ -54,4 +63,6 @@ public class SucculentFragment extends BaseFragment {
         //todo 显示底部栏
         mNavigationPresenter.showBottomNavigation();
     }
+
+
 }

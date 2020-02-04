@@ -4,4 +4,7 @@
     <string name="assets_file_name_plant">plant_info</string>
 
     <string name="toolbar_title_succulent_list">多肉鉴赏</string>
+
+    <string name="dice_btn_ready">点击获取</string>
+    <string name="dice_btn_stop">点击停止</string>
 </resources>

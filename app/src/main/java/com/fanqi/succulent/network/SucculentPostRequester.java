@@ -26,6 +26,9 @@ public class SucculentPostRequester extends Requester {
         public static final String SUCCULENT = "postSucculent";
     }
 
+    /**
+     * 服务器json要求的对象名
+     */
     public class Name {
         public static final String FAMILY = "family";
         public static final String GENERA = "genera";
@@ -50,12 +53,9 @@ public class SucculentPostRequester extends Requester {
     public void doPostDataToServer(InitializePostDataListener postDataListener,
                                    PagesBaseDataResolver pagesBaseDataResolver) {
         this.mPagesBaseDataResolver = pagesBaseDataResolver;
-//        mThreadPool = new MyDataThreadPool(mExecutor, Runtime.getRuntime().availableProcessors());
-//        mCallback.setThreadPool(mThreadPool);
         mCallback.setInitializePostDataListener(postDataListener);
         mExecutor.setHerokuServer();
         mExecutor.initRequester(60);
-//        mExecutor.request(MethodName.FAMILY);
 
         List<Family> familyList = mPagesBaseDataResolver.getFamilies();
         List<Genera> generaList = mPagesBaseDataResolver.getGeneras();

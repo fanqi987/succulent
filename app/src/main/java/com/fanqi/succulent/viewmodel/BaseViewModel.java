@@ -25,11 +25,11 @@ public abstract class BaseViewModel implements SwipeRefreshLayout.OnRefreshListe
 
     public void setFragment(Fragment succulentListFragment) {
         mFragment = succulentListFragment;
-        mNavigationPresenter=((MainActivity) mFragment.getActivity()).getNavigationPresenter();
+        mNavigationPresenter = ((MainActivity) mFragment.getActivity()).getNavigationPresenter();
         mMainAcBinding = ((MainActivity) mFragment.getActivity()).getBinding();
         mMainAcBinding.swipeRefreshLayout.setOnRefreshListener(this);
         mMainAcBinding.swipeRefreshLayout.setEnabled(false);
-        mApplicationDataPresenter=((BaseApplication)mFragment.getActivity().getApplication())
+        mApplicationDataPresenter = ((BaseApplication) mFragment.getActivity().getApplication())
                 .getDataPresenter();
     }
 
@@ -38,13 +38,13 @@ public abstract class BaseViewModel implements SwipeRefreshLayout.OnRefreshListe
     }
 
 
-
     class UIRunnable {
         public static final int FAILED = -1;
         public static final int SUCCESS_TEXT = 0;
         public static final int SUCCESS_IMAGE = 1;
 
         protected int mFlag;
+
         public UIRunnable(int flag) {
             this.mFlag = flag;
         }

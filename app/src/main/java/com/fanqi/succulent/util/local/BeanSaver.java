@@ -11,6 +11,11 @@ import org.litepal.LitePal;
 
 import java.util.ArrayList;
 
+
+/**
+ * 用来保存第1次获取到的3个不同bean数组的信息
+ * 或者是保存普通的相同bean数组信息（目前似乎不需要）
+ */
 public class BeanSaver implements Saver {
 
     private ArrayList<Bean[]> mBeans;

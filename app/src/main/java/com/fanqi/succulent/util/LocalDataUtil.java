@@ -106,5 +106,11 @@ public class LocalDataUtil {
         return PreferenceUtil.getDailyNumber();
     }
 
+    public static boolean getDailyIsShowed() {
+        return PreferenceUtil.getDailyIsShowed();
+    }
 
+    public static void saveDailyItem(int itemNumber){
+         PreferenceUtil.saveDailyItem(itemNumber);
+    }
 }

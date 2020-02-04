@@ -105,10 +105,11 @@ public class InitializeDataPresenter implements
     }
 
     @Override
-    public void onNetDataSuccess(BeanSaver beanDataSaver, Object[] value) {
+    public synchronized  void  onNetDataSuccess(Object[] value) {
         mRequestSuccessCount++;
-        if (mBeanSaver == null) {
-            mBeanSaver = beanDataSaver;
+        if(mBeanSaver==null){
+            Log.e("mBeanSaver","is null");
+            mBeanSaver = new BeanSaver();
         }
         mBeanSaver.addValue(value);
         if (mRequestSuccessCount == FIRST_INIT_TABLE_NUMBER) {

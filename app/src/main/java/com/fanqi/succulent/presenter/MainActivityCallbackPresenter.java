@@ -32,7 +32,7 @@ public class MainActivityCallbackPresenter implements
             case R.id.succulentFavoriteFragment:
             case R.id.succulentListFragment:
                 mNavigationPresenterCallback.onBottomMenuSelected
-                        (R.navigation.navigation_daily, menuItem.getItemId());
+                        (R.navigation.navigation_succulent, menuItem.getItemId());
                 break;
         }
         return true;
