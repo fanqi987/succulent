@@ -15,34 +15,34 @@
         android:layout_height="match_parent">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:fitsSystemWindows="true"
             android:id="@+id/coordinator_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
 
             <com.google.android.material.appbar.AppBarLayout
-                android:fitsSystemWindows="true"
                 android:id="@+id/appbar_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true">
 
 
                 <com.google.android.material.appbar.CollapsingToolbarLayout
-                    android:fitsSystemWindows="true"
                     android:id="@+id/collapsing_toolbar_layout"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:background="@color/colorGreen400"
+                    android:fitsSystemWindows="true"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     app:contentScrim="@color/colorGreen300"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                     <ImageView
-                        android:fitsSystemWindows="true"
                         android:id="@+id/toolbar_image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:alpha="0.85"
+                        android:fitsSystemWindows="true"
                         android:scaleType="centerCrop"
                         android:src="@drawable/launch" />
 
@@ -75,6 +75,10 @@
                             android:name="androidx.navigation.fragment.NavHostFragment"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
+<!--                        <fragment-->
+<!--                            android:id="@+id/main_fragment"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="match_parent" />-->
                     </androidx.core.widget.NestedScrollView>
 
                 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
@@ -83,8 +87,8 @@
                     android:id="@+id/drawer_bottom_navigation_view"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:theme="@style/Theme.Design.Light"
                     android:background="@color/colorGreen300"
+                    android:theme="@style/Theme.Design.Light"
                     app:menu="@menu/bottom_navigation" />
             </LinearLayout>
 
@@ -95,7 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="@color/colorGreen50"
+            android:background="@color/drawerBottomView"
             app:headerLayout="@layout/drawer_header_layout"
             app:menu="@menu/drawer" />
     </androidx.drawerlayout.widget.DrawerLayout>

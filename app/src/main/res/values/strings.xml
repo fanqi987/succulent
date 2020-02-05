@@ -7,4 +7,7 @@
 
     <string name="dice_btn_ready">点击获取</string>
     <string name="dice_btn_stop">点击停止</string>
+
+    <string name="help_light">X个太阳，”每天“日照X小时</string>
+    <string name="help_water">X个水滴，”每月“浇水X次</string>
 </resources>

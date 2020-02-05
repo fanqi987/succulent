@@ -25,4 +25,24 @@
     <color name="guideEnterBtn">#ffeed4</color>
     <color name="guideEnterBtnText">#b69c75</color>
 
+    <color name="drawerBottomView">#fffeef</color>
+    <color name="drawerTopView">#e1d0b6</color>
+    <color name="drawerBtnBg">#c6ac85</color>
+    <color name="drawerBtnRipple">#a68c65</color>
+
+    <color name="succulentItemName">#7a7</color>
+    <color name="succulentItemClass">#9c9</color>
+    <color name="succulentItemSummary">#9c9</color>
+
+    <color name="succulentItemLight">#fc9</color>
+    <color name="succulentItemWater">#9cf</color>
+
+    <color name="succulentItemLightLighter">#ffd</color>
+    <color name="succulentItemWaterLighter">#dff</color>
+
+    <color name="succulentItemMore">#aaa</color>
+
+    <color name="helpBtn">#f77</color>
+
+
 </resources>

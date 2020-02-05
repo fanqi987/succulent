@@ -78,16 +78,33 @@ public class SucculentDailyViewModel extends BaseViewModel
         mNavigationPresenter.dailyViewNav(mSucculentFull.getName());
         mBroccoli.removePlaceholder(mBinding.dailyItemNameCardview);
 
-        mBean.setLight(String.valueOf(mSucculentFull.getLight()));
-        mBroccoli.removePlaceholder(mBinding.dailyItemLightCardview);
-
-        mBean.setWater(String.valueOf(mSucculentFull.getWater()));
-        mBroccoli.removePlaceholder(mBinding.dailyItemWaterCardview);
+        //本地光水
+        //光水转换为图片
+        if (!mTextToImageFlag) {
+            textToImage();
+            mTextToImageFlag = true;
+        }
 
         //设置好网络数据
         mNetworkUtil.setViewModelCallback(this);
         String pageName = mSucculentFull.getPage_name();
         mNetworkUtil.requestGetMediaInfo(pageName);
+    }
+
+    private void textToImage() {
+        if (!mTextToImageFlag) {
+            mBean.setLight("");
+            mBean.setWater("");
+            textInfoToImage(mFragment.getContext(),
+                    mBinding.dailyItemLightCardviewLinearlayout,
+                    mSucculentFull.getLight(),
+                    R.drawable.sunny);
+            textInfoToImage(mFragment.getContext(),
+                    mBinding.dailyItemWaterCardviewLinearlayout,
+                    mSucculentFull.getWater(),
+                    R.drawable.drop);
+            mTextToImageFlag = true;
+        }
     }
 
 
@@ -97,9 +114,8 @@ public class SucculentDailyViewModel extends BaseViewModel
                 mBinding.dailyItemFamilyCardview,
                 mBinding.dailyItemGenusCardview,
                 mBinding.dailyItemNameCardview,
-                mBinding.dailyItemIntroCardview,
-                mBinding.dailyItemLightCardview,
-                mBinding.dailyItemWaterCardview);
+                mBinding.dailyItemIntroCardview
+        );
         mBroccoli.show();
     }
 
@@ -110,8 +126,13 @@ public class SucculentDailyViewModel extends BaseViewModel
         mBean.setName(mSucculentFull.getName());
         //导航控制
         mNavigationPresenter.dailyViewNav(mSucculentFull.getName());
-        mBean.setLight(String.valueOf(mSucculentFull.getLight()));
-        mBean.setWater(String.valueOf(mSucculentFull.getWater()));
+
+        //本地光水
+        //        mBean.setLight(String.valueOf(mSucculentFull.getLight()));
+//        mBean.setWater(String.valueOf(mSucculentFull.getWater()));
+
+        //光水转换为图片
+        textToImage();
         mBean.setSummary(mSucculentFull.getInfos().get(0)[1]);
         mBean.setFamilyName(mSucculentFull.getFamilyName());
         mBean.setGeneraName(mSucculentFull.getGeneraName());

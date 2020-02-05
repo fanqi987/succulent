@@ -1,9 +1,13 @@
 package com.fanqi.succulent.presenter;
 
 import android.app.Activity;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -36,6 +40,10 @@ public class NavigationPresenter implements NavigationPresenterCallback {
                 .collapsingToolbarLayout.getLayoutParams());
         this.mCollapsingToolbarLayoutParams = (CollapsingToolbarLayout.LayoutParams) mBinding
                 .toolbarImage.getLayoutParams();
+        //设置抽屉菜单的样式
+        int colorId = mActivity.getResources().getColor(R.color.drawerBtnRipple);
+        mBinding.drawerNavigationView.setItemTextColor(ColorStateList.valueOf(colorId));
+        mBinding.drawerNavigationView.setItemIconTintList(ColorStateList.valueOf(colorId));
         initNavigationUI();
     }
 
@@ -47,6 +55,7 @@ public class NavigationPresenter implements NavigationPresenterCallback {
         NavigationUI.setupWithNavController(
                 mBinding.collapsingToolbarLayout,
                 mBinding.toolbar, mNavController, mAppBarConfiguration);
+        mBinding.toolbar.setOnMenuItemClickListener(mCallbackPresenter);
         mBinding.drawerNavigationView.setNavigationItemSelectedListener(mCallbackPresenter);
         mBinding.drawerBottomNavigationView.setOnNavigationItemSelectedListener(mCallbackPresenter);
 
@@ -56,6 +65,12 @@ public class NavigationPresenter implements NavigationPresenterCallback {
     public void onBottomMenuSelected(int graphId, int fragmentId) {
 //        mNavController.setGraph(graphId);
         mNavController.navigate(fragmentId);
+        Log.e("destination", String.valueOf(mNavController.getCurrentDestination().getId()));
+    }
+
+    @Override
+    public int onToolbarHelpClick() {
+        return mNavController.getCurrentDestination().getId();
     }
 
     public void firstNavigate() {
@@ -90,7 +105,8 @@ public class NavigationPresenter implements NavigationPresenterCallback {
                 AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED |
                 AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP);
 //        mCollapsingToolbarLayoutParams.height = Constant.Navigation.NORMAL_TOOLBAR_HEIGHT;
-        mBinding.drawerLayout.setEnabled(true);
+        mBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
     }
 
     public void listViewNav(String titleName) {
@@ -102,7 +118,8 @@ public class NavigationPresenter implements NavigationPresenterCallback {
                 AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS_COLLAPSED |
                 AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP);
 //        mCollapsingToolbarLayoutParams.height = Constant.Navigation.NORMAL_TOOLBAR_HEIGHT;
-        mBinding.drawerLayout.setEnabled(true);
+        mBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
     }
 
     public void itemViewNav(String titleName) {
@@ -115,7 +132,7 @@ public class NavigationPresenter implements NavigationPresenterCallback {
 //                AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP);
         mAppBarLayoutParams.setScrollFlags(0);
 //        mCollapsingToolbarLayoutParams.height = Constant.Navigation.ITEM_TOOLBAR_HEIGHT;
-        mBinding.drawerLayout.setEnabled(false);
+        mBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
     public void onBackPressed() {

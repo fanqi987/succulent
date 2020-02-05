@@ -15,6 +15,8 @@ public class GuideActivity extends BaseActivity implements GuideListener {
 
     private static final int START_TIME = 5000;
 
+    private boolean mStartFlag = false;
+
     public GuideViewModel model;
 
     @Override
@@ -45,10 +47,11 @@ public class GuideActivity extends BaseActivity implements GuideListener {
     }
 
     @Override
-    public void onEnterHome() {
-        if (!isFinishing()) {
+    public synchronized void onEnterHome() {
+        if (!mStartFlag) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
+            mStartFlag = true;
         }
     }
 }

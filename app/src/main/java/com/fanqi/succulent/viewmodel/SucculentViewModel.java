@@ -61,20 +61,34 @@ public class SucculentViewModel extends BaseViewModel
         //设置好本地数据
         mBean.setName(mSucculentFull.getName());
         mBroccoli.removePlaceholder(mBinding.itemDetailNameCardview);
-
-        mBean.setLight(String.valueOf(mSucculentFull.getLight()));
-        mBroccoli.removePlaceholder(mBinding.itemDetailLightCardview);
-
-        mBean.setWater(String.valueOf(mSucculentFull.getWater()));
-        mBroccoli.removePlaceholder(mBinding.itemDetailWaterCardview);
-
-        //设置好网络数据
+        //本地光水
+        if (!mTextToImageFlag) {
+            textToImage();
+            mTextToImageFlag = true;
+        }        //设置好网络数据
         mNetworkUtil.setViewModelCallback(this);
         String pageName = mSucculentFull.getPage_name();
         mNetworkUtil.requestGetMediaInfo(pageName);
         //设置好刷新图片按钮
         mMainAcBinding.toolbar.getMenu().findItem(R.id.toolbar_refresh)
                 .setOnMenuItemClickListener(this);
+    }
+
+    private void textToImage() {
+        if (!mTextToImageFlag) {
+
+            mBean.setLight("");
+            mBean.setWater("");
+            textInfoToImage(mFragment.getContext(),
+                    mBinding.itemDetailLightCardviewLinearlayout,
+                    mSucculentFull.getLight(),
+                    R.drawable.sunny);
+            textInfoToImage(mFragment.getContext(),
+                    mBinding.itemDetailWaterCardviewLinearlayout,
+                    mSucculentFull.getWater(),
+                    R.drawable.drop);
+            mTextToImageFlag = true;
+        }
     }
 
     private void addPlaceHolders() {
@@ -84,9 +98,8 @@ public class SucculentViewModel extends BaseViewModel
                 mBinding.itemDetailFamilyCardview,
                 mBinding.itemDetailGenusCardview,
                 mBinding.itemDetailNameCardview,
-                mBinding.itemDetailIntroCardview,
-                mBinding.itemDetailLightCardview,
-                mBinding.itemDetailWaterCardview);
+                mBinding.itemDetailIntroCardview
+        );
         mBroccoli.show();
     }
 
@@ -146,7 +159,7 @@ public class SucculentViewModel extends BaseViewModel
                     dice = random.nextInt(urls.size());
                     i++;
                 } while (dice == mShowedBitmapNumber && i < 10);
-                if(dice == mShowedBitmapNumber){
+                if (dice == mShowedBitmapNumber) {
                     Toast.makeText(mFragment.getContext(), Constant.Common.SAME_IMAGE,
                             Toast.LENGTH_SHORT).show();
                 }

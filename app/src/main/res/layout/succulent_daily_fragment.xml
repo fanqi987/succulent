@@ -38,20 +38,15 @@
             <!--    名字 科属 介绍 光照 浇水-->
             <androidx.cardview.widget.CardView
                 android:id="@+id/daily_item_name_cardview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                app:cardCornerRadius="5dp"
+                style="@style/SucculentItemCardView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/daily_item_image_cardview">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorGreen200"
-                    android:padding="10dp"
-                    android:text="@{model.mBean.getName}" />
+                    style="@style/SucculentItemName"
+                    android:text="@{model.mBean.getName}"
+                    android:textStyle="bold" />
             </androidx.cardview.widget.CardView>
 
 
@@ -59,7 +54,9 @@
                 android:id="@+id/daily_item_family_cardview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_marginVertical="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="7dp"
                 app:cardCornerRadius="5dp"
 
                 app:layout_constraintEnd_toStartOf="@id/daily_item_genus_cardview"
@@ -67,11 +64,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/daily_item_name_cardview">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:background="@color/colorGreen200"
-                    android:padding="10dp"
+                    style="@style/SucculentItemClass"
+
                     android:text="@{model.mBean.getFamilyName}" />
             </androidx.cardview.widget.CardView>
 
@@ -79,76 +73,73 @@
                 android:id="@+id/daily_item_genus_cardview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_marginVertical="15dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="15dp"
                 app:cardCornerRadius="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/daily_item_family_cardview"
                 app:layout_constraintTop_toBottomOf="@id/daily_item_name_cardview">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:background="@color/colorGreen200"
-                    android:padding="10dp"
+                    style="@style/SucculentItemClass"
                     android:text="@{model.mBean.getGeneraName}" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/daily_item_intro_cardview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                app:cardCornerRadius="5dp"
-
+                style="@style/SucculentItemCardView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/daily_item_family_cardview">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorGreen200"
-                    android:padding="10dp"
+                    style="@style/SucculentItemSummary"
                     android:text="@{model.mBean.getSummary}" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/daily_item_light_cardview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                app:cardCornerRadius="5dp"
+                style="@style/SucculentItemCardView"
+                app:cardBackgroundColor="@color/succulentItemLightLighter"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/daily_item_intro_cardview">
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/daily_item_light_cardview_linearlayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorGreen200"
-                    android:padding="10dp"
-                    android:text="@{model.mBean.getLight}" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/SucculentItemLight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@{model.mBean.getLight}" />
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/daily_item_water_cardview"
-
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                app:cardCornerRadius="5dp"
-
+                style="@style/SucculentItemCardView"
+                app:cardBackgroundColor="@color/succulentItemWaterLighter"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/daily_item_light_cardview">
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/daily_item_water_cardview_linearlayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorGreen200"
-                    android:padding="10dp"
-                    android:text="@{model.mBean.getWater}" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/SucculentItemWater"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@{model.mBean.getWater}" />
+                </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
@@ -166,7 +157,7 @@
             android:id="@+id/lucky_plant_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/white">
+            android:background="@drawable/a_block">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -239,24 +230,22 @@
                         android:textSize="25sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/lucky_plant_btn_cardview">
-                    </TextView>
+                        app:layout_constraintTop_toBottomOf="@id/lucky_plant_btn_cardview"></TextView>
 
                     <TextView
                         android:id="@+id/lucky_plant_content_wish"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
-                        android:text="@{model.mBean.getLuckySucculentWish}"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="16sp"
                         android:gravity="center"
                         android:lineSpacingMultiplier="1.5"
                         android:padding="20dp"
+                        android:text="@{model.mBean.getLuckySucculentWish}"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/lucky_plant_content">
-                    </TextView>
+                        app:layout_constraintTop_toBottomOf="@id/lucky_plant_content"></TextView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
 

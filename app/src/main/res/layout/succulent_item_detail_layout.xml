@@ -19,20 +19,15 @@
         <!--    名字 科属 介绍 光照 浇水-->
         <androidx.cardview.widget.CardView
             android:id="@+id/item_detail_name_cardview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            app:cardCornerRadius="5dp"
+            style="@style/SucculentItemCardView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteY="330dp">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorGreen200"
-                android:padding="10dp"
+                style="@style/SucculentItemName"
+
                 android:text="@{model.mBean.name}" />
         </androidx.cardview.widget.CardView>
 
@@ -41,19 +36,17 @@
             android:id="@+id/item_detail_family_cardview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
+            android:layout_marginVertical="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="7dp"
             app:cardCornerRadius="5dp"
-
             app:layout_constraintEnd_toStartOf="@id/item_detail_genus_cardview"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/item_detail_name_cardview">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:background="@color/colorGreen200"
-                android:padding="10dp"
+                style="@style/SucculentItemClass"
+
                 android:text="@{model.mBean.familyName}" />
         </androidx.cardview.widget.CardView>
 
@@ -61,78 +54,84 @@
             android:id="@+id/item_detail_genus_cardview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
+            android:layout_marginVertical="15dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="15dp"
             app:cardCornerRadius="5dp"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/item_detail_family_cardview"
             app:layout_constraintTop_toBottomOf="@id/item_detail_name_cardview">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:background="@color/colorGreen200"
-                android:padding="10dp"
+                style="@style/SucculentItemClass"
+
                 android:text="@{model.mBean.generaName}" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/item_detail_intro_cardview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            app:cardCornerRadius="5dp"
-
+            style="@style/SucculentItemCardView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/item_detail_family_cardview">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorGreen200"
-                android:padding="10dp"
+                style="@style/SucculentItemSummary"
                 android:text="@{model.mBean.summary}" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/item_detail_light_cardview"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            app:cardCornerRadius="5dp"
-
+            style="@style/SucculentItemCardView"
+            app:cardBackgroundColor="@color/succulentItemLightLighter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/item_detail_intro_cardview">
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/item_detail_light_cardview_linearlayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorGreen200"
-                android:padding="10dp"
-                android:text="@{model.mBean.light}" />
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/SucculentItemLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@{model.mBean.light}" />
+
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="match_parent"-->
+                <!--                    android:padding="10dp"-->
+                <!--                    android:textColor="#fff"-->
+                <!--                    android:text="@{model.mBean.light}"-->
+                <!--                    />-->
+            </LinearLayout>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/item_detail_water_cardview"
-
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            app:cardCornerRadius="5dp"
-
+            style="@style/SucculentItemCardView"
+            app:cardBackgroundColor="@color/succulentItemWaterLighter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/item_detail_light_cardview">
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/item_detail_water_cardview_linearlayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorGreen200"
-                android:padding="10dp"
-                android:text="@{model.mBean.water}" />
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/SucculentItemWater"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@{model.mBean.water}" />
+            </LinearLayout>
+
         </androidx.cardview.widget.CardView>
 
 
@@ -146,20 +145,14 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/item_detail_visit_web"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            app:cardCornerRadius="5dp"
+            style="@style/SucculentItemCardView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/item_detail_recycler_view">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorGreen200"
+                style="@style/SucculentItemMore"
                 android:gravity="center"
-                android:padding="10dp"
                 android:text="查阅更多详情请点击访问百度百科哦"
                 android:textStyle="bold" />
         </androidx.cardview.widget.CardView>

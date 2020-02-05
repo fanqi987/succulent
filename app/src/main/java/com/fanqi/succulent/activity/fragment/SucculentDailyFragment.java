@@ -12,7 +12,6 @@ import androidx.databinding.DataBindingUtil;
 
 import com.fanqi.succulent.R;
 import com.fanqi.succulent.databinding.SucculentDailyFragmentBinding;
-import com.fanqi.succulent.util.constant.Constant;
 import com.fanqi.succulent.viewmodel.SucculentDailyViewModel;
 
 import java.io.Serializable;
@@ -86,5 +85,8 @@ public class SucculentDailyFragment extends BaseFragment {
         super.onDestroy();
 //        Log.e("daily fragment", "onDestroy");
     }
+
+
+
 
 }

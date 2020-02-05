@@ -21,7 +21,7 @@ public class SucculentBaseBean extends BaseObservable {
     }
 
     public void setWater(String water) {
-        this.water = "水分：" + water;
+        this.water = "水分" + water;
         notifyPropertyChanged(BR._all);
     }
 
@@ -30,7 +30,7 @@ public class SucculentBaseBean extends BaseObservable {
     }
 
     public void setLight(String light) {
-        this.light = "光照：" + light;
+        this.light = "光照" + light;
         notifyPropertyChanged(BR._all);
 
     }

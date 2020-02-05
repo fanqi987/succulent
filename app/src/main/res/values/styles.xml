@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.Design.Light.NoActionBar">
@@ -8,5 +8,64 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="SucculentItemCardView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">15dp</item>
+        <item name="cardCornerRadius">5dp</item>
+    </style>
+
+    <style name="SucculentItemText">
+        <item name="android:textColor">#fff</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="SucculentItemName" parent="SucculentItemText">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@color/succulentItemName</item>
+    </style>
+
+    <style name="SucculentItemClass" parent="SucculentItemText">
+        <item name="android:background">@color/succulentItemClass</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="SucculentItemSummary" parent="SucculentItemText">
+        <item name="android:background">@color/succulentItemSummary</item>
+    </style>
+
+    <style name="SucculentItemLight">
+        <item name="android:textColor">#fff</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/succulentItemLight</item>
+    </style>
+
+    <style name="SucculentItemWater">
+        <item name="android:textColor">#fff</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/succulentItemWater</item>
+    </style>
+
+    <style name="SucculentItemMore" parent="SucculentItemText">
+        <item name="android:background">@color/succulentItemMore</item>
     </style>
 </resources>
