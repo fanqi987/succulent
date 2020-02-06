@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Succulent</string>
+    <string name="app_name">多肉之家</string>
     <!--    <string name="assets_path">"file:///android_asset/"</string>-->
     <string name="assets_file_name_plant">plant_info</string>
 
@@ -8,6 +8,8 @@
     <string name="dice_btn_ready">点击获取</string>
     <string name="dice_btn_stop">点击停止</string>
 
-    <string name="help_light">X个太阳，”每天“日照X小时</string>
-    <string name="help_water">X个水滴，”每月“浇水X次</string>
+    <string name="help_light">X个太阳 = <b>每天</b>日照X小时</string>
+    <string name="help_water">X个水滴 = <b>每月</b>浇水X次</string>
+
+    <string name="save_image_btn">保存当前图片</string>
 </resources>

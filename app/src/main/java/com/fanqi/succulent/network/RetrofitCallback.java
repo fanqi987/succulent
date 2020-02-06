@@ -80,11 +80,17 @@ public class RetrofitCallback<T> implements Observer<T> {
     public void onError(Throwable e) {
         Log.e("onError", e.toString());
         e.printStackTrace();
+        if (MyDataThreadPool.getThreadPool() == null) {
+            return;
+        }
         //初始化数据监听非空时，则通知数据失败
         if (mInitializeDataListener != null) {
+            MyDataThreadPool.getThreadPool().shutdownNow();
             mInitializeDataListener.onNetDataFailed();
         }
         if (mInitializeByPullListener != null) {
+            //爬虫失败的话，立刻关闭线程池
+            MyDataThreadPool.getThreadPool().shutdownNow();
             mInitializeByPullListener.onPullFailed();
         }
         if (mInitializePostDataListener != null) {

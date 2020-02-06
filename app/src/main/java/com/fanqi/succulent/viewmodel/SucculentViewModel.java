@@ -60,12 +60,9 @@ public class SucculentViewModel extends BaseViewModel
 
         //设置好本地数据
         mBean.setName(mSucculentFull.getName());
-        mBroccoli.removePlaceholder(mBinding.itemDetailNameCardview);
         //本地光水
-        if (!mTextToImageFlag) {
-            textToImage();
-            mTextToImageFlag = true;
-        }        //设置好网络数据
+        textToImage();
+        //设置好网络数据
         mNetworkUtil.setViewModelCallback(this);
         String pageName = mSucculentFull.getPage_name();
         mNetworkUtil.requestGetMediaInfo(pageName);
@@ -76,7 +73,6 @@ public class SucculentViewModel extends BaseViewModel
 
     private void textToImage() {
         if (!mTextToImageFlag) {
-
             mBean.setLight("");
             mBean.setWater("");
             textInfoToImage(mFragment.getContext(),
@@ -97,7 +93,6 @@ public class SucculentViewModel extends BaseViewModel
                 mMainAcBinding.toolbarImage,
                 mBinding.itemDetailFamilyCardview,
                 mBinding.itemDetailGenusCardview,
-                mBinding.itemDetailNameCardview,
                 mBinding.itemDetailIntroCardview
         );
         mBroccoli.show();

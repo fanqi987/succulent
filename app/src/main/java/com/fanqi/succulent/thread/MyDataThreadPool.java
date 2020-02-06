@@ -35,7 +35,7 @@ public class MyDataThreadPool {
 //    }
 
     public MyDataThreadPool(RetrofitExecutor executor) {
-        if (mThreadPool == null) {
+        if (mThreadPool == null || mThreadPool.isShutdown()) {
             mThreadPool = Executors.newFixedThreadPool(1);
         }
         mExecutor = executor;
@@ -135,10 +135,14 @@ public class MyDataThreadPool {
         addTask(mRunnable);
     }
 
-    public ExecutorService getThreadPool() {
+    public static ExecutorService getThreadPool() {
         return mThreadPool;
     }
 
+    public static void stopTasksAndReset() {
+        mThreadPool.shutdownNow();
+        mThreadPool = null;
+    }
 
     public void addResolveMediaPageTask(final String pageName, final ImageUrlCallback callback) {
         mRunnable = new Runnable() {
@@ -172,7 +176,7 @@ public class MyDataThreadPool {
                     e.printStackTrace();
                 }
                 List<String> urls = PageResolver.resolveImageUrl(document);
-                callback.onResolvedSingleImageUrl(urls, holder,position);
+                callback.onResolvedSingleImageUrl(urls, holder, position);
             }
         };
         addTask(mRunnable);

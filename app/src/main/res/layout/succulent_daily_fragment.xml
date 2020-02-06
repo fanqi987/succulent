@@ -15,6 +15,7 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/daily_item_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -156,21 +157,12 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/lucky_plant_view"
             android:layout_width="match_parent"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="50dp"
             android:layout_height="match_parent"
             android:background="@drawable/a_block">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/lucky_plant_title"
@@ -178,6 +170,7 @@
                         android:layout_height="wrap_content"
                         android:text="获取今日幸运多肉"
                         android:textSize="25sp"
+                        android:gravity="right"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="@+id/lucky_plant_title_image"
                         app:layout_constraintEnd_toStartOf="@+id/lucky_plant_title_image"
@@ -188,37 +181,31 @@
                         android:id="@+id/lucky_plant_title_image"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:layout_marginLeft="20dp"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
                         android:src="@drawable/lucky_plant"
-
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/lucky_plant_title"
                         app:layout_constraintTop_toTopOf="parent">
 
                     </pl.droidsonroids.gif.GifImageView>
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/lucky_plant_btn_cardview"
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/lucky_plant_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
+                        android:backgroundTint="@color/colorGreen600"
                         android:onClick="@{model.onDiceClick}"
+                        android:paddingHorizontal="35dp"
+                        android:paddingVertical="10dp"
+                        android:text="@{model.mBean.getLuckySucculentBtnShowing}"
+                        android:textAppearance="@android:style/TextAppearance"
+                        android:textColor="#fff"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/lucky_plant_title_image">
-
-                        <TextView
-                            android:id="@+id/lucky_plant_btn_cardview_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorGreen600"
-                            android:paddingHorizontal="35dp"
-                            android:paddingVertical="10dp"
-                            android:text="@{model.mBean.getLuckySucculentBtnShowing}"
-                            android:textColor="#fff" />
-                    </androidx.cardview.widget.CardView>
+                        app:layout_constraintTop_toBottomOf="@id/lucky_plant_title_image" />
 
                     <TextView
                         android:id="@+id/lucky_plant_content"
@@ -230,7 +217,7 @@
                         android:textSize="25sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/lucky_plant_btn_cardview"></TextView>
+                        app:layout_constraintTop_toBottomOf="@id/lucky_plant_btn"></TextView>
 
                     <TextView
                         android:id="@+id/lucky_plant_content_wish"
@@ -246,10 +233,6 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/lucky_plant_content"></TextView>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </LinearLayout>
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 

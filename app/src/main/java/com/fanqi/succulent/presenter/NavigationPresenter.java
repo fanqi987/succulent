@@ -3,6 +3,8 @@ package com.fanqi.succulent.presenter;
 import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 
@@ -58,7 +60,8 @@ public class NavigationPresenter implements NavigationPresenterCallback {
         mBinding.toolbar.setOnMenuItemClickListener(mCallbackPresenter);
         mBinding.drawerNavigationView.setNavigationItemSelectedListener(mCallbackPresenter);
         mBinding.drawerBottomNavigationView.setOnNavigationItemSelectedListener(mCallbackPresenter);
-
+        mBinding.drawerBottomNavigationView.setVisibility(View.VISIBLE);
+        mBinding.toolbarImage.setOnLongClickListener(mCallbackPresenter);
     }
 
     @Override
@@ -68,10 +71,10 @@ public class NavigationPresenter implements NavigationPresenterCallback {
         Log.e("destination", String.valueOf(mNavController.getCurrentDestination().getId()));
     }
 
-    @Override
-    public int onToolbarHelpClick() {
-        return mNavController.getCurrentDestination().getId();
-    }
+//    @Override
+//    public int onToolbarHelpClick() {
+//        return mNavController.getCurrentDestination().getId();
+//    }
 
     public void firstNavigate() {
         mNavController.setGraph(R.navigation.navigation_succulent);
@@ -97,42 +100,52 @@ public class NavigationPresenter implements NavigationPresenterCallback {
     }
 
     public void dailyViewNav(String titleName) {
-        mBinding.appbarLayout.setExpanded(false);
-        mBinding.collapsingToolbarLayout.setTitle(titleName);
-        mBinding.toolbar.getMenu().findItem(R.id.toolbar_refresh).setVisible(false);
-        mBinding.toolbar.getMenu().findItem(R.id.toolbar_favorite).setVisible(false);
-        mAppBarLayoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL |
-                AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED |
-                AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP);
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                mBinding.appbarLayout.setExpanded(false);
+                mBinding.collapsingToolbarLayout.setTitle(titleName);
+                mBinding.toolbar.getMenu().findItem(R.id.toolbar_refresh).setVisible(false);
+                mBinding.toolbar.getMenu().findItem(R.id.toolbar_favorite).setVisible(false);
+                mAppBarLayoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL |
+                        AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED |
+                        AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP);
 //        mCollapsingToolbarLayoutParams.height = Constant.Navigation.NORMAL_TOOLBAR_HEIGHT;
-        mBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-
+                mBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            }
+        });
     }
 
     public void listViewNav(String titleName) {
-        mBinding.appbarLayout.setExpanded(false);
-        mBinding.collapsingToolbarLayout.setTitle(titleName);
-        mBinding.toolbar.getMenu().findItem(R.id.toolbar_refresh).setVisible(false);
-        mBinding.toolbar.getMenu().findItem(R.id.toolbar_favorite).setVisible(false);
-        mAppBarLayoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL |
-                AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS_COLLAPSED |
-                AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP);
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                mBinding.appbarLayout.setExpanded(false);
+                mBinding.collapsingToolbarLayout.setTitle(titleName);
+                mBinding.toolbar.getMenu().findItem(R.id.toolbar_refresh).setVisible(false);
+                mBinding.toolbar.getMenu().findItem(R.id.toolbar_favorite).setVisible(false);
+                mAppBarLayoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL |
+                        AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS_COLLAPSED |
+                        AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP);
 //        mCollapsingToolbarLayoutParams.height = Constant.Navigation.NORMAL_TOOLBAR_HEIGHT;
-        mBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-
+                mBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            }
+        });
     }
 
     public void itemViewNav(String titleName) {
-        mBinding.appbarLayout.setExpanded(true);
-        mBinding.collapsingToolbarLayout.setTitle(titleName);
-        mBinding.toolbar.getMenu().findItem(R.id.toolbar_refresh).setVisible(true);
-        mBinding.toolbar.getMenu().findItem(R.id.toolbar_favorite).setVisible(false);
-//        mAppBarLayoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL |
-//                AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS_COLLAPSED |
-//                AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP);
-        mAppBarLayoutParams.setScrollFlags(0);
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                mBinding.appbarLayout.setExpanded(true);
+                mBinding.collapsingToolbarLayout.setTitle(titleName);
+                mBinding.toolbar.getMenu().findItem(R.id.toolbar_refresh).setVisible(true);
+                mBinding.toolbar.getMenu().findItem(R.id.toolbar_favorite).setVisible(false);
+                mAppBarLayoutParams.setScrollFlags(0);
 //        mCollapsingToolbarLayoutParams.height = Constant.Navigation.ITEM_TOOLBAR_HEIGHT;
-        mBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                mBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            }
+        });
     }
 
     public void onBackPressed() {

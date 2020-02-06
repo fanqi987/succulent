@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity {
         if (PreferenceUtil.getFirstEnterFlag()) {
             //创建后台进度提示进度框相关UI的代理者
             mProgressUIPresenter = new ProgressUIPresenter(this, mNavigationPresenter);
-            mProgressUIPresenter.showProgressDialog("首次加载中，稍等下哦~");
+            mProgressUIPresenter.showProgressDialog();
             //调用初始化数据代理者,从网络获取
             mInitializeDataPresenter.setProgressBarListener(mProgressUIPresenter);
             mInitializeDataPresenter.initFirstData(this);
@@ -68,10 +68,10 @@ public class MainActivity extends BaseActivity {
         // 结束 5。阳光浇水的图片设置，
         // 结束 6。阳光浇水的提示页面，
         // 结束 7。详细信息页面设置不能打开抽屉。
-        // 8。保存图片。
+        // 结束 8。保存图片。
         // 9。设置应用图标。
-        // 10。首次获取信息时的进度提示。
-        // 11。进入的时候有时候标题位置不对，底菜单也消失的bug
+        // 结束 10。首次获取信息时的进度提示。
+        // 结束 11。进入的时候有时候标题位置不对，底菜单也消失的bug
         // todo
         //  1。登录功能，
         //  2，收藏页面，

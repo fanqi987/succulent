@@ -1,6 +1,8 @@
 package com.fanqi.succulent.viewmodel;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Toast;
 
@@ -25,7 +27,7 @@ import java.util.Random;
 public class SucculentDailyViewModel extends BaseViewModel
         implements ViewModelCallback, SwipeRefreshLayout.OnRefreshListener {
 
-    private static final int DICE_FREQUENCE = 200;
+    private static final int DICE_FREQUENCE = 100;
     private static final int DICE_REDIRECT_TIME = 5000;
 
     private SucculentDailyFragmentBinding mBinding;
@@ -56,13 +58,16 @@ public class SucculentDailyViewModel extends BaseViewModel
     public void initView() {
         //骰子导航控制
         mNavigationPresenter.dailyViewNav(mFragment.getResources().getString(R.string.drawer_daily));
+
         //设置骰子页面
         if (!LocalDataUtil.getDailyIsShowed()) {
             mBinding.luckyPlantView.setVisibility(View.VISIBLE);
+            mBinding.dailyItemView.setVisibility(View.GONE);
             mBean.setLuckySucculentBtnShowing(mFragment.getResources().getString(R.string.dice_btn_ready));
             return;
         } else {
             mBinding.luckyPlantView.setVisibility(View.GONE);
+            mBinding.dailyItemView.setVisibility(View.VISIBLE);
         }
         mShowedBitmap = false;
         // 显示占拉符页面,再初始化页面
@@ -76,14 +81,10 @@ public class SucculentDailyViewModel extends BaseViewModel
         mBean.setName(mSucculentFull.getName());
         //骰子结束后的导航控制
         mNavigationPresenter.dailyViewNav(mSucculentFull.getName());
-        mBroccoli.removePlaceholder(mBinding.dailyItemNameCardview);
 
         //本地光水
         //光水转换为图片
-        if (!mTextToImageFlag) {
-            textToImage();
-            mTextToImageFlag = true;
-        }
+        textToImage();
 
         //设置好网络数据
         mNetworkUtil.setViewModelCallback(this);
@@ -113,13 +114,13 @@ public class SucculentDailyViewModel extends BaseViewModel
                 mBinding.dailyItemImageCardview,
                 mBinding.dailyItemFamilyCardview,
                 mBinding.dailyItemGenusCardview,
-                mBinding.dailyItemNameCardview,
                 mBinding.dailyItemIntroCardview
         );
         mBroccoli.show();
     }
 
     public void initViewByCache(Serializable savedInstanceState) {
+        mBinding.dailyItemView.setVisibility(View.VISIBLE);
         mBinding.luckyPlantView.setVisibility(View.GONE);
         mSucculentFull = (SucculentFull) savedInstanceState;
         mShowedBitmap = true;
@@ -128,9 +129,6 @@ public class SucculentDailyViewModel extends BaseViewModel
         mNavigationPresenter.dailyViewNav(mSucculentFull.getName());
 
         //本地光水
-        //        mBean.setLight(String.valueOf(mSucculentFull.getLight()));
-//        mBean.setWater(String.valueOf(mSucculentFull.getWater()));
-
         //光水转换为图片
         textToImage();
         mBean.setSummary(mSucculentFull.getInfos().get(0)[1]);
@@ -144,7 +142,7 @@ public class SucculentDailyViewModel extends BaseViewModel
     public void onDiceClick(View v) {
         if (mDiceStopFlag) {
             mDiceStopFlag = false;
-            mBinding.luckyPlantBtnCardview.setEnabled(true);
+            mBinding.luckyPlantBtn.setEnabled(true);
             mBean.setLuckySucculentBtnShowing(mFragment.getResources()
                     .getString(R.string.dice_btn_stop));
             new Thread(new Runnable() {
@@ -166,7 +164,7 @@ public class SucculentDailyViewModel extends BaseViewModel
                     for (int time = DICE_REDIRECT_TIME; time > 0; time = time - 1000) {
                         mBean.setLuckySucculentWish(
                                 "今日多肉是 ”" + succulents.get(i).getName() +
-                                        "” ，希望您也像美丽的" + succulents.get(i).getName()
+                                        "” \n希望您也像美丽的" + succulents.get(i).getName()
                                         + "一样，天天开心！\n" +
                                         "（" + time / 1000 + "秒后跳转到展示页面)");
                         try {
@@ -180,7 +178,7 @@ public class SucculentDailyViewModel extends BaseViewModel
             }).start();
         } else {
             mDiceStopFlag = true;
-            mBinding.luckyPlantBtnCardview.setEnabled(false);
+            mBinding.luckyPlantBtn.setEnabled(false);
         }
     }
 

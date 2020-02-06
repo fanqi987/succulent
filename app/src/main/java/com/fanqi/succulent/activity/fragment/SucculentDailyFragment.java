@@ -65,7 +65,7 @@ public class SucculentDailyFragment extends BaseFragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
 //        Log.e("daily fragment", "onSaveInstanceState");
-
+        super.onSaveInstanceState(outState);
     }
 
     @Override

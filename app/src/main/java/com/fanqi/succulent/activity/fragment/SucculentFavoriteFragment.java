@@ -9,16 +9,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.fanqi.succulent.R;
+import com.fanqi.succulent.activity.MainActivity;
 
 public class SucculentFavoriteFragment extends BaseFragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        ((MainActivity) getActivity()).getBinding().collapsingToolbarLayout.setTitle("多肉收藏");
         View v = inflater.inflate(R.layout.succulent_favorite_fragment, container, false);
         return v;
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

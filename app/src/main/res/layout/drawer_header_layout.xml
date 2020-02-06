@@ -24,14 +24,14 @@
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_margin="20dp"
-        app:backgroundTint="@color/drawerBtnBg"
         android:gravity="center"
-        app:rippleColor="@color/drawerBtnRipple"
-        android:text="点击登录"
+        android:text="敬请期待"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#fff"
         android:textSize="20sp"
+        app:backgroundTint="@color/drawerBtnBg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/drawer_header_image" />
+        app:layout_constraintTop_toBottomOf="@+id/drawer_header_image"
+        app:rippleColor="@color/drawerBtnRipple" />
 </androidx.constraintlayout.widget.ConstraintLayout>
