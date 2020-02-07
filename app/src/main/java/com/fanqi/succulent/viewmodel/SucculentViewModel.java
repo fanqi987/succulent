@@ -1,7 +1,11 @@
 package com.fanqi.succulent.viewmodel;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -23,7 +27,7 @@ import java.util.Random;
  * 具体信息页面的model
  */
 public class SucculentViewModel extends BaseViewModel
-        implements ViewModelCallback, MenuItem.OnMenuItemClickListener {
+        implements ViewModelCallback, MenuItem.OnMenuItemClickListener, View.OnClickListener {
 
     private SucculentItemDetailLayoutBinding mBinding;
 
@@ -48,6 +52,9 @@ public class SucculentViewModel extends BaseViewModel
 
     public void setData(Serializable serializable) {
         mSucculentFull = new SucculentFull((Succulent) serializable);
+        mSucculentFull.setUrl(Constant.baseUrlBaidu
+                + mSucculentFull.getPage_name()
+        );
     }
 
     public void initView() {
@@ -69,6 +76,8 @@ public class SucculentViewModel extends BaseViewModel
         //设置好刷新图片按钮
         mMainAcBinding.toolbar.getMenu().findItem(R.id.toolbar_refresh)
                 .setOnMenuItemClickListener(this);
+        //设置好按钮监听
+        mBinding.itemDetailVisitWeb.setOnClickListener(this);
     }
 
     private void textToImage() {
@@ -166,6 +175,17 @@ public class SucculentViewModel extends BaseViewModel
         return true;
     }
 
+    @Override
+    public void onClick(View v) {
+        String url = mSucculentFull.getUrl();
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url.trim()));
+//        Log.e("aaaaa", intent.getDataString());
+//        intent.setData(Uri.parse("https://baike.baidu.com/item/紫珍珠/4527869"));
+//        Log.e("aaaaa", intent.getDataString());
+        mFragment.getActivity().startActivity(intent);
+    }
 
     class UIRunnable extends BaseViewModel.UIRunnable implements Runnable {
 
